@@ -1,0 +1,553 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap");
+
+/* ─────────────────────────────────────────
+   Design Tokens — PNJ Green Tosca Palette
+   ───────────────────────────────────────── */
+:root {
+    /* Brand — hijau tosca PNJ (CMYK 100,30,40,0 → #00998a) */
+    --green-950: #002f2a;
+    --green-800: #006b5e;
+    --green-600: #00998a;
+    --green-400: #00c2ae;
+    --green-50: #e6f7f5;
+
+    /* Neutral */
+    --gray-900: #111827;
+    --gray-700: #374151;
+    --gray-500: #6b7280;
+    --gray-300: #d1d5db;
+    --gray-100: #f3f4f6;
+    --gray-50: #f9fafb;
+    --white: #ffffff;
+
+    /* Semantic */
+    --accent: var(--green-600);
+    --accent-hover: var(--green-800);
+    --text-primary: var(--gray-900);
+    --text-secondary: var(--gray-500);
+    --text-muted: #9ca3af;
+    --border: #e5e7eb;
+
+    /* Shadows */
+    --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.05);
+    --shadow-sm: 0 1px 4px rgba(0, 0, 0, 0.06), 0 2px 8px rgba(0, 0, 0, 0.04);
+    --shadow-md: 0 4px 20px rgba(0, 0, 0, 0.08);
+    --shadow-lg: 0 12px 40px rgba(0, 0, 0, 0.11);
+
+    /* Shape */
+    --radius-sm: 8px;
+    --radius-md: 12px;
+    --radius-lg: 18px;
+
+    /* Motion */
+    --ease: cubic-bezier(0.4, 0, 0.2, 1);
+    --transition: 0.22s var(--ease);
+}
+
+/* ─── Reset & Base ─── */
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: "Poppins", sans-serif;
+    font-size: 15px;
+    line-height: 1.7;
+    color: var(--text-primary);
+    background: var(--white);
+    -webkit-font-smoothing: antialiased;
+    margin: 0;
+}
+
+/* ─────────────────────────────────────────
+   NAVBAR
+   ───────────────────────────────────────── */
+.navbar {
+    background: var(--white);
+    border-bottom: 1px solid var(--border);
+    padding: 0.9rem 0;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.navbar-brand img {
+    height: 46px;
+    width: auto;
+    display: block;
+}
+
+.navbar-nav .nav-link {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--gray-700);
+    padding: 0.4rem 1rem;
+    border-radius: var(--radius-sm);
+    letter-spacing: 0.01em;
+    transition:
+        color var(--transition),
+        background var(--transition);
+}
+
+.navbar-nav .nav-link:hover {
+    color: var(--accent);
+    background: var(--green-50);
+}
+
+.navbar-nav .nav-link.active {
+    color: var(--accent);
+    font-weight: 600;
+}
+
+.navbar .btn-nav-cta {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--white);
+    background: var(--accent);
+    border: none;
+    padding: 0.45rem 1.2rem;
+    border-radius: 50px;
+    text-decoration: none;
+    transition:
+        background var(--transition),
+        transform var(--transition);
+}
+
+.navbar .btn-nav-cta:hover {
+    background: var(--accent-hover);
+    transform: translateY(-1px);
+}
+
+/* ─────────────────────────────────────────
+   HERO SECTION
+   ───────────────────────────────────────── */
+.hero-section {
+    background: linear-gradient(
+        150deg,
+        var(--green-950) 0%,
+        var(--green-800) 55%,
+        var(--green-600) 100%
+    );
+    min-height: 82vh;
+    display: flex;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Glow radial overlay */
+.hero-section::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image:
+        radial-gradient(
+            circle at 78% 18%,
+            rgba(0, 194, 174, 0.2) 0%,
+            transparent 52%
+        ),
+        radial-gradient(
+            circle at 12% 82%,
+            rgba(0, 0, 0, 0.35) 0%,
+            transparent 44%
+        );
+    pointer-events: none;
+}
+
+/* Subtle dot grid */
+.hero-section::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image: radial-gradient(
+        circle,
+        rgba(255, 255, 255, 0.06) 1px,
+        transparent 1px
+    );
+    background-size: 32px 32px;
+    pointer-events: none;
+}
+
+.hero-section .hero-content {
+    position: relative;
+    z-index: 1;
+}
+
+.hero-section .hero-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--green-400);
+    margin-bottom: 1.1rem;
+}
+
+.hero-section .hero-eyebrow::before {
+    content: "";
+    width: 22px;
+    height: 2px;
+    background: currentColor;
+    border-radius: 99px;
+    flex-shrink: 0;
+}
+
+.hero-section h1 {
+    font-size: clamp(2rem, 4.5vw, 3.2rem);
+    font-weight: 800;
+    line-height: 1.15;
+    letter-spacing: -0.025em;
+    color: var(--white);
+    margin-bottom: 1.2rem;
+}
+
+.hero-section h1 .highlight {
+    color: var(--green-400);
+}
+
+.hero-section p.lead {
+    font-size: 1rem;
+    font-weight: 300;
+    color: rgba(255, 255, 255, 0.7);
+    max-width: 500px;
+    line-height: 1.8;
+    margin-bottom: 2rem;
+}
+
+.hero-section .btn-hero-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-family: "Poppins", sans-serif;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--green-950);
+    background: var(--white);
+    border: none;
+    padding: 0.8rem 1.8rem;
+    border-radius: 50px;
+    text-decoration: none;
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.2);
+    transition:
+        transform var(--transition),
+        box-shadow var(--transition);
+}
+
+.hero-section .btn-hero-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
+}
+
+.hero-section .btn-hero-secondary {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-family: "Poppins", sans-serif;
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.88);
+    background: rgba(255, 255, 255, 0.08);
+    border: 1.5px solid rgba(255, 255, 255, 0.22);
+    padding: 0.8rem 1.8rem;
+    border-radius: 50px;
+    text-decoration: none;
+    backdrop-filter: blur(6px);
+    transition:
+        background var(--transition),
+        border-color var(--transition);
+}
+
+.hero-section .btn-hero-secondary:hover {
+    background: rgba(255, 255, 255, 0.15);
+    border-color: rgba(255, 255, 255, 0.45);
+}
+
+/* ─────────────────────────────────────────
+   SECTION HEADINGS
+   ───────────────────────────────────────── */
+section {
+    padding: 5rem 0;
+}
+
+.section-eyebrow {
+    display: inline-block;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--accent);
+    background: var(--green-50);
+    border: 1px solid rgba(0, 153, 138, 0.18);
+    padding: 0.28rem 0.85rem;
+    border-radius: 50px;
+    margin-bottom: 0.85rem;
+}
+
+.section-title {
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    letter-spacing: -0.02em;
+    line-height: 1.25;
+    margin-bottom: 0.4rem;
+}
+
+.section-subtitle {
+    font-size: 0.95rem;
+    color: var(--text-secondary);
+    font-weight: 400;
+    margin-bottom: 2.75rem;
+    max-width: 520px;
+}
+
+/* Backward compat */
+.section-divider {
+    width: 32px;
+    height: 3px;
+    background: var(--accent);
+    border-radius: 99px;
+    margin-bottom: 2rem;
+}
+
+/* ─────────────────────────────────────────
+   CARDS
+   ───────────────────────────────────────── */
+.card-hover {
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    background: var(--white);
+    box-shadow: var(--shadow-xs);
+    overflow: hidden;
+    transition:
+        transform var(--transition),
+        box-shadow var(--transition),
+        border-color var(--transition);
+}
+
+.card-hover:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-lg);
+    border-color: transparent;
+}
+
+.card-hover .card-body {
+    padding: 1.4rem 1.5rem 1.6rem;
+}
+
+.card-hover .card-title {
+    font-size: 0.975rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    line-height: 1.45;
+    margin-bottom: 0.5rem;
+    letter-spacing: -0.01em;
+}
+
+.card-hover .card-text {
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+    line-height: 1.65;
+}
+
+.card-thumbnail {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    display: block;
+}
+
+.card-category {
+    display: inline-block;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+    color: var(--accent);
+    background: var(--green-50);
+    border: 1px solid rgba(0, 153, 138, 0.15);
+    padding: 0.18rem 0.65rem;
+    border-radius: 50px;
+    margin-bottom: 0.6rem;
+}
+
+/* ─────────────────────────────────────────
+   BUTTONS (global)
+   ───────────────────────────────────────── */
+.btn {
+    font-family: "Poppins", sans-serif;
+    font-weight: 600;
+    font-size: 0.875rem;
+    letter-spacing: 0.01em;
+    border-radius: 50px;
+    padding: 0.6rem 1.5rem;
+    transition:
+        transform var(--transition),
+        box-shadow var(--transition),
+        background var(--transition),
+        border-color var(--transition);
+}
+
+.btn-primary {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: var(--white);
+}
+
+.btn-primary:hover,
+.btn-primary:focus {
+    background: var(--accent-hover);
+    border-color: var(--accent-hover);
+    color: var(--white);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 18px rgba(0, 153, 138, 0.28);
+}
+
+.btn-outline-primary {
+    color: var(--accent);
+    border: 1.5px solid var(--accent);
+    background: transparent;
+}
+
+.btn-outline-primary:hover {
+    background: var(--green-50);
+    color: var(--accent-hover);
+    border-color: var(--accent-hover);
+}
+
+/* ─────────────────────────────────────────
+   DATE BADGE
+   ───────────────────────────────────────── */
+.date-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: var(--text-muted);
+    letter-spacing: 0.01em;
+}
+
+/* ─────────────────────────────────────────
+   FOOTER
+   ───────────────────────────────────────── */
+.footer {
+    background: #0d0d0d;
+    color: rgba(255, 255, 255, 0.45);
+    padding: 4.5rem 0 0;
+}
+
+/* Logo tampil warna aslinya — tanpa filter invert */
+.footer .footer-logo img {
+    height: 42px;
+    width: auto;
+    display: block;
+}
+
+.footer-desc {
+    font-size: 0.85rem;
+    color: rgba(255, 255, 255, 0.35);
+    line-height: 1.75;
+    margin-top: 0.85rem;
+    max-width: 230px;
+}
+
+.footer-col-title {
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.75);
+    margin-bottom: 1.1rem;
+}
+
+.footer a {
+    font-size: 0.875rem;
+    color: rgba(255, 255, 255, 0.4);
+    text-decoration: none;
+    display: block;
+    margin-bottom: 0.6rem;
+    transition: color var(--transition);
+}
+
+.footer a:hover {
+    color: var(--white);
+}
+
+/* Social icons */
+.footer-socials {
+    display: flex;
+    gap: 0.5rem;
+    margin-top: 1.25rem;
+}
+
+.footer-socials a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.07);
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 0.875rem;
+    margin-bottom: 0;
+    transition:
+        background var(--transition),
+        color var(--transition);
+}
+
+.footer-socials a:hover {
+    background: var(--accent);
+    color: var(--white);
+}
+
+/* Footer bottom bar */
+.footer-bottom {
+    margin-top: 3.5rem;
+    padding: 1.25rem 0;
+    border-top: 1px solid rgba(255, 255, 255, 0.07);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.footer-bottom p,
+.footer-bottom span {
+    font-size: 0.78rem;
+    color: rgba(255, 255, 255, 0.22);
+    margin: 0;
+}
+
+.footer-bottom a {
+    font-size: 0.78rem;
+    color: rgba(255, 255, 255, 0.28);
+    display: inline;
+    margin: 0 0 0 1.25rem;
+}
+
+.footer-bottom a:hover {
+    color: rgba(255, 255, 255, 0.65);
+}
+
+/* ─────────────────────────────────────────
+   UTILITIES
+   ───────────────────────────────────────── */
+.text-accent {
+    color: var(--accent) !important;
+}
+.bg-green-50 {
+    background: var(--green-50);
+}
+.bg-gray-50 {
+    background: var(--gray-50);
+}

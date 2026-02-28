@@ -90,7 +90,7 @@
     font-size: 1.85rem; font-weight: 700; color: #111827;
     letter-spacing: -0.02em; line-height: 1.2; margin-bottom: 0.4rem;
 }
-.section-subtitle { font-size: 0.95rem; color: #6b7280; margin: 0; max-width: 520px; }
+.section-subtitle { font-size: 0.95rem; color: #6b7280; margin: 0; max-width: auto; }
 
 .content-card {
     background: #ffffff; border: 1px solid #e5e7eb; border-radius: 14px;

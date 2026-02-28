@@ -17,7 +17,7 @@
             </nav>
             {{-- <span class="section-eyebrow">Profil</span> --}}
             <h1 class="section-title mt-1">Pimpinan RTPU PNJ</h1>
-            <p class="section-subtitle">Pimpinan dan pengelola Rumah Teknologi dan Pusat Unggulan Politeknik Negeri Jakarta.</p>
+            <p class="section-subtitle">Pimpinan dan pengelola Rekayasa Teknologi dan Pusat Unggulan Politeknik Negeri Jakarta.</p>
         </div>
 
         <div class="row g-4 justify-content-center">

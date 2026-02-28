@@ -305,7 +305,7 @@ section {
     color: var(--text-secondary);
     font-weight: 400;
     margin-bottom: 2.75rem;
-    max-width: 520px;
+    max-width: auto;
 }
 
 /* Backward compat */

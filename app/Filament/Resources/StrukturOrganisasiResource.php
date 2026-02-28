@@ -7,10 +7,13 @@ use App\Filament\Resources\StrukturOrganisasiResource\RelationManagers;
 use App\Models\StrukturOrganisasi;
 use Filament\Forms;
 use Filament\Forms\Components\FileUpload;
+use Filament\Forms\Components\RichEditor;
+use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Columns\ImageColumn;
+use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
@@ -32,11 +35,39 @@ class StrukturOrganisasiResource extends Resource
         return $form
             ->schema([
                 //
+                TextInput::make('nama')
+                    ->required()
+                    ->maxLength(255),
+                
                 FileUpload::make('gambar')
                     ->image()
                     ->directory('struktur-organisasi-gambar')
                     ->maxSize(512) // 512 KB
                     ->required(),
+                
+                TextInput::make('jabatan')
+                    ->required()
+                    ->maxLength(255),
+                
+                RichEditor::make('deskripsi')
+                    ->required()
+                    ->columnSpanFull()
+                    ->toolbarButtons([
+                        'attachFiles',
+                        'blockquote',
+                        'bold',
+                        'bulletList',
+                        'codeBlock',
+                        'h2',
+                        'h3',
+                        'italic',
+                        'link',
+                        'orderedList',
+                        'redo',
+                        'strike',
+                        'underline',
+                        'undo',
+                    ]),
             ]);
     }
 
@@ -45,6 +76,8 @@ class StrukturOrganisasiResource extends Resource
         return $table
             ->columns([
                 //
+                TextColumn::make('nama')->searchable()->sortable(),
+                TextColumn::make('jabatan')->searchable()->sortable(),
                 ImageColumn::make('gambar'),
             ])
             ->filters([

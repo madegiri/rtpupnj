@@ -29,6 +29,7 @@ class PimpinanRTPUResource extends Resource
     protected static ?string $navigationLabel = 'Pimpinan RTPU'; 
     protected static ?string $pluralModelLabel = 'Pimpinan RTPU';
     protected static ?string $navigationGroup = 'Tentang RTPU';
+    protected static bool $shouldRegisterNavigation = false;
 
     public static function form(Form $form): Form
     {

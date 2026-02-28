@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Struktur Organisasi - RTPU PNJ')
+@section('title', 'Struktur Organisasi RTPU PNJ')
 
 @section('content')
 <section class="py-5">
@@ -17,27 +17,44 @@
             </nav>
             {{-- <span class="section-eyebrow">Organisasi</span> --}}
             <h1 class="section-title mt-1">Struktur Organisasi</h1>
-            <p class="section-subtitle">Struktur organisasi Rumah Teknologi dan Pusat Unggulan Politeknik Negeri Jakarta.</p>
+            <p class="section-subtitle">Struktur organisasi Rekayasa Teknologi dan Pusat Unggulan Politeknik Negeri Jakarta.</p>
         </div>
 
-        @if($struktur)
-        <div class="struktur-wrapper">
-            <img src="{{ asset('storage/' . $struktur->gambar) }}"
-                 alt="Struktur Organisasi RTPU PNJ">
-            <div class="struktur-footer">
-                <a href="{{ asset('storage/' . $struktur->gambar) }}"
-                   target="_blank"
-                   class="btn-lihat-penuh">
-                    <i class="bi bi-arrows-fullscreen"></i> Lihat Ukuran Penuh
-                </a>
+        <div class="row g-4 justify-content-center">
+            @forelse($strukturs as $struktur)
+            <div class="col-md-4 col-lg-3">
+                <div class="person-card h-100 position-relative">
+                    <div class="person-photo">
+                        @if($struktur->gambar)
+                            <img src="{{ asset('storage/' . $struktur->gambar) }}" alt="{{ $struktur->nama }}">
+                        @else
+                            <div class="person-photo-placeholder">
+                                <i class="bi bi-person"></i>
+                            </div>
+                        @endif
+                    </div>
+                    <div class="person-body">
+                        <span class="person-jabatan">{{ $struktur->jabatan }}</span>
+                        <h6 class="person-name">
+                            <a href="{{ route('struktur-organisasi.show', $struktur->slug) }}"
+                               >{{ $struktur->nama }}</a>
+                        </h6>
+                        @if($struktur->deskripsi)
+                        <p class="person-desc">{{ Str::limit(html_entity_decode(strip_tags($struktur->deskripsi)), 100) }}</p>
+                        
+                        @endif
+                    </div>
+                </div>
             </div>
+            @empty
+            <div class="col-12">
+                <div class="empty-state">
+                    <i class="bi bi-building"></i>
+                    <p>Belum ada data struktur organisasi yang tersedia.</p>
+                </div>
+            </div>
+            @endforelse
         </div>
-        @else
-        <div class="empty-state">
-            <i class="bi bi-building"></i>
-            <p>Struktur organisasi belum tersedia.</p>
-        </div>
-        @endif
 
     </div>
 </section>
@@ -45,73 +62,166 @@
 <style>
 /* ─── Breadcrumb ─── */
 .breadcrumb-custom {
-    background: none; padding: 0; margin-bottom: 1.1rem; font-size: 0.82rem;
+    background: none;
+    padding: 0;
+    margin-bottom: 1.1rem;
+    font-size: 0.82rem;
 }
 .breadcrumb-custom .breadcrumb-item a {
-    color: #00998a; text-decoration: none; font-weight: 500; transition: color 0.2s;
+    color: #00998a;
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.2s;
 }
 .breadcrumb-custom .breadcrumb-item a:hover { color: #006b5e; }
 .breadcrumb-custom .breadcrumb-item.active { color: #9ca3af; }
-.breadcrumb-custom .breadcrumb-item + .breadcrumb-item::before { content: "/"; color: #d1d5db; }
+.breadcrumb-custom .breadcrumb-item + .breadcrumb-item::before {
+    content: "/";
+    color: #d1d5db;
+}
 
 /* ─── Page header ─── */
 .section-eyebrow {
-    display: inline-block; font-size: 0.7rem; font-weight: 700; letter-spacing: 0.1em;
-    text-transform: uppercase; color: #00998a; background: #e6f7f5;
-    border: 1px solid rgba(0,153,138,0.18); padding: 0.22rem 0.8rem; border-radius: 50px;
+    display: inline-block;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #00998a;
+    background: #e6f7f5;
+    border: 1px solid rgba(0,153,138,0.18);
+    padding: 0.22rem 0.8rem;
+    border-radius: 50px;
 }
-.section-title {
-    font-size: 1.85rem; font-weight: 700; color: #111827;
-    letter-spacing: -0.02em; line-height: 1.2; margin-bottom: 0.4rem;
-}
-.section-subtitle { font-size: 0.95rem; color: #6b7280; margin: 0; max-width: 520px; }
 
-/* ─── Struktur wrapper ─── */
-.struktur-wrapper {
-    background: #f9fafb;
+.section-title {
+    font-size: 1.85rem;
+    font-weight: 700;
+    color: #111827;
+    letter-spacing: -0.02em;
+    line-height: 1.2;
+    margin-bottom: 0.4rem;
+}
+
+.section-subtitle {
+    font-size: 0.95rem;
+    color: #6b7280;
+    margin: 0;
+    max-width: auto;
+}
+
+/* ─── Person Card ─── */
+.person-card {
+    background: #ffffff;
     border: 1px solid #e5e7eb;
     border-radius: 16px;
     overflow: hidden;
-}
-
-.struktur-wrapper img {
-    width: 100%;
-    display: block;
-    object-fit: contain;
-}
-
-.struktur-footer {
-    padding: 1.25rem;
-    border-top: 1px solid #e5e7eb;
+    display: flex;
+    flex-direction: column;
     text-align: center;
-    background: #ffffff;
+    transition: transform 0.22s ease, box-shadow 0.22s ease, border-color 0.22s ease;
 }
 
-.btn-lihat-penuh {
-    display: inline-flex;
+.person-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 40px rgba(0,0,0,0.11);
+    border-color: transparent;
+}
+
+/* Photo */
+.person-photo {
+    width: 100%;
+    height: 370px;
+    overflow: hidden;
+    flex-shrink: 0;
+}
+
+.person-photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: top;
+    display: block;
+    transition: transform 0.35s ease;
+}
+
+/* .person-card:hover .person-photo img {
+    transform: scale(1.04);
+} */
+
+.person-photo-placeholder {
+    width: 100%;
+    height: 100%;
+    background: #f3f4f6;
+    display: flex;
     align-items: center;
-    gap: 0.45rem;
-    font-size: 0.875rem;
-    font-weight: 600;
-    color: #00998a;
-    border: 1.5px solid rgba(0,153,138,0.35);
-    background: transparent;
-    padding: 0.55rem 1.4rem;
-    border-radius: 50px;
-    text-decoration: none;
-    transition: background 0.2s, color 0.2s, border-color 0.2s;
+    justify-content: center;
+    color: #d1d5db;
+    font-size: 4.5rem;
 }
 
-.btn-lihat-penuh:hover {
+/* Body */
+.person-body {
+    padding: 1.35rem 1.25rem 1.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex: 1;
+}
+
+.person-jabatan {
+    display: inline-block;
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+    color: #00998a;
     background: #e6f7f5;
-    color: #006b5e;
-    border-color: #00998a;
+    border: 1px solid rgba(0,153,138,0.15);
+    padding: 0.18rem 0.7rem;
+    border-radius: 50px;
+    margin-bottom: 0.65rem;
+}
+
+.person-name {
+    font-size: 0.975rem;
+    font-weight: 700;
+    color: #111827;
+    line-height: 1.4;
+    letter-spacing: -0.01em;
+    margin: 0 0 0.5rem;
+}
+
+.person-name a {
+    color: inherit;
+    text-decoration: none;
+    transition: color 0.2s;
+}
+
+.person-name a:hover { color: #00998a; }
+
+.person-desc {
+    font-size: 0.845rem;
+    color: #6b7280;
+    line-height: 1.65;
+    margin: 0;
 }
 
 /* ─── Empty state ─── */
-.empty-state { text-align: center; padding: 4rem 2rem; color: #9ca3af; }
-.empty-state i { font-size: 3rem; display: block; margin-bottom: 0.85rem; }
-.empty-state p { margin: 0; font-size: 0.9rem; }
+.empty-state {
+    text-align: center;
+    padding: 4rem 2rem;
+    color: #9ca3af;
+}
+.empty-state i {
+    font-size: 3rem;
+    display: block;
+    margin-bottom: 0.85rem;
+}
+.empty-state p {
+    margin: 0;
+    font-size: 0.9rem;
+}
 </style>
 
 @endsection

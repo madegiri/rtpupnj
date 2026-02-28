@@ -51,6 +51,7 @@ Route::get('/tentang', [TentangController::class, 'index'])->name('tentang.index
 Route::get('/pimpinan', [PimpinanController::class, 'index'])->name('pimpinan.index');
 Route::get('/pimpinan/{slug}', [PimpinanController::class, 'show'])->name('pimpinan.show');
 Route::get('/struktur-organisasi', [StrukturOrganisasiController::class, 'index'])->name('struktur-organisasi.index');
+Route::get('/struktur-organisasi/{slug}', [StrukturOrganisasiController::class, 'show'])->name('struktur-organisasi.show');
 
 // Produk
 Route::get('/produk-unggulan', [ProdukUnggulanController::class, 'index'])->name('produk-unggulan.index');

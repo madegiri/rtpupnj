@@ -91,10 +91,10 @@
 /* ─── Hero image ─── */
 .article-hero-img {
     width: 100%; border-radius: 14px; overflow: hidden;
-    margin-bottom: 2rem;
+    margin-bottom: 2rem; box-shadow: 0 4px 24px rgba(0,0,0,0.08);
 }
 .article-hero-img img {
-    width: 100%; max-height: 400px; object-fit: contain; display: block;;
+    width: 100%; max-height: 360px; object-fit: cover; display: block;
 }
 
 /* ─── Desc box ─── */

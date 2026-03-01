@@ -29,9 +29,8 @@
             <div class="footer-col">
                 <h6 class="footer-col-title">Tautan Cepat</h6>
                 <ul class="footer-links">
-                    <li><a href="{{ route('home') }}">Beranda</a></li>
-                    <li><a href="{{ route('tentang.index') }}">Tentang RTPU</a></li>
                     <li><a href="{{ route('artikel-inovasi.index') }}">Artikel Inovasi</a></li>
+                    <li><a href="{{ route('tentang.index') }}">Tentang RTPU</a></li>
                     <li><a href="{{ route('berita.index') }}">Berita</a></li>
                     <li><a href="{{ route('pengumuman.index') }}">Pengumuman</a></li>
                     <li><a href="{{ route('sertifikasi.index') }}">Sertifikasi</a></li>
@@ -44,8 +43,11 @@
                 <ul class="footer-links">
                     <li><a href="{{ route('produk-unggulan.index') }}">Produk Unggulan</a></li>
                     <li><a href="{{ route('produk-inovasi.index') }}">Produk Inovasi</a></li>
-                    <li><a href="{{ route('pimpinan.index') }}">Pimpinan RTPU</a></li>
-                    <li><a href="{{ route('struktur-organisasi.index') }}">Struktur Organisasi</a></li>
+                    <li><a href="{{ route('aksen.index') }}">AkSEN</a></li>
+                    <li><a href="{{ route('caint.index') }}">CAINT</a></li>
+                    <li><a href="{{ route('care.index') }}">CARE</a></li>
+                    <li><a href="{{ route('pudewi.index') }}">PUDEWI</a></li>
+                    <li><a href="{{ route('putoi.index') }}">PUTOI</a></li>
                 </ul>
             </div>
 
@@ -59,7 +61,7 @@
                     </li>
                     <li>
                         <span class="contact-icon"><i class="bi bi-telephone-fill"></i></span>
-                        <span>(021) 7863534 / 7864108</span>
+                        <span>021-7270036 ext 217</span>
                     </li>
                     <li>
                         <span class="contact-icon"><i class="bi bi-envelope-fill"></i></span>

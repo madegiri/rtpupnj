@@ -11,11 +11,11 @@
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb breadcrumb-custom">
                     <li class="breadcrumb-item"><a href="{{ route('home') }}">Beranda</a></li>
-                    <li class="breadcrumb-item">Pusat Unggulan Teknologi</li>
+                    <li class="breadcrumb-item">Pusat Unggulan</li>
                     <li class="breadcrumb-item active">CAINT</li>
                 </ol>
             </nav>
-            {{-- <span class="section-eyebrow">Pusat Unggulan Teknologi</span> --}}
+            {{-- <span class="section-eyebrow">Pusat Unggulan</span> --}}
             <h1 class="section-title mt-1">Center for Artificial Internet of Things</h1>
             <p class="section-subtitle"><span class="put-abbr">(CAINT)</span></p>
         </div>
@@ -50,12 +50,41 @@
         </div>
         @endif
 
+        {{-- Galeri Poster --}}
+        @if($profil && !empty($profil->poster))
+        @php
+            $posters = is_string($profil->poster) 
+                ? json_decode($profil->poster, true) 
+                : $profil->poster;
+        @endphp
+
+        @if(!empty($posters) && count($posters) > 0)
+        <div class="poster-section mb-5">
+            <h5 class="produk-desc-title mb-4">
+                <i class="bi bi-images"></i> Poster Produk CAINT
+            </h5>
+            <div class="row g-3">
+                @foreach($posters as $i => $poster)
+                <div class="col-6 col-sm-4 col-lg-3">
+                    <div class="poster-card" onclick="openLightbox('{{ asset('storage/' . $poster) }}')">
+                        <img src="{{ asset('storage/' . $poster) }}" alt="Poster CAINT {{ $i + 1 }}">
+                        <div class="poster-overlay">
+                            <i class="bi bi-zoom-in"></i>
+                        </div>
+                    </div>
+                </div>
+                @endforeach
+            </div>
+        </div>
+        @endif
+        @endif
+
         {{-- Preview per Kategori --}}
-        @foreach($config as $nama => $cfg)
+        {{-- @foreach($config as $nama => $cfg)
         @php $produks = $previewPerKategori[$nama]; @endphp
 
         <div class="kategori-section">
-            {{-- Header Kategori --}}
+            
             <div class="kategori-header">
                 <div class="kategori-header-left">
                     <span class="section-eyebrow">Kategori</span>
@@ -73,8 +102,8 @@
             @if($produks->count() > 0)
             <div class="row g-4">
                 @foreach($produks as $produk)
-                <div class="col-md-4">
-                    <div class="content-card h-100">
+                <div class="col-12 col-sm-6 col-lg-4">
+                    <a href="{{ route('caint.' . $cfg['slug'] . '.show', $produk->slug) }}" class="content-card h-100" style="text-decoration:none; color:inherit;">
                         <div class="content-card-thumb">
                             <span class="card-chip">{{ $nama }}</span>
                             @if($produk->thumbnail)
@@ -91,15 +120,14 @@
                                 {{ $produk->created_at->translatedFormat('d F Y') }}
                                 <span class="date-sep">·</span>
                                 <i class="bi bi-clock"></i>
-                                {{ $produk->created_at->format('H:i') }}
+                                {{ $produk->created_at->format('H:i') }} WIB
                             </div>
                             <h6 class="content-card-title">
-                                <a href="{{ route('caint.' . $cfg['slug'] . '.show', $produk->slug) }}"
-                                   >{{ Str::limit($produk->judul, 65) }}</a>
+                                {{ Str::limit($produk->judul, 65) }}
                             </h6>
                             <p class="content-card-excerpt">{{ Str::limit(strip_tags($produk->isi), 110) }}</p>
                         </div>
-                    </div>
+                    </a>
                 </div>
                 @endforeach
             </div>
@@ -115,10 +143,16 @@
         <div class="kategori-divider"></div>
         @endif
 
-        @endforeach
+        @endforeach --}}
 
     </div>
 </section>
+
+{{-- Lightbox Modal --}}
+<div class="lightbox-overlay" id="lightboxOverlay" onclick="closeLightbox()">
+    <button class="lightbox-close" onclick="closeLightbox()"><i class="bi bi-x-lg"></i></button>
+    <img src="" alt="" class="lightbox-img" id="lightboxImg" onclick="event.stopPropagation()">
+</div>
 
 <style>
 /* ─── Breadcrumb ─── */
@@ -233,7 +267,7 @@
 .content-card-thumb img {
     width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.35s ease;
 }
-.content-card:hover .content-card-thumb img { transform: scale(1.04); }
+
 .content-card-thumb-placeholder {
     width: 100%; height: 100%; background: #f3f4f6;
     display: flex; align-items: center; justify-content: center; color: #9ca3af; font-size: 2.5rem;
@@ -278,6 +312,97 @@
     display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;
 }
 
+/* ─── Poster Grid ─── */
+.poster-card {
+    position: relative;
+    border-radius: 10px;
+    overflow: hidden;
+    cursor: pointer;
+    aspect-ratio: 3/4;
+    background: #f3f4f6;
+    border: 1px solid #e5e7eb;
+    transition: transform 0.22s ease, box-shadow 0.22s ease;
+}
+
+.poster-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+}
+
+.poster-card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.poster-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0,0,0,0);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.22s ease;
+}
+
+.poster-overlay i {
+    font-size: 1.75rem;
+    color: #ffffff;
+    opacity: 0;
+    transition: opacity 0.22s ease;
+}
+
+.poster-card:hover .poster-overlay {
+    background: rgba(0,0,0,0.35);
+}
+
+.poster-card:hover .poster-overlay i {
+    opacity: 1;
+}
+
+/* ─── Lightbox ─── */
+.lightbox-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.88);
+    z-index: 9999;
+    align-items: center;
+    justify-content: center;
+    padding: 1.5rem;
+    backdrop-filter: blur(6px);
+}
+.lightbox-overlay.active {
+    display: flex;
+    animation: fadeIn 0.2s ease;
+}
+.lightbox-img {
+    max-width: 90vw;
+    max-height: 90vh;
+    object-fit: contain;
+    border-radius: 10px;
+    box-shadow: 0 8px 40px rgba(0,0,0,0.5);
+    animation: zoomIn 0.2s ease;
+}
+.lightbox-close {
+    position: absolute;
+    top: 1rem; right: 1.25rem;
+    background: rgba(255,255,255,0.15);
+    border: none;
+    color: #fff;
+    font-size: 1.2rem;
+    width: 40px; height: 40px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+.lightbox-close:hover { background: rgba(255,255,255,0.3); }
+
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+@keyframes zoomIn { from { transform: scale(0.9); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+
 /* ─── Empty state ─── */
 .empty-state {
     text-align: center; padding: 3rem 2rem;
@@ -287,5 +412,20 @@
 .empty-state i { font-size: 2.5rem; display: block; margin-bottom: 0.75rem; }
 .empty-state p { margin: 0; font-size: 0.9rem; }
 </style>
+
+<script>
+function openLightbox(src) {
+    document.getElementById('lightboxImg').src = src;
+    document.getElementById('lightboxOverlay').classList.add('active');
+    document.body.style.overflow = 'hidden';
+}
+function closeLightbox() {
+    document.getElementById('lightboxOverlay').classList.remove('active');
+    document.body.style.overflow = '';
+}
+document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') closeLightbox();
+});
+</script>
 
 @endsection

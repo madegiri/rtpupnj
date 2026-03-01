@@ -41,6 +41,18 @@ class CaintProdukResource extends Resource
                     ->label('Nama Produk')
                     ->required()
                     ->maxLength(255),
+
+                Select::make('kategori')
+                    ->options(CaintProduk::KATEGORIS)
+                    ->required()
+                    ->native(false),
+                
+                FileUpload::make('poster')
+                    ->label('Poster Produk')
+                    ->image()
+                    ->directory('caint-produk-poster')
+                    ->maxSize(512)
+                    ->required(),
                 
                 FileUpload::make('thumbnail')
                     ->label('Thumbnail Produk')
@@ -48,11 +60,6 @@ class CaintProdukResource extends Resource
                     ->directory('caint-produk-thumbnails')
                     ->maxSize(512) 
                     ->required(),
-                
-                Select::make('kategori')
-                    ->options(CaintProduk::KATEGORIS)
-                    ->required()
-                    ->native(false),
                 
                 FileUpload::make('galeri')
                     ->image()
@@ -92,8 +99,10 @@ class CaintProdukResource extends Resource
             ->columns([
                 //
                 TextColumn::make('judul')->label('Nama Produk')->sortable()->searchable(),
+                ImageColumn::make('poster')->label('Poster Produk'),
                 ImageColumn::make('thumbnail')->label('Thumbnail Produk'),
                 TextColumn::make('kategori')
+                ->label('Kategori Produk')
                 ->badge()
                 ->color(fn (string $state): string => match($state) {
                     'Smart Campus'              => 'primary',

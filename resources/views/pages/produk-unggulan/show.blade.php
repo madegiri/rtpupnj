@@ -35,16 +35,13 @@
                     </span>
                 </div>
 
-                {{-- Layout: Thumbnail+Galeri kiri, Poster kanan --}}
                 <div class="row g-4 mb-4">
-                    {{-- Poster kanan --}}
+                    {{-- Poster kiri --}}
                     @if($produk->poster)
                     <div class="col-lg-5">
                         <div class="poster-wrap">
                             <div class="poster-label"><i class="bi bi-file-image"></i>Poster Produk</div>
-                            <a href="{{ asset('storage/' . $produk->poster) }}" target="_blank">
-                                <img src="{{ asset('storage/' . $produk->poster) }}" alt="Poster {{ $produk->nama }}" class="poster-img">
-                            </a>
+                            <img src="{{ asset('storage/' . $produk->poster) }}" alt="Poster {{ $produk->nama }}" class="poster-img lightbox-trigger" onclick="openLightbox(this.src)">
                         </div>
                     </div>
                     @endif
@@ -54,9 +51,7 @@
                         @if($produk->gambar)
                         <div class="article-hero-img mb-3">
                             <span class="card-chip">Produk Unggulan</span>
-                            <a href="{{ asset('storage/' . $produk->gambar) }}" target="_blank">
-                                <img src="{{ asset('storage/' . $produk->gambar) }}" alt="{{ $produk->nama }}">
-                            </a>
+                            <img src="{{ asset('storage/' . $produk->gambar) }}" alt="{{ $produk->nama }}" class="lightbox-trigger" onclick="openLightbox(this.src)" style="width:100%; max-height:340px; object-fit:cover; display:block; cursor:zoom-in;">
                         </div>
                         @endif
 
@@ -75,9 +70,7 @@
                                 <div class="carousel-inner">
                                     @foreach($galeri as $i => $img)
                                     <div class="carousel-item {{ $i === 0 ? 'active' : '' }}">
-                                        <a href="{{ asset('storage/' . $img) }}" target="_blank">
-                                            <img src="{{ asset('storage/' . $img) }}" alt="Galeri {{ $i + 1 }}" class="galeri-carousel-img">
-                                        </a>
+                                        <img src="{{ asset('storage/' . $img) }}" alt="Galeri {{ $i + 1 }}" class="galeri-carousel-img lightbox-trigger" onclick="openLightbox(this.src)">
                                     </div>
                                     @endforeach
                                 </div>
@@ -96,8 +89,6 @@
                         </div>
                         @endif
                     </div>
-
-
                 </div>
 
                 {{-- Deskripsi --}}
@@ -141,7 +132,7 @@
                                 {{ $item->created_at->translatedFormat('d F Y') }}
                                 <span class="date-sep">·</span>
                                 <i class="bi bi-clock"></i>
-                                {{ $item->created_at->format('H:i') }}
+                                {{ $item->created_at->format('H:i') }} WIB
                             </div>
                             <h6 class="content-card-title">
                                 {{ Str::limit($item->nama, 80) }}
@@ -159,9 +150,14 @@
             </div>
         </div>
         @endif
-
     </div>
 </section>
+
+{{-- Lightbox Modal --}}
+<div class="lightbox-overlay" id="lightboxOverlay" onclick="closeLightbox()">
+    <button class="lightbox-close" onclick="closeLightbox()"><i class="bi bi-x-lg"></i></button>
+    <img src="" alt="" class="lightbox-img" id="lightboxImg" onclick="event.stopPropagation()">
+</div>
 
 <style>
 /* ─── Breadcrumb ─── */
@@ -300,6 +296,53 @@
     .galeri-carousel-img { height: 220px; }
 }
 
+/* ─── Lightbox ─── */
+.lightbox-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.88);
+    z-index: 9999;
+    align-items: center;
+    justify-content: center;
+    padding: 1.5rem;
+    backdrop-filter: blur(6px);
+    
+}
+.lightbox-overlay.active {
+    display: flex;
+    animation: fadeIn 0.2s ease;
+}
+.lightbox-overlay.active .lightbox-img {
+    animation: zoomIn 0.2s ease; 
+}
+.lightbox-img {
+    max-width: 90vw;
+    max-height: 90vh;
+    object-fit: contain;
+    border-radius: 10px;
+    box-shadow: 0 8px 40px rgba(0,0,0,0.5);
+    animation: zoomIn 0.2s ease;
+}
+.lightbox-close {
+    position: absolute;
+    top: 1rem; right: 1.25rem;
+    background: rgba(255,255,255,0.15);
+    border: none;
+    color: #fff;
+    font-size: 1.2rem;
+    width: 40px; height: 40px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+.lightbox-close:hover { background: rgba(255,255,255,0.3); }
+.lightbox-trigger { cursor: zoom-in; }
+
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+@keyframes zoomIn { from { transform: scale(0.9); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+
 /* ─── Deskripsi box ─── */
 .produk-desc-box {
     background: #f9fafb;
@@ -406,6 +449,20 @@ document.addEventListener('DOMContentLoaded', function () {
     carousel.addEventListener('slid.bs.carousel', function (e) {
         document.getElementById('galeriCurrent').textContent = e.to + 1;
     });
+});
+
+function openLightbox(src) {
+    document.getElementById('lightboxImg').src = src;
+    document.getElementById('lightboxOverlay').classList.add('active');
+    document.body.style.overflow = 'hidden';
+}
+function closeLightbox() {
+    document.getElementById('lightboxOverlay').classList.remove('active');
+    document.body.style.overflow = '';
+}
+// Tutup dengan tombol Escape
+document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') closeLightbox();
 });
 </script>
 

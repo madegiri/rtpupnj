@@ -13,7 +13,8 @@ class TentangRTPU extends Model
     protected $table = 'tentang_rtpu';
 
     protected $fillable = [
-        'isi'
+        'isi',
+        'logo'
     ];
 
 }

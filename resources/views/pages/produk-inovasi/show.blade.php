@@ -35,13 +35,60 @@
                     </span>
                 </div>
 
-                <div class="row justify-content-center">
-                    <div class="col-lg-8">
-                        {{-- Gambar --}}
+                <div class="row g-4 mb-4">
+                    {{-- Poster kiri --}}
+                    @if($produk->poster)
+                    <div class="col-lg-5">
+                        <div class="poster-wrap">
+                            <div class="poster-label"><i class="bi bi-file-image"></i>Poster Produk</div>
+                           
+                            <img src="{{ asset('storage/' . $produk->poster) }}" alt="Poster {{ $produk->nama }}" class="poster-img lightbox-trigger" onclick="openLightbox(this.src)">
+                        </div>
+                    </div>
+                    @endif
+
+                    <div class="col-lg-7">
+                        {{-- Thumbnail --}}
                         @if($produk->gambar)
-                        <div class="article-hero-img">
-                            <span class="card-chip">Produk Inovasi</span>
-                            <img src="{{ asset('storage/' . $produk->gambar) }}" alt="{{ $produk->nama }}">
+                        <div class="article-hero-img mb-3">
+                            <span class="card-chip">Produk Unggulan</span>
+                           
+                            <img src="{{ asset('storage/' . $produk->gambar) }}" alt="{{ $produk->nama }}" class="lightbox-trigger" onclick="openLightbox(this.src)" style="width:100%; max-height:340px; object-fit:cover; display:block; cursor:zoom-in;">
+                        </div>
+                        @endif
+
+                        {{-- Galeri --}}
+                        @php
+                            $galeri = isset($produk->galeri)
+                                ? (is_string($produk->galeri) ? json_decode($produk->galeri, true) : $produk->galeri)
+                                : [];
+                        @endphp
+                        @if(!empty($galeri) && count($galeri) > 0)
+                        <div class="galeri-section mb-0">
+                            <h5 class="galeri-title">
+                                <i class="bi bi-images"></i> Galeri Produk
+                            </h5>
+                            <div id="galeriCarousel" class="carousel slide" data-bs-ride="false">
+                                <div class="carousel-inner">
+                                    @foreach($galeri as $i => $img)
+                                    <div class="carousel-item {{ $i === 0 ? 'active' : '' }}">
+                                       
+                                        <img src="{{ asset('storage/' . $img) }}" alt="Galeri {{ $i + 1 }}" class="galeri-carousel-img lightbox-trigger" onclick="openLightbox(this.src)">
+                                    </div>
+                                    @endforeach
+                                </div>
+                                @if(count($galeri) > 1)
+                                <button class="carousel-control-prev" type="button" data-bs-target="#galeriCarousel" data-bs-slide="prev">
+                                    <span class="galeri-arrow"><i class="bi bi-chevron-left"></i></span>
+                                </button>
+                                <button class="carousel-control-next" type="button" data-bs-target="#galeriCarousel" data-bs-slide="next">
+                                    <span class="galeri-arrow"><i class="bi bi-chevron-right"></i></span>
+                                </button>
+                                <div class="galeri-counter">
+                                    <span id="galeriCurrent">1</span> / {{ count($galeri) }}
+                                </div>
+                                @endif
+                            </div>
                         </div>
                         @endif
                     </div>
@@ -50,7 +97,7 @@
                 {{-- Deskripsi --}}
                 <div class="produk-desc-box">
                     <h5 class="produk-desc-title">
-                        <i class="bi bi-lightbulb"></i> Deskripsi Produk Inovasi
+                        <i class="bi bi-lightbulb"></i> Deskripsi Produk
                     </h5>
                     <div class="article-body">
                         {!! $produk->deskripsi !!}
@@ -86,10 +133,10 @@
                                 {{ $item->created_at->translatedFormat('d F Y') }}
                                 <span class="date-sep">·</span>
                                 <i class="bi bi-clock"></i>
-                                {{ $item->created_at->format('H:i') }}
+                                {{ $item->created_at->format('H:i') }} WIB
                                 </div>
                             <h6 class="content-card-title">
-                                {{ Str::limit($item->nama, 50) }}
+                                {{ Str::limit($item->nama, 70) }}
                             </h6>
                             <p class="content-card-excerpt">{{ Str::limit(strip_tags($item->deskripsi), 100) }}</p>
                         </div>
@@ -104,9 +151,14 @@
             </div>
         </div>
         @endif
-
     </div>
 </section>
+
+{{-- Lightbox Modal --}}
+<div class="lightbox-overlay" id="lightboxOverlay" onclick="closeLightbox()">
+    <button class="lightbox-close" onclick="closeLightbox()"><i class="bi bi-x-lg"></i></button>
+    <img src="" alt="" class="lightbox-img" id="lightboxImg" onclick="event.stopPropagation()">
+</div>
 
 <style>
 .breadcrumb-custom {
@@ -162,8 +214,130 @@
     margin-bottom: 2rem; box-shadow: 0 4px 24px rgba(0,0,0,0.08); position: relative;
 }
 .article-hero-img img {
-    width: 100%; max-height: auto; object-fit: cover; display: block;
+    width: 100%; max-height: 340px; object-fit: cover; display: block;
 }
+
+/* ─── Poster ─── */
+.poster-wrap {
+    background: #f9fafb;
+    border: 1px solid #e5e7eb;
+    border-radius: 14px;
+    padding: 1.25rem;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+.poster-label {
+    font-size: 0.95rem; font-weight: 700; color: #111827;
+    display: flex; align-items: center; gap: 0.5rem;
+    margin-bottom: 1rem;
+}
+.poster-label i { color: #00998a; }
+.poster-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 8px;
+    flex: 1;
+    min-height: 0;
+    cursor: zoom-in;
+    transition: opacity 0.2s;
+}
+.poster-img:hover { opacity: 0.9; }
+
+/* ─── Galeri Carousel ─── */
+.galeri-section {
+    background: #f9fafb; border: 1px solid #e5e7eb;
+    border-radius: 14px; padding: 1.5rem; margin-bottom: 2rem;
+}
+.galeri-title {
+    font-size: 0.95rem; font-weight: 700; color: #111827;
+    display: flex; align-items: center; gap: 0.5rem; margin-bottom: 1rem;
+}
+.galeri-title i { color: #00998a; }
+
+.carousel { position: relative; border-radius: 10px; overflow: hidden; }
+
+.galeri-carousel-img {
+    width: 100%; height: 340px;
+    object-fit: cover; display: block; border-radius: 10px;
+}
+
+.galeri-arrow {
+    width: 38px; height: 38px;
+    background: rgba(255,255,255,0.9);
+    backdrop-filter: blur(4px);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    color: #111827; font-size: 1rem;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+    transition: background 0.2s;
+}
+.galeri-arrow:hover { background: #ffffff; }
+
+.carousel-control-prev { left: 0.75rem; width: auto; }
+.carousel-control-next { right: 0.75rem; width: auto; }
+.carousel-control-prev-icon,
+.carousel-control-next-icon { display: none; }
+
+.galeri-counter {
+    position: absolute; bottom: 0.75rem; right: 0.85rem;
+    background: rgba(0,0,0,0.45); color: #fff;
+    font-size: 0.75rem; font-weight: 600;
+    padding: 0.2rem 0.65rem; border-radius: 50px;
+    backdrop-filter: blur(4px);
+}
+
+@media (max-width: 575.98px) {
+    .galeri-carousel-img { height: 220px; }
+}
+
+/* ─── Lightbox ─── */
+.lightbox-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.88);
+    z-index: 9999;
+    align-items: center;
+    justify-content: center;
+    padding: 1.5rem;
+    backdrop-filter: blur(6px);
+    
+}
+.lightbox-overlay.active {
+    display: flex;
+    animation: fadeIn 0.2s ease;
+}
+.lightbox-overlay.active .lightbox-img {
+    animation: zoomIn 0.2s ease; 
+}
+.lightbox-img {
+    max-width: 90vw;
+    max-height: 90vh;
+    object-fit: contain;
+    border-radius: 10px;
+    box-shadow: 0 8px 40px rgba(0,0,0,0.5);
+    animation: zoomIn 0.2s ease;
+}
+.lightbox-close {
+    position: absolute;
+    top: 1rem; right: 1.25rem;
+    background: rgba(255,255,255,0.15);
+    border: none;
+    color: #fff;
+    font-size: 1.2rem;
+    width: 40px; height: 40px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+.lightbox-close:hover { background: rgba(255,255,255,0.3); }
+.lightbox-trigger { cursor: zoom-in; }
+
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+@keyframes zoomIn { from { transform: scale(0.9); opacity: 0; } to { transform: scale(1); opacity: 1; } }
 
 .produk-desc-box {
     background: #f9fafb; border: 1px solid #e5e7eb; border-radius: 14px; padding: 1.75rem;
@@ -233,7 +407,7 @@
 }
 .content-card-title {
     font-size: 0.9rem; font-weight: 600; color: #111827;
-    line-height: 1.45; letter-spacing: -0.01em; margin: 0.25rem 0 0;
+    line-height: 1.45; letter-spacing: -0.01em; margin: 0.25rem 0 0; text-align: justify;
 }
 .content-card-title a { color: inherit; text-decoration: none; transition: color 0.2s; }
 .content-card-title a:hover { color: #00998a; }
@@ -248,5 +422,29 @@
 }
 .btn-lihat-semua:hover { background: #e6f7f5; color: #006b5e; border-color: #00998a; }
 </style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const carousel = document.getElementById('galeriCarousel');
+    if (!carousel) return;
+    carousel.addEventListener('slid.bs.carousel', function (e) {
+        document.getElementById('galeriCurrent').textContent = e.to + 1;
+    });
+});
+
+function openLightbox(src) {
+    document.getElementById('lightboxImg').src = src;
+    document.getElementById('lightboxOverlay').classList.add('active');
+    document.body.style.overflow = 'hidden';
+}
+function closeLightbox() {
+    document.getElementById('lightboxOverlay').classList.remove('active');
+    document.body.style.overflow = '';
+}
+// Tutup dengan tombol Escape
+document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') closeLightbox();
+});
+</script>
 
 @endsection

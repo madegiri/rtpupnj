@@ -22,8 +22,8 @@
 
         <div class="row g-4">
             @forelse($produks as $produk)
-            <div class="col-md-4">
-                <div class="content-card h-100">
+            <div class="col-12 col-sm-6 col-lg-4">
+                <a href="{{ route('caint.smart-campus.show', $produk->slug) }}" class="content-card h-100" style="text-decoration:none; color:inherit;">
                     <div class="content-card-thumb">
                         <span class="card-chip">Smart Campus</span>
                         @if($produk->thumbnail)
@@ -40,15 +40,14 @@
                             {{ $produk->created_at->translatedFormat('d F Y') }}
                             <span class="date-sep">·</span>
                             <i class="bi bi-clock"></i>
-                            {{ $produk->created_at->format('H:i') }}
+                            {{ $produk->created_at->format('H:i') }} WIB
                         </div>
                         <h6 class="content-card-title">
-                            <a href="{{ route('caint.smart-campus.show', $produk->slug) }}"
-                               >{{ Str::limit($produk->judul, 65) }}</a>
+                            {{ Str::limit($produk->judul, 65) }}
                         </h6>
                         <p class="content-card-excerpt">{{ Str::limit(strip_tags($produk->isi), 110) }}</p>
                     </div>
-                </div>
+                </a>
             </div>
             @empty
             <div class="col-12">
@@ -105,7 +104,7 @@
 .content-card-thumb img {
     width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.35s ease;
 }
-.content-card:hover .content-card-thumb img { transform: scale(1.04); }
+
 .content-card-thumb-placeholder {
     width: 100%; height: 100%; background: #f3f4f6;
     display: flex; align-items: center; justify-content: center; color: #9ca3af; font-size: 2.5rem;
@@ -141,13 +140,13 @@
 .content-card-title {
     font-size: 0.925rem; font-weight: 600; color: #111827;
     line-height: 1.45; letter-spacing: -0.01em; margin: 0 0 0.5rem;
-    display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;
+    display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; text-align: justify;
 }
 .content-card-title a { color: inherit; text-decoration: none; transition: color 0.2s; }
 .content-card-title a:hover { color: #00998a; }
 .content-card-excerpt {
     font-size: 0.845rem; color: #6b7280; line-height: 1.65; margin: 0; flex: 1;
-    display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;
+    display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; text-align: justify;
 }
 
 .empty-state { text-align: center; padding: 4rem 2rem; color: #9ca3af; }

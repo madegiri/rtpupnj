@@ -7,10 +7,12 @@ use App\Filament\Resources\TentangRTPUResource\RelationManagers;
 use App\Models\TentangRTPU;
 use Dom\Text;
 use Filament\Forms;
+use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
+use Filament\Tables\Columns\ImageColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
@@ -31,6 +33,13 @@ class TentangRTPUResource extends Resource
         return $form
             ->schema([
                 //
+                FileUpload::make('logo')
+                ->label('Logo RTPU')
+                ->required()
+                ->image()
+                ->directory('tentang-logo-rtpu')
+                ->maxSize(512),
+
                 RichEditor::make('isi')
                     ->required()
                     ->columnSpanFull()
@@ -58,8 +67,9 @@ class TentangRTPUResource extends Resource
         return $table
             ->columns([
                 //
-                TextColumn::make('isi')->limit(50)->searchable()->sortable(),
-                TextColumn::make('created_at')->dateTime()->sortable(),
+                ImageColumn::make('logo')->label('Logo RTPU'),
+                TextColumn::make('isi')->limit(50)->searchable()->sortable()->label('Tentang RTPU'),
+                TextColumn::make('created_at')->dateTime()->sortable()->label('Tanggal Dibuat'),
             ])
             ->filters([
                 Tables\Filters\TrashedFilter::make(),

@@ -42,7 +42,7 @@
                             {{ $artikel->created_at->translatedFormat('d F Y') }}
                             <span class="date-sep">·</span>
                             <i class="bi bi-clock"></i>
-                            {{ $artikel->created_at->format('H:i') }}
+                            {{ $artikel->created_at->format('H:i') }} WIB
                         </div>
                         <h6 class="content-card-title">
                             {{ Str::limit($artikel->judul, 65) }}
@@ -306,6 +306,9 @@
     background: #f9fafb;
     color: #d1d5db;
     border-color: #e5e7eb;
+}
+.pagination-wrapper p {
+    display: none !important;
 }
 </style>
 

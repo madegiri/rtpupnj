@@ -97,7 +97,7 @@
                                 {{ $item->created_at->translatedFormat('d F Y') }}
                                 <span class="date-sep">·</span>
                                 <i class="bi bi-clock"></i>
-                                {{ $item->created_at->format('H:i') }}
+                                {{ $item->created_at->format('H:i') }} WIB
                             </div>
                             <h6 class="content-card-title">
                                 {{ Str::limit($item->nama, 55) }}

@@ -33,6 +33,7 @@ class CaintProfilResource extends Resource
             ->schema([
                 //
                 FileUpload::make('thumbnail')
+                    ->label('Logo')
                     ->image()
                     ->directory('caint-profil-thumbnails')
                     ->maxSize(512) 
@@ -57,6 +58,15 @@ class CaintProfilResource extends Resource
                         'underline',
                         'undo',
                     ]),
+                
+                FileUpload::make('poster')
+                ->label('Poster Produk')
+                ->image()
+                ->directory('caint-profil-poster')
+                ->multiple()
+                ->minFiles(1)
+                ->maxSize(512),
+
             ]);
     }
 
@@ -65,11 +75,11 @@ class CaintProfilResource extends Resource
         return $table
             ->columns([
                 //
-                ImageColumn::make('thumbnail'),
+                ImageColumn::make('thumbnail')->label('Logo'),
 
                 TextColumn::make('deskripsi')->limit(50),
 
-                TextColumn::make('created_at')->dateTime()->sortable(),
+                TextColumn::make('created_at')->dateTime()->sortable()->label('Tanggal Dibuat'),
             ])
             ->filters([
                 Tables\Filters\TrashedFilter::make(),

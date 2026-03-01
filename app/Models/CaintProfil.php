@@ -14,6 +14,11 @@ class CaintProfil extends Model
 
     protected $fillable = [
         'thumbnail',
+        'poster',
         'deskripsi',
+    ];
+
+    protected $casts = [
+        'poster' => 'array',
     ];
 }

@@ -153,6 +153,9 @@
 .pagination-wrapper .page-link:hover { background: #e6f7f5; color: #00998a; border-color: rgba(0,153,138,0.3); }
 .pagination-wrapper .page-item.active .page-link { background: #00998a; border-color: #00998a; color: #ffffff; font-weight: 600; }
 .pagination-wrapper .page-item.disabled .page-link { background: #f9fafb; color: #d1d5db; border-color: #e5e7eb; }
+.pagination-wrapper p {
+    display: none !important;
+}
 
 /* ─── Empty state ─── */
 .empty-state { text-align: center; padding: 4rem 2rem; color: #9ca3af; }

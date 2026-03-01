@@ -34,6 +34,7 @@ class PudewiProfilResource extends Resource
             ->schema([
                 //
                 FileUpload::make('thumbnail')
+                    ->label('Logo')
                     ->image()
                     ->directory('pudewi-profil-thumbnails')
                     ->maxSize(512) 
@@ -66,11 +67,11 @@ class PudewiProfilResource extends Resource
         return $table
             ->columns([
                 //
-                ImageColumn::make('thumbnail'),
+                ImageColumn::make('thumbnail')->label('Logo'),
 
                 TextColumn::make('deskripsi')->limit(50),
 
-                TextColumn::make('created_at')->dateTime()->sortable(),
+                TextColumn::make('created_at')->dateTime()->sortable()->label('Tanggal Dibuat'),
             ])
             ->filters([
                 Tables\Filters\TrashedFilter::make(),

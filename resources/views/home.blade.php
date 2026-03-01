@@ -5,10 +5,18 @@
 @section('content')
 
 {{-- ===================== HERO ===================== --}}
-<section class="hero-section">
-    <div class="container hero-content">
+<section class="hero-section" style="position:relative; min-height:82vh; overflow:hidden; padding:0;">
+    {{-- Background Image --}}
+    <div style="position:absolute; inset:0; z-index:0;">
+        <img src="{{ asset('storage/pnj/foto-pnj.jpg') }}" alt="RTPU PNJ"
+             style="width:100%; height:100%; object-fit:cover; display:block;">
+
+        <div style="position:absolute; inset:0; background: linear-gradient(to right, rgba(0,60,50,0.85) 50%, rgba(0,60,50,0.3) 100%);"></div>
+    </div>
+
+    <div class="container hero-content" style="position:relative; z-index:1;">
         <div class="row align-items-center" style="min-height:82vh;">
-            <div class="col-lg-7">
+            <div class="col-lg-6 col-md-8">
                 <div class="hero-eyebrow">Rekayasa Teknologi & Pusat Unggulan</div>
                 <h1>
                     RTPU Politeknik<br>
@@ -21,14 +29,10 @@
                     <a href="{{ route('tentang.index') }}" class="btn-hero-primary">
                         <i class="bi bi-info-circle"></i> Tentang Kami
                     </a>
-                    <a href="{{ route('produk-unggulan.index') }}" class="btn-hero-secondary">
+                    {{-- <a href="{{ route('produk-unggulan.index') }}" class="btn-hero-secondary">
                         <i class="bi bi-grid"></i> Produk Kami
-                    </a>
+                    </a> --}}
                 </div>
-            </div>
-            <div class="col-lg-5 d-none d-lg-block text-center">
-                <img src="{{ asset('storage/pnj/foto-pnj.jpg') }}"
-                     alt="RTPU PNJ" class="img-fluid" style="max-height:400px; opacity:0.9;">
             </div>
         </div>
     </div>

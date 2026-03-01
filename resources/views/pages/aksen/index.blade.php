@@ -11,7 +11,7 @@
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb breadcrumb-custom">
                     <li class="breadcrumb-item"><a href="{{ route('home') }}">Beranda</a></li>
-                    <li class="breadcrumb-item">Pusat Unggulan Teknologi</li>
+                    <li class="breadcrumb-item">Pusat Unggulan</li>
                     <li class="breadcrumb-item active">AkSEN</li>
                 </ol>
             </nav>

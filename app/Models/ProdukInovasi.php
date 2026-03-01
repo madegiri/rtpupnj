@@ -17,6 +17,7 @@ class ProdukInovasi extends Model
         'nama',
         'slug',
         'gambar',
+        'poster',
         'galeri',
         'deskripsi',
     ];

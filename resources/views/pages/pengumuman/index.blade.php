@@ -281,6 +281,9 @@
     color: #d1d5db;
     border-color: #e5e7eb;
 }
+.pagination-wrapper p {
+    display: none !important;
+}
 
 /* ─── Mobile ─── */
 @media (max-width: 575.98px) {

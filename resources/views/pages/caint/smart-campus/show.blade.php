@@ -16,8 +16,8 @@
             </ol>
         </nav>
 
-        <div class="row justify-content-center">
-            <div class="col-lg-8">
+        <div class="row justify-content">
+            <div class="col-lg-12">
 
                 {{-- Meta --}}
                 {{-- <span class="card-chip mb-3">Smart Campus</span> --}}
@@ -36,49 +36,62 @@
                     </span>
                 </div>
 
-                {{-- Thumbnail --}}
-                @if($produk->thumbnail)
-                <div class="article-hero-img">
-                    <span class="card-chip">Smart Campus</span>
-                    <img src="{{ asset('storage/' . $produk->thumbnail) }}" alt="{{ $produk->judul }}">
-                </div>
-                @endif
-
-                {{-- Galeri --}}
-                @php
-                    $galeri = is_string($produk->galeri) ? json_decode($produk->galeri, true) : $produk->galeri;
-                @endphp
-                @if(!empty($galeri) && count($galeri) > 0)
-                <div class="galeri-section">
-                    <h5 class="galeri-title">
-                        <i class="bi bi-images"></i> Galeri Produk
-                    </h5>
-                    <div id="galeriCarousel" class="carousel slide" data-bs-ride="false">
-                        <div class="carousel-inner">
-                            @foreach($galeri as $i => $img)
-                            <div class="carousel-item {{ $i === 0 ? 'active' : '' }}">
-                                <a href="{{ asset('storage/' . $img) }}" target="_blank">
-                                    <img src="{{ asset('storage/' . $img) }}" alt="Galeri {{ $i + 1 }}" class="galeri-carousel-img">
-                                </a>
-                            </div>
-                            @endforeach
+                {{-- Layout: Thumbnail+Galeri kiri, Poster kanan --}}
+                <div class="row g-4 mb-4">
+                    {{-- Poster kiri --}}
+                    @if($produk->poster)
+                    <div class="col-lg-5">
+                        <div class="poster-wrap">
+                            <div class="poster-label"><i class="bi bi-file-image"></i>Poster Produk</div>
+                            <img src="{{ asset('storage/' . $produk->poster) }}" alt="Poster {{ $produk->nama }}" class="poster-img lightbox-trigger" onclick="openLightbox(this.src)">
                         </div>
+                    </div>
+                    @endif
 
-                        @if(count($galeri) > 1)
-                        <button class="carousel-control-prev" type="button" data-bs-target="#galeriCarousel" data-bs-slide="prev">
-                            <span class="galeri-arrow"><i class="bi bi-chevron-left"></i></span>
-                        </button>
-                        <button class="carousel-control-next" type="button" data-bs-target="#galeriCarousel" data-bs-slide="next">
-                            <span class="galeri-arrow"><i class="bi bi-chevron-right"></i></span>
-                        </button>
+                    <div class="col-lg-7">
+                        {{-- Thumbnail --}}
+                        @if($produk->thumbnail)
+                        <div class="article-hero-img mb-3">
+                            <span class="card-chip">Smart Campus</span>
+                            <img src="{{ asset('storage/' . $produk->thumbnail) }}" alt="{{ $produk->nama }}" class="lightbox-trigger" onclick="openLightbox(this.src)" style="width:100%; max-height:340px; object-fit:cover; display:block; cursor:zoom-in;">
+                        </div>
+                        @endif
 
-                        <div class="galeri-counter">
-                            <span id="galeriCurrent">1</span> / {{ count($galeri) }}
+                        {{-- Galeri --}}
+                        @php
+                            $galeri = isset($produk->galeri)
+                                ? (is_string($produk->galeri) ? json_decode($produk->galeri, true) : $produk->galeri)
+                                : [];
+                        @endphp
+                        @if(!empty($galeri) && count($galeri) > 0)
+                        <div class="galeri-section mb-0">
+                            <h5 class="galeri-title">
+                                <i class="bi bi-images"></i> Galeri Produk
+                            </h5>
+                            <div id="galeriCarousel" class="carousel slide" data-bs-ride="false">
+                                <div class="carousel-inner">
+                                    @foreach($galeri as $i => $img)
+                                    <div class="carousel-item {{ $i === 0 ? 'active' : '' }}">
+                                        <img src="{{ asset('storage/' . $img) }}" alt="Galeri {{ $i + 1 }}" class="galeri-carousel-img lightbox-trigger" onclick="openLightbox(this.src)">
+                                    </div>
+                                    @endforeach
+                                </div>
+                                @if(count($galeri) > 1)
+                                <button class="carousel-control-prev" type="button" data-bs-target="#galeriCarousel" data-bs-slide="prev">
+                                    <span class="galeri-arrow"><i class="bi bi-chevron-left"></i></span>
+                                </button>
+                                <button class="carousel-control-next" type="button" data-bs-target="#galeriCarousel" data-bs-slide="next">
+                                    <span class="galeri-arrow"><i class="bi bi-chevron-right"></i></span>
+                                </button>
+                                <div class="galeri-counter">
+                                    <span id="galeriCurrent">1</span> / {{ count($galeri) }}
+                                </div>
+                                @endif
+                            </div>
                         </div>
                         @endif
                     </div>
                 </div>
-                @endif
 
                 {{-- Isi --}}
                 <div class="article-body">
@@ -97,8 +110,8 @@
             </div>
             <div class="row g-4">
                 @foreach($related as $rel)
-                <div class="col-md-4">
-                    <div class="content-card h-100">
+                <div class="col-12 col-sm-6 col-lg-4">
+                    <a href="{{ route('caint.smart-campus.show', $rel->slug) }}" class="content-card h-100" style="text-decoration:none; color:inherit;">
                         <div class="content-card-thumb">
                             <span class="card-chip">Smart Campus</span>
                             @if($rel->thumbnail)
@@ -113,17 +126,16 @@
                             <span class="card-chip">Smart Campus</span>
                             <div class="date-badge mt-1 mb-2">
                                 <i class="bi bi-calendar3"></i>
-                                {{ $rel->created_at->translatedFormat('d M Y') }}
+                                {{ $rel->created_at->translatedFormat('d F Y') }}
                                 <span class="date-sep">·</span>
                                 <i class="bi bi-clock"></i>
-                                {{ $rel->created_at->format('H:i') }}
+                                {{ $rel->created_at->format('H:i') }} WIB
                             </div>
                             <h6 class="content-card-title">
-                                <a href="{{ route('caint.smart-campus.show', $rel->slug) }}"
-                                   >{{ Str::limit($rel->judul, 65) }}</a>
+                                {{ Str::limit($rel->judul, 65) }}
                             </h6>
                         </div>
-                    </div>
+                    </a>
                 </div>
                 @endforeach
             </div>
@@ -137,6 +149,12 @@
 
     </div>
 </section>
+
+{{-- Lightbox Modal --}}
+<div class="lightbox-overlay" id="lightboxOverlay" onclick="closeLightbox()">
+    <button class="lightbox-close" onclick="closeLightbox()"><i class="bi bi-x-lg"></i></button>
+    <img src="" alt="" class="lightbox-img" id="lightboxImg" onclick="event.stopPropagation()">
+</div>
 
 <style>
 /* ─── Breadcrumb ─── */
@@ -249,6 +267,81 @@
     .galeri-carousel-img { height: 220px; }
 }
 
+/* ─── Poster ─── */
+.poster-wrap {
+    background: #f9fafb;
+    border: 1px solid #e5e7eb;
+    border-radius: 14px;
+    padding: 1.25rem;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+.poster-label {
+    font-size: 0.95rem; font-weight: 700; color: #111827;
+    display: flex; align-items: center; gap: 0.5rem;
+    margin-bottom: 1rem;
+}
+.poster-label i { color: #00998a; }
+.poster-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 8px;
+    flex: 1;
+    min-height: 0;
+    cursor: zoom-in;
+    transition: opacity 0.2s;
+}
+.poster-img:hover { opacity: 0.9; }
+
+/* ─── Lightbox ─── */
+.lightbox-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.88);
+    z-index: 9999;
+    align-items: center;
+    justify-content: center;
+    padding: 1.5rem;
+    backdrop-filter: blur(6px);
+    
+}
+.lightbox-overlay.active {
+    display: flex;
+    animation: fadeIn 0.2s ease;
+}
+.lightbox-overlay.active .lightbox-img {
+    animation: zoomIn 0.2s ease; 
+}
+.lightbox-img {
+    max-width: 90vw;
+    max-height: 90vh;
+    object-fit: contain;
+    border-radius: 10px;
+    box-shadow: 0 8px 40px rgba(0,0,0,0.5);
+    animation: zoomIn 0.2s ease;
+}
+.lightbox-close {
+    position: absolute;
+    top: 1rem; right: 1.25rem;
+    background: rgba(255,255,255,0.15);
+    border: none;
+    color: #fff;
+    font-size: 1.2rem;
+    width: 40px; height: 40px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+.lightbox-close:hover { background: rgba(255,255,255,0.3); }
+.lightbox-trigger { cursor: zoom-in; }
+
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+@keyframes zoomIn { from { transform: scale(0.9); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+
 /* ─── Article body ─── */
 .article-body { font-size: 1rem; line-height: 1.9; color: #374151; }
 .article-body h2,.article-body h3,.article-body h4 {
@@ -295,7 +388,7 @@
 .content-card-thumb img {
     width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.35s ease;
 }
-.content-card:hover .content-card-thumb img { transform: scale(1.04); }
+
 .content-card-thumb-placeholder {
     width: 100%; height: 100%; background: #f3f4f6;
     display: flex; align-items: center; justify-content: center; color: #9ca3af; font-size: 2.25rem;
@@ -329,6 +422,20 @@ document.addEventListener('DOMContentLoaded', function () {
     carousel.addEventListener('slid.bs.carousel', function (e) {
         document.getElementById('galeriCurrent').textContent = e.to + 1;
     });
+});
+
+function openLightbox(src) {
+    document.getElementById('lightboxImg').src = src;
+    document.getElementById('lightboxOverlay').classList.add('active');
+    document.body.style.overflow = 'hidden';
+}
+function closeLightbox() {
+    document.getElementById('lightboxOverlay').classList.remove('active');
+    document.body.style.overflow = '';
+}
+// Tutup dengan tombol Escape
+document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') closeLightbox();
 });
 </script>
 

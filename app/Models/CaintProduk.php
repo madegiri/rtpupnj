@@ -17,6 +17,7 @@ class CaintProduk extends Model
         'judul',
         'slug',
         'thumbnail',
+        'poster',
         'galeri',
         'isi',
         'kategori',

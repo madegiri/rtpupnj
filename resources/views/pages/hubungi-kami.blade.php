@@ -10,7 +10,7 @@
         <div class="page-header text-center mb-5">
             <span class="section-eyebrow">Kontak</span>
             <h1 class="section-title mt-1">Hubungi Kami</h1>
-            <p class="section-subtitle mx-auto">Kami siap membantu Anda. Jangan ragu untuk menghubungi kami.</p>
+            <p class="section-subtitle mx-auto">Kami siap membantu Anda.</p>
         </div>
 
         {{-- Info Kontak --}}
@@ -35,8 +35,7 @@
                     </div>
                     <div class="contact-label">Telepon</div>
                     <div class="contact-value">
-                        <a href="tel:0217863534">(021) 7863534</a><br>
-                        <a href="tel:0217864108">(021) 7864108</a>
+                        <a href="#">021-7270036 ext 217</a>
                     </div>
                 </div>
             </div>
@@ -61,7 +60,7 @@
                     <div class="contact-label">Jam Operasional</div>
                     <div class="contact-value">
                         Senin – Jumat<br>
-                        08.00 – 16.00 WIB
+                        07.30 – 16.00 WIB
                     </div>
                 </div>
             </div>

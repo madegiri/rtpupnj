@@ -11,11 +11,11 @@
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb breadcrumb-custom">
                     <li class="breadcrumb-item"><a href="{{ route('home') }}">Beranda</a></li>
-                    <li class="breadcrumb-item">Pusat Unggulan Teknologi</li>
+                    <li class="breadcrumb-item">Pusat Unggulan</li>
                     <li class="breadcrumb-item active">PUTOI</li>
                 </ol>
             </nav>
-            {{-- <span class="section-eyebrow">Pusat Unggulan Teknologi</span> --}}
+            {{-- <span class="section-eyebrow">Pusat Unggulan</span> --}}
             <h1 class="section-title mt-1">
                 Pusat Unggulan Teknologi Otomasi Industri
             </h1>

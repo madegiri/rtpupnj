@@ -19,6 +19,11 @@
         </div>
 
         <div class="row justify-content">
+            <div class="text-center mb-5">
+                @if($tentang && $tentang->logo)
+                    <img src="{{ asset('storage/' . $tentang->logo) }}" alt="Logo RTPU PNJ" class="tentang-logo">
+                @endif
+            </div>
             <div class="col-lg-12">
                 @if($tentang)
                     <div class="article-body">
@@ -78,6 +83,12 @@
     letter-spacing: -0.02em;
     line-height: 1.2;
     margin-bottom: 0;
+}
+
+.tentang-logo {
+    max-width: 230px;
+    width: 100%;
+    height: auto;
 }
 
 /* ─── Article body ─── */

@@ -36,6 +36,7 @@ class SertifikasiResource extends Resource
             ->schema([
                 //
                 TextInput::make('nama')
+                    ->label('Judul Sertifikasi')
                     ->required()
                     ->maxLength(255),
                 
@@ -76,9 +77,9 @@ class SertifikasiResource extends Resource
         return $table
             ->columns([
                 //
-                TextColumn::make('nama')->searchable()->sortable(),
-                TextColumn::make('penyelenggara')->searchable()->sortable(),
                 ImageColumn::make('gambar'),
+                TextColumn::make('nama')->searchable()->sortable()->label('Judul Sertifikasi'),
+                TextColumn::make('penyelenggara')->searchable()->sortable(),
             ])
             ->filters([
                 Tables\Filters\TrashedFilter::make(),

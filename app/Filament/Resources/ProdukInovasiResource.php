@@ -18,6 +18,7 @@ use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Symfony\Component\HttpFoundation\File\File;
 
 class ProdukInovasiResource extends Resource
 {
@@ -38,6 +39,13 @@ class ProdukInovasiResource extends Resource
                     ->label('Nama Produk')
                     ->required()
                     ->maxLength(255),
+
+                FileUpload::make('poster')
+                    ->label('Poster Produk')
+                    ->image()
+                    ->directory('produk-inovasi-poster')
+                    ->maxSize(512)
+                    ->required(),
                 
                 FileUpload::make('gambar')
                     ->label('Thumbnail Produk')
@@ -85,6 +93,7 @@ class ProdukInovasiResource extends Resource
             ->columns([
                 //
                 TextColumn::make('nama')->label('Nama Produk')->limit(50)->searchable()->sortable(),
+                ImageColumn::make('poster')->label('Poster Produk'),
                 ImageColumn::make('gambar')->label('Thumbnail Produk'),
                 TextColumn::make('created_at')->label('Tanggal Dibuat')->dateTime()->sortable(),
             ])

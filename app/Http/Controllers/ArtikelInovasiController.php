@@ -11,7 +11,7 @@ class ArtikelInovasiController extends Controller
 
     public function index()
     {
-        $artikels = ArtikelInovasi::latest()->paginate(9);
+        $artikels = ArtikelInovasi::latest()->paginate(6);
 
         return view('pages.artikel-inovasi.index', compact('artikels'));
     }

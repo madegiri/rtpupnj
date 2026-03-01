@@ -10,7 +10,7 @@ class SertifikasiController extends Controller
     //
     public function index()
     {
-        $sertifikasis = Sertifikasi::latest()->paginate(12);
+        $sertifikasis = Sertifikasi::latest()->paginate(6);
         return view('pages.sertifikasi.index', compact('sertifikasis'));
     }
 
@@ -20,7 +20,7 @@ class SertifikasiController extends Controller
 
         $related = Sertifikasi::where('id', '!=', $sertifikasi->id)
             ->latest()
-            ->take(4)
+            ->take(3)
             ->get();
 
         return view('pages.sertifikasi.show', compact('sertifikasi', 'related'));

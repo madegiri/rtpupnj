@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg sticky-top" id="mainNavbar">
+<nav class="navbar navbar-expand-xl sticky-top" id="mainNavbar">
     <div class="container">
 
         {{-- Brand / Logo --}}
@@ -356,7 +356,7 @@
 
 
 /* Mobile */
-@media (max-width: 991.98px) {
+@media (max-width: 1199.98px) {
     .navbar-toggler-custom {
         display: flex;
     }
@@ -369,8 +369,19 @@
         border-radius: 12px;
     }
 
+    /* Tambahkan ini */
+    .navbar-nav {
+        align-items: flex-start !important;  /* override ms-auto centering */
+        width: 100%;
+    }
+
+    .nav-item {
+        width: 100%;
+    }
+
     .nav-link-custom {
         padding: 0.6rem 0.75rem;
+        width: 100%;
     }
 
     .dropdown-menu-custom {

@@ -20,10 +20,10 @@
             <p class="section-subtitle">Struktur organisasi Rekayasa Teknologi dan Pusat Unggulan Politeknik Negeri Jakarta.</p>
         </div>
 
-        <div class="row g-4 justify-content-center">
+        <div class="row g-4 justify-content">
             @forelse($strukturs as $struktur)
-            <div class="col-md-4 col-lg-3">
-                <div class="person-card h-100 position-relative">
+            <div class="col-12 col-sm-6 col-lg-4">
+                <a href="{{ route('struktur-organisasi.show', $struktur->slug) }}" class="person-card h-100 position-relative" style="text-decoration:none; color:inherit;">
                     <div class="person-photo">
                         @if($struktur->gambar)
                             <img src="{{ asset('storage/' . $struktur->gambar) }}" alt="{{ $struktur->nama }}">
@@ -36,15 +36,13 @@
                     <div class="person-body">
                         <span class="person-jabatan">{{ $struktur->jabatan }}</span>
                         <h6 class="person-name">
-                            <a href="{{ route('struktur-organisasi.show', $struktur->slug) }}"
-                               >{{ $struktur->nama }}</a>
+                            {{ $struktur->nama }}
                         </h6>
                         @if($struktur->deskripsi)
                         <p class="person-desc">{{ Str::limit(html_entity_decode(strip_tags($struktur->deskripsi)), 100) }}</p>
-                        
                         @endif
                     </div>
-                </div>
+                </a>
             </div>
             @empty
             <div class="col-12">
@@ -131,7 +129,7 @@
 /* Photo */
 .person-photo {
     width: 100%;
-    height: 370px;
+    height: 400px;
     overflow: hidden;
     flex-shrink: 0;
 }
@@ -205,6 +203,7 @@
     color: #6b7280;
     line-height: 1.65;
     margin: 0;
+    text-align: justify;
 }
 
 /* ─── Empty state ─── */

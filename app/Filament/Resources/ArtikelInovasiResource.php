@@ -34,16 +34,19 @@ class ArtikelInovasiResource extends Resource
                 //
                 TextInput::make('judul')
                     ->required()
+                    ->label('Judul Artikel Inovasi')
                     ->maxLength(255),
 
                 FileUpload::make('thumbnail')
                     ->image()
                     ->directory('artikel-inovasi-thumbnails')
-                    ->maxSize(512) // Maksimal ukuran file dalam KB (1 MB)
+                    ->maxSize(512) 
+                    ->label('Thumbnail Artikel Inovasi')
                     ->required(),
 
                 RichEditor::make('isi')
                     ->required()
+                    ->label('Isi Artikel Inovasi')
                     ->columnSpanFull()
                     ->toolbarButtons([
                         'attachFiles',
@@ -69,9 +72,9 @@ class ArtikelInovasiResource extends Resource
         return $table
             ->columns([
                 //
-                Tables\Columns\TextColumn::make('judul')->searchable()->sortable(),
-                Tables\Columns\ImageColumn::make('thumbnail'),
-                Tables\Columns\TextColumn::make('created_at')->dateTime()->sortable(),
+                Tables\Columns\TextColumn::make('judul')->searchable()->sortable()->label('Judul Artikel Inovasi'),
+                Tables\Columns\ImageColumn::make('thumbnail')->label('Thumbnail Artikel Inovasi'),
+                Tables\Columns\TextColumn::make('created_at')->dateTime()->sortable()->label('Tanggal Dibuat'),
             ])
             ->filters([
                 Tables\Filters\TrashedFilter::make(),

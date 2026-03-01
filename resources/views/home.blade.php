@@ -17,7 +17,7 @@
                 <p class="lead">
                     Rekayasa Teknologi dan Produk Unggulan (RTPU) Politeknik Negeri Jakarta berfokus pada penelitian terapan, pengembangan produk, dan transfer teknologi untuk mendukung industri serta peningkatan kompetensi mahasiswa dan staf. Kami bekerja sama dengan mitra industri untuk mengkomersialkan inovasi dan menyediakan pelatihan yang relevan dengan kebutuhan pasar.
                 </p>
-                <div class="d-flex flex-wrap gap-3">
+                <div class="d-flex flex-wrap gap-2">
                     <a href="{{ route('tentang.index') }}" class="btn-hero-primary">
                         <i class="bi bi-info-circle"></i> Tentang Kami
                     </a>
@@ -96,8 +96,8 @@
         </div>
         <div class="row g-4">
             @forelse($artikelInovasi as $artikel)
-            <div class="col-md-4">
-                <div class="content-card h-100">
+            <div class="col-12 col-sm-6 col-lg-4">
+                <a href="{{ route('artikel-inovasi.show', $artikel->slug) }}" class="content-card h-100" style="text-decoration:none; color:inherit;">
                     <div class="content-card-thumb">
                         <span class="card-chip">Artikel Inovasi</span>
                         @if($artikel->thumbnail)
@@ -115,11 +115,11 @@
                             {{ $artikel->created_at->format('H:i') }} WIB
                         </div>
                         <h6 class="content-card-title">
-                            <a href="{{ route('artikel-inovasi.show', $artikel->slug) }}">{{ Str::limit($artikel->judul, 65) }}</a>
+                            {{ Str::limit($artikel->judul, 65) }}
                         </h6>
                         <p class="content-card-excerpt">{{ Str::limit(html_entity_decode(strip_tags($artikel->isi)), 110) }}</p>
                     </div>
-                </div>
+                </a>
             </div>
             @empty
             <div class="col-12">
@@ -147,8 +147,8 @@
         </div>
         <div class="row g-4">
             @forelse($beritartpu as $berita)
-            <div class="col-md-4">
-                <div class="content-card h-100">
+            <div class="col-12 col-sm-6 col-lg-4">
+                <a href="{{ route('berita.show', $berita->slug) }}" class="content-card h-100" style="text-decoration:none; color:inherit;">
                     <div class="content-card-thumb">
                         <span class="card-chip">Berita</span>
                         @if($berita->thumbnail)
@@ -166,11 +166,11 @@
                             {{ $berita->created_at->format('H:i') }} WIB
                         </div>
                         <h6 class="content-card-title">
-                            <a href="{{ route('berita.show', $berita->slug) }}">{{ Str::limit($berita->judul, 65) }}</a>
+                            {{ Str::limit($berita->judul, 65) }}
                         </h6>
                         <p class="content-card-excerpt">{{ Str::limit(html_entity_decode(strip_tags($berita->isi)), 110) }}</p>
                     </div>
-                </div>
+                </a>
             </div>
             @empty
             <div class="col-12"><div class="empty-state"><i class="bi bi-megaphone"></i><p>Belum ada berita.</p></div></div>
@@ -193,8 +193,8 @@
         </div>
         <div class="row g-4">
             @forelse($pengumumanrtpu as $pengumuman)
-            <div class="col-md-4">
-                <div class="content-card h-100">
+            <div class="col-12 col-sm-6 col-lg-4">
+                <a href="{{ route('pengumuman.show', $pengumuman->slug) }}" class="content-card h-100" style="text-decoration:none; color:inherit;">
                     <div class="content-card-thumb">
                         <span class="card-chip">Pengumuman</span>
                         @if($pengumuman->thumbnail)
@@ -212,11 +212,11 @@
                             {{ $pengumuman->created_at->format('H:i') }} WIB
                         </div>
                         <h6 class="content-card-title">
-                            <a href="{{ route('pengumuman.show', $pengumuman->slug) }}">{{ Str::limit($pengumuman->judul, 65) }}</a>
+                            {{ Str::limit($pengumuman->judul, 65) }}
                         </h6>
                         <p class="content-card-excerpt">{{ Str::limit(html_entity_decode(strip_tags($pengumuman->isi)), 110) }}</p>
                     </div>
-                </div>
+                </a>
             </div>
             @empty
             <div class="col-12"><div class="empty-state"><i class="bi bi-bell"></i><p>Belum ada pengumuman.</p></div></div>
@@ -239,8 +239,8 @@
         </div>
         <div class="row g-4">
             @forelse($produkUnggulan as $produk)
-            <div class="col-md-4">
-                <div class="content-card h-100">
+            <div class="col-12 col-sm-6 col-lg-4">
+                <a href="{{ route('produk-unggulan.show', $produk->slug) }}" class="content-card h-100" style="text-decoration:none; color:inherit;">
                     <div class="content-card-thumb">
                         <span class="card-chip">Produk Unggulan</span>
                         @if($produk->gambar)
@@ -258,11 +258,11 @@
                             {{ $produk->created_at->format('H:i') }} WIB
                         </div>
                         <h6 class="content-card-title">
-                            <a href="{{ route('produk-unggulan.show', $produk->slug) }}">{{ Str::limit($produk->nama, 50) }}</a>
+                            {{ Str::limit($produk->nama, 50) }}
                         </h6>
                         <p class="content-card-excerpt">{{ Str::limit(html_entity_decode(strip_tags($produk->deskripsi)), 80) }}</p>
                     </div>
-                </div>
+                </a>
             </div>
             @empty
             <div class="col-12"><div class="empty-state"><i class="bi bi-star"></i><p>Belum ada produk unggulan.</p></div></div>
@@ -285,8 +285,8 @@
         </div>
         <div class="row g-4">
             @forelse($produkInovasi as $produk)
-            <div class="col-md-4">
-                <div class="content-card h-100">
+            <div class="col-12 col-sm-6 col-lg-4">
+                <a href="{{ route('produk-inovasi.show', $produk->slug) }}" class="content-card h-100" style="text-decoration:none; color:inherit;">
                     <div class="content-card-thumb">
                         <span class="card-chip">Produk Inovasi</span>
                         @if($produk->gambar)
@@ -304,11 +304,11 @@
                             {{ $produk->created_at->format('H:i') }} WIB
                         </div>
                         <h6 class="content-card-title">
-                            <a href="{{ route('produk-inovasi.show', $produk->slug) }}">{{ Str::limit($produk->nama, 50) }}</a>
+                            {{ Str::limit($produk->nama, 50) }}
                         </h6>
                         <p class="content-card-excerpt">{{ Str::limit(html_entity_decode(strip_tags($produk->deskripsi)), 80) }}</p>
                     </div>
-                </div>
+                </a>
             </div>
             @empty
             <div class="col-12"><div class="empty-state"><i class="bi bi-lightbulb"></i><p>Belum ada produk inovasi.</p></div></div>
@@ -331,8 +331,8 @@
         </div>
         <div class="row g-4">
             @forelse($sertifikasirtpu as $sertifikasi)
-            <div class="col-md-4">
-                <div class="content-card h-100">
+            <div class="col-12 col-sm-6 col-lg-4">
+                <a href="{{ route('sertifikasi.show', $sertifikasi->slug) }}" class="content-card h-100" style="text-decoration:none; color:inherit;">
                     <div class="content-card-thumb">
                         <span class="card-chip">{{ Str::limit($sertifikasi->penyelenggara, 30) }}</span>
                         @if($sertifikasi->gambar)
@@ -350,11 +350,11 @@
                             {{ $sertifikasi->created_at->format('H:i') }} WIB
                         </div>
                         <h6 class="content-card-title">
-                            <a href="{{ route('sertifikasi.show', $sertifikasi->slug) }}">{{ Str::limit($sertifikasi->nama, 55) }}</a>
+                            {{ Str::limit($sertifikasi->nama, 55) }}
                         </h6>
                         <p class="content-card-excerpt">{{ Str::limit(html_entity_decode(strip_tags($sertifikasi->deskripsi)), 80) }}</p>
                     </div>
-                </div>
+                </a>
             </div>
             @empty
             <div class="col-12"><div class="empty-state"><i class="bi bi-award"></i><p>Belum ada sertifikasi.</p></div></div>
@@ -402,7 +402,7 @@
     letter-spacing: -0.02em; line-height: 1.25; margin: 0;
 }
 
-.section-subtitle { font-size: 0.95rem; color: #6b7280; max-width: 520px; margin-top: 0.5rem; }
+.section-subtitle { font-size: 0.95rem; color: #6b7280; max-width: auto; margin-top: 0.5rem; }
 
 .btn-lihat-semua {
     display: inline-flex; align-items: center; gap: 0.4rem;
@@ -426,7 +426,7 @@
 .content-card-thumb img {
     width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.35s ease;
 }
-.content-card:hover .content-card-thumb img { transform: scale(1.04); }
+
 .content-card-thumb-placeholder {
     width: 100%; height: 100%; background: #f3f4f6;
     display: flex; align-items: center; justify-content: center; color: #9ca3af; font-size: 2.5rem;
@@ -465,11 +465,11 @@
 }
 .content-card-title {
     font-size: 0.925rem; font-weight: 600; color: #111827;
-    line-height: 1.45; letter-spacing: -0.01em; margin: 0 0 0.5rem;
+    line-height: 1.45; letter-spacing: -0.01em; margin: 0 0 0.5rem; text-align: justify;
 }
 .content-card-title a { color: inherit; text-decoration: none; }
 .content-card-title a:hover { color: #00998a; }
-.content-card-excerpt { font-size: 0.845rem; color: #6b7280; line-height: 1.65; margin: 0; flex: 1; }
+.content-card-excerpt { font-size: 0.845rem; color: #6b7280; line-height: 1.65; margin: 0; flex: 1; text-align: justify;}
 
 /* ─── Stats bar ─── */
 .stats-bar { background: #00998a; padding: 2.25rem 0; }
@@ -485,7 +485,7 @@
     display: flex; align-items: center; justify-content: space-between; gap: 2rem; flex-wrap: wrap;
 }
 .cta-title { font-size: 1.45rem; font-weight: 700; color: #111827; letter-spacing: -0.02em; margin-bottom: 0.5rem; }
-.cta-desc { font-size: 0.9rem; color: #6b7280; max-width: 500px; line-height: 1.7; margin: 0; }
+.cta-desc { font-size: 0.9rem; color: #6b7280; max-width: auto; line-height: 1.7; margin: 0; }
 .btn-cta-primary {
     display: inline-flex; align-items: center; gap: 0.5rem;
     font-family: "Poppins", sans-serif; font-size: 0.9rem; font-weight: 600;

@@ -63,8 +63,8 @@
             </div>
             <div class="row g-4">
                 @foreach($related as $item)
-                <div class="col-md-4">
-                    <div class="content-card h-100">
+                <div class="col-12 col-sm-6 col-lg-4">
+                    <a href="{{ route('artikel-inovasi.show', $item->slug) }}" class="content-card h-100" style="text-decoration:none; color:inherit;">
                         <div class="content-card-thumb">
                             <span class="card-chip">Artikel Inovasi</span>
                             @if($item->thumbnail)
@@ -78,17 +78,17 @@
                         <div class="content-card-body">
                             <div class="date-badge mt-1 mb-2">
                                 <i class="bi bi-calendar3"></i>
-                                {{ $item->created_at->translatedFormat('d M Y') }}
+                                {{ $item->created_at->translatedFormat('d F Y') }}
                                 <span class="date-sep">·</span>
                                 <i class="bi bi-clock"></i>
                                 {{ $item->created_at->format('H:i') }} WIB
                             </div>
                             <h6 class="content-card-title">
-                                <a href="{{ route('artikel-inovasi.show', $item->slug) }}"
-                                   >{{ Str::limit($item->judul, 65) }}</a>
+                                {{ Str::limit($item->judul, 65) }}
                             </h6>
+                            <p class="content-card-excerpt">{{ Str::limit(html_entity_decode(strip_tags($item->isi)), 120) }}</p>
                         </div>
-                    </div>
+                    </a>
                 </div>
                 @endforeach
             </div>
@@ -197,6 +197,7 @@
     font-size: 1rem;
     line-height: 1.9;
     color: #374151;
+    text-align: justify;
 }
 
 .article-body h1,
@@ -317,6 +318,15 @@
 }
 
 .content-card:hover .content-card-thumb img { transform: scale(1.04); }
+
+.content-card-excerpt {
+    font-size: 0.845rem;
+    color: #6b7280;
+    line-height: 1.65;
+    margin: 0;
+    flex: 1;
+    text-align: justify;
+}
 
 .content-card-thumb-placeholder {
     width: 100%;

@@ -16,13 +16,13 @@
             </nav>
             {{-- <span class="section-eyebrow">Inovasi</span> --}}
             <h1 class="section-title mt-1">Produk Inovasi</h1>
-            <p class="section-subtitle">Inovasi teknologi terapan hasil penelitian dan pengembangan RTPU PNJ.</p>
+            <p class="section-subtitle">Inovasi teknologi hasil penelitian dan pengembangan RTPU PNJ.</p>
         </div>
 
         <div class="row g-4">
             @forelse($produkInovasis as $produk)
-            <div class="col-md-4">
-                <div class="content-card h-100">
+            <div class="col-12 col-sm-6 col-lg-4">
+                <a href="{{ route('produk-inovasi.show', $produk->slug) }}" class="content-card h-100" style="text-decoration:none; color:inherit;">
                     <div class="content-card-thumb">
                         <span class="card-chip">Produk Inovasi</span>
                         @if($produk->gambar)
@@ -42,12 +42,11 @@
                             {{ $produk->created_at->format('H:i') }}
                         </div>
                         <h6 class="content-card-title">
-                            <a href="{{ route('produk-inovasi.show', $produk->slug) }}"
-                               >{{ Str::limit($produk->nama, 70) }}</a>
+                            {{ Str::limit($produk->nama, 70) }}
                         </h6>
                         <p class="content-card-excerpt">{{ Str::limit(strip_tags($produk->deskripsi), 100) }}</p>
                     </div>
-                </div>
+                </a>
             </div>
             @empty
             <div class="col-12">
@@ -104,7 +103,7 @@
 .content-card-thumb img {
     width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.35s ease;
 }
-.content-card:hover .content-card-thumb img { transform: scale(1.04); }
+
 .content-card-thumb-placeholder {
     width: 100%; height: 100%; background: #f3f4f6;
     display: flex; align-items: center; justify-content: center; color: #9ca3af; font-size: 2.5rem;
@@ -139,11 +138,11 @@
 }
 .content-card-title {
     font-size: 0.925rem; font-weight: 600; color: #111827;
-    line-height: 1.45; letter-spacing: -0.01em; margin: 0 0 0.5rem;
+    line-height: 1.45; letter-spacing: -0.01em; margin: 0 0 0.5rem; text-align: justify;
 }
 .content-card-title a { color: inherit; text-decoration: none; transition: color 0.2s; }
 .content-card-title a:hover { color: #00998a; }
-.content-card-excerpt { font-size: 0.845rem; color: #6b7280; line-height: 1.65; margin: 0; flex: 1; }
+.content-card-excerpt { font-size: 0.845rem; color: #6b7280; line-height: 1.65; margin: 0; flex: 1; text-align: justify;}
 
 .empty-state { text-align: center; padding: 4rem 2rem; color: #9ca3af; }
 .empty-state i { font-size: 3rem; display: block; margin-bottom: 0.85rem; }

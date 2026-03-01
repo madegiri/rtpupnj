@@ -18,9 +18,9 @@ class HomeController extends Controller
     $artikelInovasi = ArtikelInovasi::latest()->take(3)->get();
     $beritartpu = Berita::latest()->take(3)->get();
     $pengumumanrtpu = Pengumuman::latest()->take(3)->get();
-    $produkUnggulan = ProdukUnggulan::latest()->take(4)->get();
-    $produkInovasi = ProdukInovasi::latest()->take(4)->get();
-    $sertifikasirtpu = Sertifikasi::latest()->take(4)->get();
+    $produkUnggulan = ProdukUnggulan::latest()->take(3)->get();
+    $produkInovasi = ProdukInovasi::latest()->take(3)->get();
+    $sertifikasirtpu = Sertifikasi::latest()->take(3)->get();
 
     $stats = [
         'artikel_inovasi' => ArtikelInovasi::count(),

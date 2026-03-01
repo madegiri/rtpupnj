@@ -54,7 +54,9 @@
                         @if($produk->gambar)
                         <div class="article-hero-img mb-3">
                             <span class="card-chip">Produk Unggulan</span>
-                            <img src="{{ asset('storage/' . $produk->gambar) }}" alt="{{ $produk->nama }}">
+                            <a href="{{ asset('storage/' . $produk->gambar) }}" target="_blank">
+                                <img src="{{ asset('storage/' . $produk->gambar) }}" alt="{{ $produk->nama }}">
+                            </a>
                         </div>
                         @endif
 
@@ -120,8 +122,8 @@
             </div>
             <div class="row g-4">
                 @foreach($related as $item)
-                <div class="col-md-4">
-                    <div class="content-card h-100">
+                <div class="col-12 col-sm-6 col-lg-4">
+                    <a href="{{ route('produk-unggulan.show', $item->slug) }}" class="content-card h-100" style="text-decoration:none; color:inherit;">
                         <div class="content-card-thumb">
                             <span class="card-chip">Produk Unggulan</span>
                             @if($item->gambar)
@@ -142,11 +144,11 @@
                                 {{ $item->created_at->format('H:i') }}
                             </div>
                             <h6 class="content-card-title">
-                                <a href="{{ route('produk-unggulan.show', $item->slug) }}"
-                                   >{{ Str::limit($item->nama, 50) }}</a>
+                                {{ Str::limit($item->nama, 80) }}
                             </h6>
+                            <p class="content-card-excerpt">{{ Str::limit(strip_tags($item->deskripsi), 100) }}</p>
                         </div>
-                    </div>
+                    </a>
                 </div>
                 @endforeach
             </div>
@@ -200,7 +202,7 @@
 .article-title {
     font-size: clamp(1.5rem, 3vw, 2rem);
     font-weight: 700; color: #111827; line-height: 1.4;
-    letter-spacing: -0.02em; margin: 0.75rem 0 1rem;
+    letter-spacing: -0.02em; margin: 0.75rem 0 1rem; text-align: justify;
 }
 
 .article-meta {
@@ -242,7 +244,7 @@
 .poster-img {
     width: 100%;
     height: 100%;
-    object-fit: contain;
+    object-fit: cover;
     border-radius: 8px;
     flex: 1;
     min-height: 0;
@@ -320,7 +322,7 @@
 .produk-desc-title i { color: #00998a; }
 
 /* ─── Article body ─── */
-.article-body { font-size: 1rem; line-height: 1.9; color: #374151; }
+.article-body { font-size: 1rem; line-height: 1.9; color: #374151; text-align: justify;}
 .article-body p { margin-bottom: 1.25rem; }
 .article-body p:last-child { margin-bottom: 0; }
 
@@ -370,7 +372,7 @@
 .content-card-thumb img {
     width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.35s ease;
 }
-.content-card:hover .content-card-thumb img { transform: scale(1.04); }
+
 .content-card-thumb-placeholder {
     width: 100%; height: 100%; background: #f3f4f6;
     display: flex; align-items: center; justify-content: center; color: #9ca3af; font-size: 2.25rem;
@@ -380,10 +382,11 @@
 }
 .content-card-title {
     font-size: 0.9rem; font-weight: 600; color: #111827;
-    line-height: 1.45; letter-spacing: -0.01em; margin: 0.25rem 0 0;
+    line-height: 1.45; letter-spacing: -0.01em; margin: 0.25rem 0 0; text-align: justify;
 }
 .content-card-title a { color: inherit; text-decoration: none; transition: color 0.2s; }
 .content-card-title a:hover { color: #00998a; }
+.content-card-excerpt { font-size: 0.845rem; color: #6b7280; line-height: 1.65; margin: 0; flex: 1; text-align: justify; }
 
 /* ─── Lihat semua ─── */
 .btn-lihat-semua {

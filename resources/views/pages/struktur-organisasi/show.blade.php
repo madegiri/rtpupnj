@@ -45,18 +45,16 @@
                     </div>
                 </div>
             </div>
-            <div class="row justify-content">
-                <div class="col-lg-12">
-                    {{-- Deskripsi --}}
-                    @if($strukturorgs->deskripsi)
-                    <div class="profile-section">
-                        <h5 class="profile-section-title">Profil</h5>
-                        <div class="article-body">
-                            {!! $strukturorgs->deskripsi !!}
-                        </div>
+            <div class="col-lg-12">
+                {{-- Deskripsi --}}
+                @if($strukturorgs->deskripsi)
+                <div class="profile-section">
+                    <h5 class="profile-section-title">Profil</h5>
+                    <div class="article-body">
+                        {!! $strukturorgs->deskripsi !!}
                     </div>
-                    @endif
                 </div>
+                @endif
             </div>
         </div>
 
@@ -69,8 +67,8 @@
             </div>
             <div class="row g-4 justify-content">
                 @foreach($related as $item)
-                <div class="col-md-4 col-lg-3">
-                    <div class="person-card h-100 position-relative">
+                <div class="col-12 col-sm-6 col-lg-4">
+                    <a href="{{ route('struktur-organisasi.show', $item->slug) }}" class="person-card h-100 position-relative" style="text-decoration:none; color:inherit;">
                         <div class="person-photo">
                             @if($item->gambar)
                                 <img src="{{ asset('storage/' . $item->gambar) }}" alt="{{ $item->nama }}">
@@ -83,11 +81,13 @@
                         <div class="person-body">
                             <span class="person-jabatan">{{ $item->jabatan }}</span>
                             <h6 class="person-name">
-                                <a href="{{ route('struktur-organisasi.show', $item->slug) }}"
-                                   >{{ $item->nama }}</a>
+                                {{ $item->nama }}
                             </h6>
+                            @if($item->deskripsi)
+                            <p class="person-desc">{{ Str::limit(html_entity_decode(strip_tags($item->deskripsi)), 100) }}</p>
+                            @endif
                         </div>
-                    </div>
+                    </a>
                 </div>
                 @endforeach
             </div>
@@ -147,6 +147,20 @@
     border-radius: 16px;
     overflow: hidden;
     margin-bottom: 2rem;
+}
+
+@media (max-width: 767.98px) {
+    .profile-hero {
+        grid-template-columns: 1fr;
+    }
+    .profile-photo {
+        height: 320px;
+        aspect-ratio: unset;
+    }
+    .profile-info {
+        padding: 1.25rem;
+    }
+    .profile-name { font-size: 1.2rem; }
 }
 
 @media (max-width: 575.98px) {
@@ -245,6 +259,7 @@
     font-size: 1rem;
     line-height: 1.9;
     color: #374151;
+    text-align: justify;
 }
 
 .article-body p { margin-bottom: 1.25rem; }
@@ -334,7 +349,7 @@
 
 .person-photo {
     width: 100%;
-    height: 370px;
+    aspect-ratio: 3 / 4;
     overflow: hidden;
     flex-shrink: 0;
 }
@@ -397,6 +412,14 @@
     transition: color 0.2s;
 }
 .person-name a:hover { color: #00998a; }
+
+.person-desc {
+    font-size: 0.845rem;
+    color: #6b7280;
+    line-height: 1.65;
+    margin: 0;
+    text-align: justify;
+}
 
 /* ─── Lihat semua ─── */
 .btn-lihat-semua {

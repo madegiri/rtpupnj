@@ -38,16 +38,19 @@ class PengumumanResource extends Resource
                 //
                 TextInput::make('judul')
                     ->required()
+                    ->label('Judul Pengumuman')
                     ->maxLength(255),
                 
                 FileUpload::make('thumbnail')
                     ->image()
                     ->directory('pengumuman-thumbnails')
                     ->maxSize(512) 
+                    ->label('Thumbnail Pengumuman')
                     ->required(),
                 
                 RichEditor::make('isi')
                     ->required()
+                    ->label('Isi Pengumuman')
                     ->columnSpanFull()
                     ->toolbarButtons([
                         'attachFiles',
@@ -73,9 +76,9 @@ class PengumumanResource extends Resource
         return $table
             ->columns([
                 //
-                TextColumn::make('judul')->searchable()->sortable(),
-                ImageColumn::make('thumbnail'),
-                TextColumn::make('created_at')->dateTime()->sortable(),
+                TextColumn::make('judul')->searchable()->sortable()->label('Judul Pengumuman'),
+                ImageColumn::make('thumbnail')->label('Thumbnail Pengumuman'),
+                TextColumn::make('created_at')->dateTime()->sortable()->label('Tanggal Dibuat'),
             ])
             ->filters([
                 Tables\Filters\TrashedFilter::make(),

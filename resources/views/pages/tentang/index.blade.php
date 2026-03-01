@@ -85,6 +85,7 @@
     font-size: 1rem;
     line-height: 1.9;
     color: #374151;
+    text-align: justify;
 }
 
 .article-body h1,

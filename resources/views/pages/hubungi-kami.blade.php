@@ -17,7 +17,7 @@
         <div class="row g-4 justify-content-center mb-5">
             <div class="col-md-6 col-lg-3">
                 <div class="contact-card">
-                    <div class="contact-icon">
+                    <div class="contact-ic">
                         <i class="bi bi-geo-alt-fill"></i>
                     </div>
                     <div class="contact-label">Alamat</div>
@@ -30,7 +30,7 @@
 
             <div class="col-md-6 col-lg-3">
                 <div class="contact-card">
-                    <div class="contact-icon">
+                    <div class="contact-ic">
                         <i class="bi bi-telephone-fill"></i>
                     </div>
                     <div class="contact-label">Telepon</div>
@@ -43,7 +43,7 @@
 
             <div class="col-md-6 col-lg-3">
                 <div class="contact-card">
-                    <div class="contact-icon">
+                    <div class="contact-ic">
                         <i class="bi bi-envelope-fill"></i>
                     </div>
                     <div class="contact-label">Email</div>
@@ -55,7 +55,7 @@
 
             <div class="col-md-6 col-lg-3">
                 <div class="contact-card">
-                    <div class="contact-icon">
+                    <div class="contact-ic">
                         <i class="bi bi-clock-fill"></i>
                     </div>
                     <div class="contact-label">Jam Operasional</div>
@@ -105,7 +105,7 @@
     letter-spacing: -0.02em; line-height: 1.2; margin-bottom: 0.4rem;
 }
 .section-subtitle {
-    font-size: 0.95rem; color: #6b7280; margin: 0; max-width: 480px;
+    font-size: 0.95rem; color: #6b7280; margin: 0; max-width: auto;
 }
 
 /* ─── Contact card ─── */
@@ -125,7 +125,7 @@
     border-color: transparent;
 }
 
-.contact-icon {
+.contact-ic {
     width: 52px;
     height: 52px;
     border-radius: 14px;

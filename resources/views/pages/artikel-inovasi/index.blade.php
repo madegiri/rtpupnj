@@ -18,14 +18,14 @@
             </nav>
             {{-- <span class="section-eyebrow">Terbaru</span> --}}
             <h1 class="section-title mt-1">Artikel Inovasi</h1>
-            <p class="section-subtitle">Kumpulan artikel inovasi teknologi terapan dari RTPU Politeknik Negeri Jakarta.</p>
+            <p class="section-subtitle">Kumpulan artikel inovasi dari RTPU Politeknik Negeri Jakarta.</p>
         </div>
 
         {{-- Grid Artikel --}}
         <div class="row g-4">
             @forelse($artikels as $artikel)
-            <div class="col-md-4">
-                <div class="content-card h-100">
+            <div class="col-12 col-sm-6 col-lg-4">
+                <a href="{{ route('artikel-inovasi.show', $artikel->slug) }}" class="content-card h-100" style="text-decoration:none; color:inherit;">
                     <div class="content-card-thumb">
                         <span class="card-chip">Artikel Inovasi</span>
                         @if($artikel->thumbnail)
@@ -45,12 +45,11 @@
                             {{ $artikel->created_at->format('H:i') }}
                         </div>
                         <h6 class="content-card-title">
-                            <a href="{{ route('artikel-inovasi.show', $artikel->slug) }}"
-                               >{{ Str::limit($artikel->judul, 65) }}</a>
+                            {{ Str::limit($artikel->judul, 65) }}
                         </h6>
                         <p class="content-card-excerpt">{{ Str::limit(html_entity_decode(strip_tags($artikel->isi)), 120) }}</p>
                     </div>
-                </div>
+                </a>
             </div>
             @empty
             <div class="col-12">
@@ -132,7 +131,7 @@
     font-size: 0.95rem;
     color: #6b7280;
     margin: 0;
-    max-width: 520px;
+    max-width: auto;
 }
 
 /* ─── Content Card ─── */
@@ -168,9 +167,9 @@
     transition: transform 0.35s ease;
 }
 
-.content-card:hover .content-card-thumb img {
+/* .content-card:hover .content-card-thumb img {
     transform: scale(1.04);
-}
+} */
 
 .content-card-thumb-placeholder {
     width: 100%;
@@ -251,6 +250,7 @@
     line-height: 1.65;
     margin: 0;
     flex: 1;
+    text-align: justify;
 }
 
 /* ─── Empty state ─── */

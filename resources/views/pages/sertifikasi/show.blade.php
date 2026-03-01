@@ -67,17 +67,6 @@
                         {!! $sertifikasi->deskripsi !!}
                     </div>
                 </div>
-
-                {{-- Tombol aksi --}}
-                {{-- <div class="d-flex gap-3 flex-wrap mt-5 pt-4" style="border-top: 1px solid #e5e7eb;">
-                    <a href="{{ route('sertifikasi.index') }}" class="btn-back">
-                        <i class="bi bi-arrow-left"></i> Kembali
-                    </a>
-                    <a href="{{ route('hubungi-kami') }}" class="btn-contact">
-                        <i class="bi bi-envelope"></i> Hubungi Kami
-                    </a>
-                </div> --}}
-
             </div>
         </div>
 
@@ -90,8 +79,8 @@
             </div>
             <div class="row g-4">
                 @foreach($related as $item)
-                <div class="col-md-4">
-                    <div class="content-card h-100">
+                <div class="col-12 col-sm-6 col-lg-4">
+                    <a href="{{ route('sertifikasi.show', $item->slug) }}" class="content-card h-100" style="text-decoration:none; color:inherit;">
                         <div class="content-card-thumb">
                             <span class="card-chip">{{ Str::limit($item->penyelenggara, 30) }}</span>
                             @if($item->gambar)
@@ -111,11 +100,11 @@
                                 {{ $item->created_at->format('H:i') }}
                             </div>
                             <h6 class="content-card-title">
-                                <a href="{{ route('sertifikasi.show', $item->slug) }}"
-                                   >{{ Str::limit($item->nama, 55) }}</a>
+                                {{ Str::limit($item->nama, 55) }}
                             </h6>
+                            <p class="content-card-excerpt">{{ Str::limit(html_entity_decode(strip_tags($item->deskripsi)), 100) }}</p>
                         </div>
-                    </div>
+                    </a>
                 </div>
                 @endforeach
             </div>
@@ -237,7 +226,7 @@
 }
 .produk-desc-title i { color: #00998a; }
 
-.article-body { font-size: 1rem; line-height: 1.9; color: #374151; }
+.article-body { font-size: 1rem; line-height: 1.9; color: #374151; text-align: justify;}
 .article-body p { margin-bottom: 1.25rem; }
 .article-body p:last-child { margin-bottom: 0; }
 
@@ -285,7 +274,7 @@
 .content-card-thumb img {
     width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.35s ease;
 }
-.content-card:hover .content-card-thumb img { transform: scale(1.04); }
+
 .content-card-thumb-placeholder {
     width: 100%; height: 100%; background: #f3f4f6;
     display: flex; align-items: center; justify-content: center; color: #9ca3af; font-size: 2.25rem;
@@ -299,6 +288,7 @@
 }
 .content-card-title a { color: inherit; text-decoration: none; transition: color 0.2s; }
 .content-card-title a:hover { color: #00998a; }
+.content-card-excerpt { font-size: 0.845rem; color: #6b7280; line-height: 1.65; margin: 0; flex: 1; text-align: justify;}
 
 .btn-lihat-semua {
     display: inline-flex; align-items: center; gap: 0.4rem;

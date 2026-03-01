@@ -49,7 +49,7 @@ class CaintController extends Controller
     {
         $produks = CaintProduk::where('kategori', $kategori)
             ->latest()
-            ->paginate(9);
+            ->paginate(6);
 
         $config = $this->kategoriConfig();
         $cfg    = $config[$kategori];
@@ -89,7 +89,7 @@ class CaintController extends Controller
         $related = CaintProduk::where('id', '!=', $produk->id)
             ->where('kategori', $produk->kategori)
             ->latest()
-            ->take(4)
+            ->take(3)
             ->get();
 
         // Ambil related dari kategori yang sama saja, tanpa fallback

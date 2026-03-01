@@ -10,7 +10,7 @@ class ProdukInovasiController extends Controller
     //
     public function index()
     {
-        $produkInovasis = ProdukInovasi::latest()->paginate(12);
+        $produkInovasis = ProdukInovasi::latest()->paginate(6);
         return view('pages.produk-inovasi.index', compact('produkInovasis'));
     }
 
@@ -20,7 +20,7 @@ class ProdukInovasiController extends Controller
 
         $related = ProdukInovasi::where('id', '!=', $produk->id)
             ->latest()
-            ->take(4)
+            ->take(3)
             ->get();
 
         return view('pages.produk-inovasi.show', compact('produk', 'related'));

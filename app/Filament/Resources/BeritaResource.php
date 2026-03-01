@@ -37,16 +37,19 @@ class BeritaResource extends Resource
                 //
                 TextInput::make('judul')
                     ->required()
+                    ->label('Judul Berita')
                     ->maxLength(255),
 
                 FileUpload::make('thumbnail')
                     ->image()
                     ->directory('berita-thumbnails')
                     ->maxSize(512) 
+                    ->label('Thumbnail Berita')
                     ->required(),
                 
                 RichEditor::make('isi')
                     ->required()
+                    ->label('Isi Berita')
                     ->columnSpanFull()
                     ->toolbarButtons([
                         'attachFiles',
@@ -72,9 +75,9 @@ class BeritaResource extends Resource
         return $table
             ->columns([
                 //
-                TextColumn::make('judul')->searchable()->sortable(),
-                ImageColumn::make('thumbnail'),
-                TextColumn::make('created_at')->dateTime()->sortable(),
+                TextColumn::make('judul')->searchable()->sortable()->label('Judul Berita'),
+                ImageColumn::make('thumbnail')->label('Thumbnail Berita'),
+                TextColumn::make('created_at')->dateTime()->sortable()->label('Tanggal Dibuat'),
             ])
             ->filters([
                 Tables\Filters\TrashedFilter::make(),

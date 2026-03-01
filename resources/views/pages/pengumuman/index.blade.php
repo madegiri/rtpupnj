@@ -22,8 +22,8 @@
         {{-- Grid Pengumuman --}}
         <div class="row g-4">
             @forelse($pengumumans as $pengumuman)
-            <div class="col-md-4">
-                <div class="content-card h-100">
+            <div class="col-12 col-sm-6 col-lg-4">
+                <a href="{{ route('pengumuman.show', $pengumuman->slug) }}" class="content-card h-100" style="text-decoration:none; color:inherit;">
                     <div class="content-card-thumb">
                         <span class="card-chip">Pengumuman</span>
                         @if($pengumuman->thumbnail)
@@ -43,11 +43,11 @@
                             {{ $pengumuman->created_at->format('H:i') }} WIB
                         </div>
                         <h6 class="content-card-title">
-                            <a href="{{ route('pengumuman.show', $pengumuman->slug) }}">{{ Str::limit($pengumuman->judul, 65) }}</a>
+                            {{ Str::limit($pengumuman->judul, 65) }}
                         </h6>
                         <p class="content-card-excerpt">{{ Str::limit(html_entity_decode(strip_tags($pengumuman->isi)), 110) }}</p>
                     </div>
-                </div>
+                </a>
             </div>
             @empty
             <div class="col-12">
@@ -150,7 +150,7 @@
     display: block;
     transition: transform 0.35s ease;
 }
-.content-card:hover .content-card-thumb img { transform: scale(1.04); }
+
 .content-card-thumb-placeholder {
     width: 100%;
     height: 100%;
@@ -213,6 +213,7 @@
     line-height: 1.65;
     margin: 0;
     flex: 1;
+    text-align: justify;
 }
 
 .date-badge {

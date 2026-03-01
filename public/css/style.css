@@ -220,6 +220,7 @@ body {
     max-width: 500px;
     line-height: 1.8;
     margin-bottom: 2rem;
+    text-align: justify;
 }
 
 .hero-section .btn-hero-primary {

@@ -10,7 +10,7 @@ class ProdukUnggulanController extends Controller
     //
     public function index()
     {
-        $produkUnggulans = ProdukUnggulan::latest()->paginate(3);
+        $produkUnggulans = ProdukUnggulan::latest()->paginate(6);
         return view('pages.produk-unggulan.index', compact('produkUnggulans'));
     }
 

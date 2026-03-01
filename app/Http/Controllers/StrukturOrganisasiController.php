@@ -19,7 +19,7 @@ class StrukturOrganisasiController extends Controller
         $strukturorgs = StrukturOrganisasi::where('slug', $slug)->firstOrFail();
 
         $related = StrukturOrganisasi::where('id', '!=', $strukturorgs->id)
-            ->take(4)
+            ->take(3)
             ->get();
 
         return view('pages.struktur-organisasi.show', compact('strukturorgs', 'related'));

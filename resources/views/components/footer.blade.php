@@ -159,6 +159,7 @@
     line-height: 1.8;
     margin: 0 0 1.5rem;
     max-width: 280px;
+    text-align: justify;
 }
 
 /* Social icons */

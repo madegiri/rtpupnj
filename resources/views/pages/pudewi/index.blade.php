@@ -109,7 +109,7 @@
 .produk-desc-title i { color: #00998a; }
 
 /* ─── Article body ─── */
-.article-body { font-size: 1rem; line-height: 1.9; color: #374151; }
+.article-body { font-size: 1rem; line-height: 1.9; color: #374151; text-align: justify;}
 .article-body p { margin-bottom: 1.25rem; }
 .article-body p:last-child { margin-bottom: 0; }
 .article-body h2,.article-body h3,.article-body h4 {

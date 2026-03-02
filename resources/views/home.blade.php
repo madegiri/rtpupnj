@@ -8,7 +8,7 @@
 <section class="hero-section" style="position:relative; min-height:82vh; overflow:hidden; padding:0;">
     {{-- Background Image --}}
     <div style="position:absolute; inset:0; z-index:0;">
-        <img src="{{ asset('storage/pnj/foto-pnj.jpg') }}" alt="RTPU PNJ"
+        <img src="{{ asset('logo/foto-pnj.jpg') }}" alt="RTPU PNJ"
              style="width:100%; height:100%; object-fit:cover; display:block;">
 
         <div style="position:absolute; inset:0; background: linear-gradient(to right, rgba(0,60,50,0.85) 50%, rgba(0,60,50,0.3) 100%);"></div>

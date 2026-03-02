@@ -6,7 +6,7 @@
             {{-- Kolom 1: Logo & Deskripsi --}}
             <div class="footer-col footer-col--brand">
                 <div class="footer-brand">
-                    <img src="{{ asset('storage/logo-rtpu/logo.png') }}" alt="Logo PNJ" height="46">
+                    <img src="{{ asset('logo/logo.png') }}" alt="Logo PNJ" height="46">
                     <div class="footer-brand-text">
                         <span class="footer-brand-name">RTPU PNJ</span>
                         <span class="footer-brand-sub">Politeknik Negeri Jakarta</span>

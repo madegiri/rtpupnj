@@ -3,7 +3,7 @@
 
         {{-- Brand / Logo --}}
         <a class="navbar-brand d-flex align-items-center gap-2" href="{{ route('home') }}">
-            <img src="{{ asset('storage/logo-rtpu/logo.png') }}" alt="Logo PNJ" height="42">
+            <img src="{{ asset('logo/logo.png') }}" alt="Logo PNJ" height="42">
             <div class="d-none d-md-block navbar-brand-text">
                 <div class="brand-name">RTPU</div>
                 <div class="brand-sub">Politeknik Negeri Jakarta</div>

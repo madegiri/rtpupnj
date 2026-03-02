@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', $sertifikasi->nama . ' - Sertifikasi RTPU PNJ')
+@section('title', $sertifikasi->nama . ' - Pelatihan RTPU PNJ')
 
 @section('content')
 <section class="py-5">
@@ -10,7 +10,7 @@
         <nav aria-label="breadcrumb" class="mb-4">
             <ol class="breadcrumb breadcrumb-custom">
                 <li class="breadcrumb-item"><a href="{{ route('home') }}">Beranda</a></li>
-                <li class="breadcrumb-item"><a href="{{ route('sertifikasi.index') }}">Sertifikasi</a></li>
+                <li class="breadcrumb-item"><a href="{{ route('sertifikasi.index') }}">Pelatihan</a></li>
                 <li class="breadcrumb-item active">{{ Str::limit($sertifikasi->nama, 40) }}</li>
             </ol>
         </nav>
@@ -75,7 +75,7 @@
         <div class="related-section">
             <div class="related-header">
                 <span class="section-eyebrow">Lihat Juga</span>
-                <h2 class="section-title mt-1">Sertifikasi Lainnya</h2>
+                <h2 class="section-title mt-1">Pelatihan Lainnya</h2>
             </div>
             <div class="row g-4">
                 @foreach($related as $item)
@@ -110,7 +110,7 @@
             </div>
             <div class="text-center mt-4">
                 <a href="{{ route('sertifikasi.index') }}" class="btn-lihat-semua">
-                    Lihat Semua Sertifikasi <i class="bi bi-arrow-right"></i>
+                    Lihat Semua Pelatihan <i class="bi bi-arrow-right"></i>
                 </a>
             </div>
         </div>

@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Sertifikasi - RTPU PNJ')
+@section('title', 'Pelatihan - RTPU PNJ')
 
 @section('content')
 <section class="py-5">
@@ -11,12 +11,12 @@
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb breadcrumb-custom">
                     <li class="breadcrumb-item"><a href="{{ route('home') }}">Beranda</a></li>
-                    <li class="breadcrumb-item active">Sertifikasi</li>
+                    <li class="breadcrumb-item active">Pelatihan</li>
                 </ol>
             </nav>
-            {{-- <span class="section-eyebrow">Sertifikasi</span> --}}
-            <h1 class="section-title mt-1">Sertifikasi</h1>
-            <p class="section-subtitle">Program sertifikasi yang diselenggarakan oleh RTPU PNJ.</p>
+            {{-- <span class="section-eyebrow">Pelatihan</span> --}}
+            <h1 class="section-title mt-1">Pelatihan</h1>
+            <p class="section-subtitle">Program pelatihan yang diselenggarakan oleh RTPU PNJ.</p>
         </div>
 
         <div class="row g-4">
@@ -51,7 +51,7 @@
             <div class="col-12">
                 <div class="empty-state">
                     <i class="bi bi-award"></i>
-                    <p>Belum ada data sertifikasi yang tersedia.</p>
+                    <p>Belum ada data pelatihan yang tersedia.</p>
                 </div>
             </div>
             @endforelse

@@ -160,7 +160,7 @@
                 <li class="nav-item">
                     <a class="nav-link-custom {{ request()->routeIs('sertifikasi.*') ? 'active' : '' }}"
                        href="{{ route('sertifikasi.index') }}">
-                        Sertifikasi
+                        Pelatihan
                     </a>
                 </li>
 

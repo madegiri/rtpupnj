@@ -33,7 +33,7 @@
                     <li><a href="{{ route('tentang.index') }}">Tentang RTPU</a></li>
                     <li><a href="{{ route('berita.index') }}">Berita</a></li>
                     <li><a href="{{ route('pengumuman.index') }}">Pengumuman</a></li>
-                    <li><a href="{{ route('sertifikasi.index') }}">Sertifikasi</a></li>
+                    <li><a href="{{ route('sertifikasi.index') }}">Pelatihan</a></li>
                 </ul>
             </div>
 

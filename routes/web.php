@@ -70,7 +70,7 @@ Route::get('/care', [CareController::class, 'index'])->name('care.index');
 Route::get('/pudewi', [PudewiController::class, 'index'])->name('pudewi.index');
 
 // CAINT - Index profil
-Route::get('/caint', [CaintController::class, 'index'])->name('caint.index');
+Route::get('/pu', [CaintController::class, 'index'])->name('caint.index');
 
 // CAINT - Per kategori index
 Route::get('/caint/smart-campus', [CaintController::class, 'smartCampus'])->name('caint.smart-campus.index');

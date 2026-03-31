@@ -9,11 +9,18 @@ class ArtikelInovasiController extends Controller
 {
     //
 
-    public function index()
+    public function index(Request $request)
     {
-        $artikels = ArtikelInovasi::latest()->paginate(6);
+        $search = $request->get('search');
 
-        return view('pages.artikel-inovasi.index', compact('artikels'));
+        $artikels = ArtikelInovasi::when($search, function ($query, $search) {
+                $query->where('judul', 'like', "%{$search}%");
+            })
+            ->latest()
+            ->paginate(6)
+            ->withQueryString(); 
+
+        return view('pages.artikel-inovasi.index', compact('artikels', 'search'));
     }
 
     public function show(string $slug)

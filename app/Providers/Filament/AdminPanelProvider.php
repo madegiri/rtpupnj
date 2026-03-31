@@ -2,6 +2,7 @@
 
 namespace App\Providers\Filament;
 
+use App\Filament\Pages\Auth\EditProfile;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\AuthenticateSession;
 use Filament\Http\Middleware\DisableBladeIconComponents;
@@ -28,6 +29,7 @@ class AdminPanelProvider extends PanelProvider
             ->id('admin')
             ->path('admin')
             ->login()
+            ->profile(EditProfile::class)
             ->colors([
                 'primary' => Color::Amber,
             ])
@@ -40,7 +42,7 @@ class AdminPanelProvider extends PanelProvider
                 NavigationGroup::make('PUT - CARE'),
                 NavigationGroup::make('PUT - PUDEWI'),
                 NavigationGroup::make('PUT - PUTOI'),
-                NavigationGroup::make('Sertifikasi'),
+                NavigationGroup::make('Program Pelatihan'),
             ])
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\\Filament\\Pages')

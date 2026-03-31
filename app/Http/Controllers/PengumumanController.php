@@ -8,11 +8,19 @@ use Illuminate\Http\Request;
 class PengumumanController extends Controller
 {
     //
-    public function index()
-{
-    $pengumumans = Pengumuman::latest()->paginate(6);
-    return view('pages.pengumuman.index', compact('pengumumans'));
-}
+    public function index(Request $request)
+    {
+        $search = $request->get('search');
+
+        $pengumumans = Pengumuman::when($search, function ($query, $search) {
+            $query->where('judul', 'like', "%{$search}%");
+        })
+        ->latest()
+        ->paginate(6)
+        ->withQueryString();
+
+        return view('pages.pengumuman.index', compact('pengumumans', 'search'));
+    }
 
 public function show(string $slug)
     {

@@ -8,10 +8,21 @@ use Illuminate\Http\Request;
 class SertifikasiController extends Controller
 {
     //
-    public function index()
+    public function index(Request $request)
     {
-        $sertifikasis = Sertifikasi::latest()->paginate(6);
-        return view('pages.sertifikasi.index', compact('sertifikasis'));
+        $search = $request->get('search');
+
+        $sertifikasis = Sertifikasi::when($search, function ($query, $search) {
+            $query->where(function ($q) use ($search) {
+                    $q->where('nama', 'like', "%{$search}%")
+                    ->orWhere('penyelenggara', 'like', "%{$search}%");
+                });
+        })
+        ->latest()
+        ->paginate(6)
+        ->withQueryString();
+
+        return view('pages.sertifikasi.index', compact('sertifikasis', 'search'));
     }
 
     public function show(string $slug)

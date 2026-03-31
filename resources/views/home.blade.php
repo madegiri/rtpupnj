@@ -56,7 +56,7 @@
             </div>
             <div class="stat-item">
                 <div class="stat-number">{{ $stats['sertifikasi'] }}</div>
-                <div class="stat-label">Sertifikasi</div>
+                <div class="stat-label">Pelatihan</div>
             </div>
         </div>
     </div>
@@ -327,7 +327,7 @@
         <div class="section-head-row">
             <div>
                 {{-- <span class="section-eyebrow">Pelatihan</span> --}}
-                <h2 class="section-title">Sertifikasi</h2>
+                <h2 class="section-title">Pelatihan</h2>
             </div>
             <a href="{{ route('sertifikasi.index') }}" class="btn-lihat-semua">
                 Lihat Semua <i class="bi bi-arrow-right"></i>
@@ -361,7 +361,7 @@
                 </a>
             </div>
             @empty
-            <div class="col-12"><div class="empty-state"><i class="bi bi-award"></i><p>Belum ada sertifikasi.</p></div></div>
+            <div class="col-12"><div class="empty-state"><i class="bi bi-award"></i><p>Belum ada pelatihan.</p></div></div>
             @endforelse
         </div>
     </div>

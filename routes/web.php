@@ -90,8 +90,8 @@ Route::get('/caint/healthcare/{slug}', [CaintController::class, 'show'])->name('
 Route::get('/aksen', [AkSENController::class, 'index'])->name('aksen.index');
 
 // Sertifikasi
-Route::get('/sertifikasi', [SertifikasiController::class, 'index'])->name('sertifikasi.index');
-Route::get('/sertifikasi/{slug}', [SertifikasiController::class, 'show'])->name('sertifikasi.show');
+Route::get('/pelatihan', [SertifikasiController::class, 'index'])->name('sertifikasi.index');
+Route::get('/pelatihan/{slug}', [SertifikasiController::class, 'show'])->name('sertifikasi.show');
 
 // Hubungi Kami
 Route::get('/hubungi-kami', [HubungiKamiController::class, 'index'])->name('hubungi-kami');

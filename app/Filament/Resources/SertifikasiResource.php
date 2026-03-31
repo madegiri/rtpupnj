@@ -26,9 +26,9 @@ class SertifikasiResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-document-check';
 
-    protected static ?string $navigationLabel = 'Sertifikasi'; 
-    protected static ?string $pluralModelLabel = 'Sertifikasi';
-    protected static ?string $navigationGroup = 'Sertifikasi';
+    protected static ?string $navigationLabel = 'Pelatihan'; 
+    protected static ?string $pluralModelLabel = 'Pelatihan';
+    protected static ?string $navigationGroup = 'Program Pelatihan';
 
     public static function form(Form $form): Form
     {
@@ -36,7 +36,7 @@ class SertifikasiResource extends Resource
             ->schema([
                 //
                 TextInput::make('nama')
-                    ->label('Judul Sertifikasi')
+                    ->label('Judul Pelatihan')
                     ->required()
                     ->maxLength(255),
                 
@@ -78,7 +78,7 @@ class SertifikasiResource extends Resource
             ->columns([
                 //
                 ImageColumn::make('gambar'),
-                TextColumn::make('nama')->searchable()->sortable()->label('Judul Sertifikasi'),
+                TextColumn::make('nama')->searchable()->sortable()->label('Judul Pelatihan'),
                 TextColumn::make('penyelenggara')->searchable()->sortable(),
             ])
             ->filters([

@@ -8,10 +8,18 @@ use Illuminate\Http\Request;
 class ProdukUnggulanController extends Controller
 {
     //
-    public function index()
+    public function index(Request $request)
     {
-        $produkUnggulans = ProdukUnggulan::latest()->paginate(6);
-        return view('pages.produk-unggulan.index', compact('produkUnggulans'));
+        $search = $request->get('search');
+
+        $produkUnggulans = ProdukUnggulan::when($search, function ($query, $search) {
+            $query->where('nama', 'like', "%{$search}%");
+        })
+        ->latest()
+        ->paginate(6)
+        ->withQueryString();
+
+        return view('pages.produk-unggulan.index', compact('produkUnggulans', 'search'));
     }
 
     public function show(string $slug)

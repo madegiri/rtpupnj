@@ -7,6 +7,7 @@ use App\Models\Berita;
 use App\Models\Pengumuman;
 use App\Models\ProdukInovasi;
 use App\Models\ProdukUnggulan;
+use App\Models\Sertifikasi;
 use Filament\Widgets\StatsOverviewWidget as BaseWidget;
 use Filament\Widgets\StatsOverviewWidget\Stat;
 
@@ -41,8 +42,8 @@ class StatsOverview extends BaseWidget
                 ->icon('heroicon-o-star')
                 ->color('danger'),
             
-            Stat::make('Sertifikasi', \App\Models\Sertifikasi::count())
-                ->description('Total sertifikasi')
+            Stat::make('Pelatihan', Sertifikasi::count())
+                ->description('Total pelatihan')
                 ->icon('heroicon-o-document-check')
                 ->color('secondary'),
         ];

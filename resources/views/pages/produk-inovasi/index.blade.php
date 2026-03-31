@@ -7,7 +7,7 @@
     <div class="container">
 
         {{-- Page Header --}}
-        <div class="page-header mb-5">
+        <div class="page-header mb-3">
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb breadcrumb-custom">
                     <li class="breadcrumb-item"><a href="{{ route('home') }}">Beranda</a></li>
@@ -17,6 +17,34 @@
             {{-- <span class="section-eyebrow">Inovasi</span> --}}
             <h1 class="section-title mt-1">Produk Inovasi</h1>
             <p class="section-subtitle">Inovasi teknologi hasil penelitian dan pengembangan RTPU PNJ.</p>
+        </div>
+
+        {{-- Search Bar --}}
+        <div class="search-wrapper mb-4">
+            <form action="{{ route('produk-inovasi.index') }}" method="GET">
+                <div class="search-box">
+                    <i class="bi bi-search search-icon"></i>
+                    <input
+                        type="text"
+                        name="search"
+                        class="search-input"
+                        placeholder="Cari produk inovasi..."
+                        value="{{ $search ?? '' }}"
+                        autocomplete="off"
+                    >
+                    @if($search)
+                        <a href="{{ route('produk-inovasi.index') }}" class="search-clear">
+                            <i class="bi bi-x-lg"></i>
+                        </a>
+                    @endif
+                </div>
+            </form>
+
+            @if($search)
+                <p class="search-result-info">
+                    Menampilkan hasil untuk <strong>"{{ $search }}"</strong>
+                </p>
+            @endif
         </div>
 
         <div class="row g-4">
@@ -90,6 +118,63 @@
     letter-spacing: -0.02em; line-height: 1.2; margin-bottom: 0.4rem;
 }
 .section-subtitle { font-size: 0.95rem; color: #6b7280; margin: 0; max-width: auto; }
+
+/* ─── Search ─── */
+.search-wrapper {
+    max-width: auto;
+}
+
+.search-box {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.search-icon {
+    position: absolute;
+    left: 1rem;
+    color: #9ca3af;
+    font-size: 0.9rem;
+    pointer-events: none;
+}
+
+.search-input {
+    width: 100%;
+    padding: 0.65rem 2.8rem 0.65rem 2.6rem;
+    border: 1px solid #e5e7eb;
+    border-radius: 10px;
+    font-size: 0.875rem;
+    font-family: "Poppins", sans-serif;
+    color: #111827;
+    background: #ffffff;
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.search-input:focus {
+    border-color: #00998a;
+    box-shadow: 0 0 0 3px rgba(0, 153, 138, 0.1);
+}
+
+.search-clear {
+    position: absolute;
+    right: 0.85rem;
+    color: #9ca3af;
+    font-size: 0.75rem;
+    text-decoration: none;
+    transition: color 0.2s;
+}
+
+.search-clear:hover {
+    color: #ef4444;
+}
+
+.search-result-info {
+    font-size: 0.82rem;
+    color: #6b7280;
+    margin-top: 0.6rem;
+    margin-bottom: 0;
+}
 
 .content-card {
     background: #ffffff; border: 1px solid #e5e7eb; border-radius: 14px;

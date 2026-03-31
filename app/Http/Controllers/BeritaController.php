@@ -8,11 +8,18 @@ use Illuminate\Http\Request;
 class BeritaController extends Controller
 {
     //
-    public function index()
+    public function index(Request $request)
     {
-        $beritas = Berita::latest()->paginate(6);
+        $search = $request->get('search');
 
-        return view('pages.berita.index', compact('beritas'));
+        $beritas = Berita::when($search, function ($query, $search) {
+            $query->where('judul', 'like', "%{$search}%");
+        })
+        ->latest()
+        ->paginate(6)
+        ->withQueryString();
+
+        return view('pages.berita.index', compact('beritas', 'search'));
     }
 
     public function show(string $slug)

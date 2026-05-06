@@ -30,9 +30,11 @@
                 <h6 class="footer-col-title">Tautan Cepat</h6>
                 <ul class="footer-links">
                     <li><a href="{{ route('artikel-inovasi.index') }}">Artikel Inovasi</a></li>
-                    <li><a href="{{ route('tentang.index') }}">Tentang RTPU</a></li>
                     <li><a href="{{ route('berita.index') }}">Berita</a></li>
                     <li><a href="{{ route('pengumuman.index') }}">Pengumuman</a></li>
+                    <li><a href="{{ route('lomba.index') }}">Lomba</a></li>
+                    <li><a href="{{ route('tentang.index') }}">Tentang RTPU</a></li>
+                    <li><a href="{{ route('struktur-organisasi.index') }}">Struktur Organisasi</a></li>
                     <li><a href="{{ route('sertifikasi.index') }}">Pelatihan</a></li>
                 </ul>
             </div>

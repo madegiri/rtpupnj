@@ -23,7 +23,7 @@
                     <span class="highlight">Negeri Jakarta</span>
                 </h1>
                 <p class="lead">
-                    Rekayasa Teknologi dan Produk Unggulan (RTPU) Politeknik Negeri Jakarta berfokus pada penelitian terapan, pengembangan produk, dan transfer teknologi untuk mendukung industri serta peningkatan kompetensi mahasiswa dan staf. Kami bekerja sama dengan mitra industri untuk mengkomersialkan inovasi dan menyediakan pelatihan yang relevan dengan kebutuhan pasar.
+                    Rekayasa Teknologi dan Pusat Unggulan (RTPU) Politeknik Negeri Jakarta berfokus pada penelitian terapan, pengembangan produk, dan transfer teknologi untuk mendukung industri serta peningkatan kompetensi mahasiswa dan staf. Kami bekerja sama dengan mitra industri untuk mengkomersialkan inovasi dan menyediakan pelatihan yang relevan dengan kebutuhan pasar.
                 </p>
                 <div class="d-flex flex-wrap gap-2">
                     <a href="{{ route('tentang.index') }}" class="btn-hero-primary">
@@ -113,7 +113,7 @@
                     <div class="content-card-body">
                         <div class="date-badge mt-1 mb-2">
                             <i class="bi bi-calendar3"></i>
-                            {{ $artikel->created_at->translatedFormat('d F Y') }}
+                            {{ $artikel->created_at->locale('id')->isoFormat('D MMMM YYYY') }}
                             <span class="date-sep">·</span>
                             <i class="bi bi-clock"></i>
                             {{ $artikel->created_at->format('H:i') }} WIB
@@ -164,7 +164,7 @@
                     <div class="content-card-body">
                         <div class="date-badge mt-1 mb-2">
                             <i class="bi bi-calendar3"></i>
-                            {{ $berita->created_at->translatedFormat('d F Y') }}
+                            {{ $berita->created_at->locale('id')->isoFormat('D MMMM YYYY') }}
                             <span class="date-sep">·</span>
                             <i class="bi bi-clock"></i>
                             {{ $berita->created_at->format('H:i') }} WIB
@@ -210,7 +210,7 @@
                     <div class="content-card-body">
                         <div class="date-badge mt-1 mb-2">
                             <i class="bi bi-calendar3"></i>
-                            {{ $pengumuman->created_at->translatedFormat('d F Y') }}
+                            {{ $pengumuman->created_at->locale('id')->isoFormat('D MMMM YYYY') }}
                             <span class="date-sep">·</span>
                             <i class="bi bi-clock"></i>
                             {{ $pengumuman->created_at->format('H:i') }} WIB
@@ -256,7 +256,7 @@
                     <div class="content-card-body">
                         <div class="date-badge mt-1 mb-2">
                             <i class="bi bi-calendar3"></i>
-                            {{ $produk->created_at->translatedFormat('d F Y') }}
+                            {{ $produk->created_at->locale('id')->isoFormat('D MMMM YYYY') }}
                             <span class="date-sep">·</span>
                             <i class="bi bi-clock"></i>
                             {{ $produk->created_at->format('H:i') }} WIB
@@ -302,7 +302,7 @@
                     <div class="content-card-body">  
                         <div class="date-badge mt-1 mb-2">
                             <i class="bi bi-calendar3"></i>
-                            {{ $produk->created_at->translatedFormat('d F Y') }}
+                            {{ $produk->created_at->locale('id')->isoFormat('D MMMM YYYY') }}
                             <span class="date-sep">·</span>
                             <i class="bi bi-clock"></i>
                             {{ $produk->created_at->format('H:i') }} WIB
@@ -348,7 +348,7 @@
                     <div class="content-card-body">
                         <div class="date-badge mt-1 mb-2">
                             <i class="bi bi-calendar3"></i>
-                            {{ $sertifikasi->created_at->translatedFormat('d F Y') }}
+                            {{ $sertifikasi->created_at->locale('id')->isoFormat('D MMMM YYYY') }}
                             <span class="date-sep">·</span>
                             <i class="bi bi-clock"></i>
                             {{ $sertifikasi->created_at->format('H:i') }} WIB

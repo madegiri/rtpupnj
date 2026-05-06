@@ -26,7 +26,7 @@
                 <div class="article-meta">
                     <span class="date-badge">
                         <i class="bi bi-calendar3"></i>
-                        {{ $produk->created_at->translatedFormat('d F Y') }}
+                        {{ $produk->created_at->locale('id')->isoFormat('D MMMM YYYY') }}
                     </span>
                     <span class="date-sep">·</span>
                     <span class="date-badge">
@@ -129,7 +129,7 @@
                             <span class="card-chip">Produk Unggulan</span>
                             <div class="date-badge mt-1 mb-2">
                                 <i class="bi bi-calendar3"></i>
-                                {{ $item->created_at->translatedFormat('d F Y') }}
+                                {{ $item->created_at->locale('id')->isoFormat('D MMMM YYYY') }}
                                 <span class="date-sep">·</span>
                                 <i class="bi bi-clock"></i>
                                 {{ $item->created_at->format('H:i') }} WIB

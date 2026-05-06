@@ -7,6 +7,7 @@ use App\Http\Controllers\CaintController;
 use App\Http\Controllers\CareController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\HubungiKamiController;
+use App\Http\Controllers\LombaController;
 use App\Http\Controllers\PengumumanController;
 use App\Http\Controllers\PimpinanController;
 use App\Http\Controllers\ProdukInovasiController;
@@ -45,6 +46,10 @@ Route::get('/berita/{slug}', [BeritaController::class, 'show'])->name('berita.sh
 
 Route::get('/pengumuman', [PengumumanController::class, 'index'])->name('pengumuman.index');
 Route::get('/pengumuman/{slug}', [PengumumanController::class, 'show'])->name('pengumuman.show');
+
+// Lomba
+Route::get('/lomba', [LombaController::class, 'index'])->name('lomba.index');
+Route::get('/lomba/{slug}', [LombaController::class, 'show'])->name('lomba.show');
 
 // Tentang
 Route::get('/tentang', [TentangController::class, 'index'])->name('tentang.index');

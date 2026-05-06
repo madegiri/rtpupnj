@@ -25,7 +25,7 @@
                 <div class="article-meta">
                     <span class="date-badge">
                         <i class="bi bi-calendar3"></i>
-                        {{ $artikel->created_at->translatedFormat('d F Y') }}
+                        {{ $artikel->created_at->locale('id')->isoFormat('D MMMM YYYY') }}
                     </span>
                     <span class="date-sep">·</span>
                     <span class="date-badge">
@@ -78,7 +78,7 @@
                         <div class="content-card-body">
                             <div class="date-badge mt-1 mb-2">
                                 <i class="bi bi-calendar3"></i>
-                                {{ $item->created_at->translatedFormat('d F Y') }}
+                                {{ $item->created_at->locale('id')->isoFormat('D MMMM YYYY') }}
                                 <span class="date-sep">·</span>
                                 <i class="bi bi-clock"></i>
                                 {{ $item->created_at->format('H:i') }} WIB
@@ -316,8 +316,6 @@
     display: block;
     transition: transform 0.35s ease;
 }
-
-.content-card:hover .content-card-thumb img { transform: scale(1.04); }
 
 .content-card-excerpt {
     font-size: 0.845rem;

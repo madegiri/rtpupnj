@@ -65,7 +65,7 @@
                     <div class="content-card-body">
                         <div class="date-badge mt-1 mb-2">
                             <i class="bi bi-calendar3"></i>
-                            {{ $pengumuman->created_at->translatedFormat('d F Y') }}
+                            {{ $pengumuman->created_at->locale('id')->isoFormat('D MMMM YYYY') }}
                             <span class="date-sep">·</span>
                             <i class="bi bi-clock"></i>
                             {{ $pengumuman->created_at->format('H:i') }} WIB

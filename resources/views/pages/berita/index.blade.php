@@ -64,7 +64,7 @@
                         <div class="content-card-body">
                             <div class="date-badge mt-1 mb-2">
                                 <i class="bi bi-calendar3"></i>
-                                {{ $berita->created_at->translatedFormat('d F Y') }}
+                                {{ $berita->created_at->locale('id')->isoFormat('D MMMM YYYY') }}
                                 <span class="date-sep">·</span>
                                 <i class="bi bi-clock"></i>
                                 {{ $berita->created_at->format('H:i') }} WIB

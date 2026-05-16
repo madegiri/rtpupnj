@@ -85,7 +85,7 @@
         <div class="container">
             <div class="footer-bottom-inner">
                 <p>&copy; {{ date('Y') }} RTPU Politeknik Negeri Jakarta. All rights reserved.</p>
-                <p>Rekayasa Teknologi dan Produk Unggulan Politeknik Negeri Jakarta</p>
+                <p>Rekayasa Teknologi dan Pusat Unggulan Politeknik Negeri Jakarta</p>
             </div>
         </div>
     </div>

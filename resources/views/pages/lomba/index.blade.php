@@ -28,7 +28,7 @@
                         <div class="search-box">
                             <i class="bi bi-search search-icon"></i>
                             <input
-                                type="text"
+                                type="search"
                                 name="search"
                                 class="search-input"
                                 placeholder="Cari lomba..."

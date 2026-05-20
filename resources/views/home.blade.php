@@ -410,6 +410,10 @@
 </section> --}}
 
 @foreach($produkKategori as $slug => $kategori)
+    {{ $slug }} - {{ $kategori->id }} <br>
+@endforeach
+
+@foreach($produkKategori as $slug => $kategori)
 <section class="home-section">
     <div class="container">
         <div class="section-head-row">

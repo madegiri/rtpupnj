@@ -30,6 +30,8 @@ class ProdukInovasiResource extends Resource
     protected static ?string $pluralModelLabel = 'Produk Inovasi';
     protected static ?string $navigationGroup = 'Produk';
 
+    protected static bool $shouldRegisterNavigation = false;
+
     public static function form(Form $form): Form
     {
         return $form

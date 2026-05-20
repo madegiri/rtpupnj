@@ -38,9 +38,9 @@
                         <h6 class="person-name">
                             {{ $struktur->nama }}
                         </h6>
-                        @if($struktur->deskripsi)
+                        {{-- @if($struktur->deskripsi)
                         <p class="person-desc">{{ Str::limit(html_entity_decode(strip_tags($struktur->deskripsi)), 100) }}</p>
-                        @endif
+                        @endif --}}
                     </div>
                 </a>
             </div>
@@ -129,7 +129,7 @@
 /* Photo */
 .person-photo {
     width: 100%;
-    height: 400px;
+    aspect-ratio: 3 / 4;
     overflow: hidden;
     flex-shrink: 0;
 }

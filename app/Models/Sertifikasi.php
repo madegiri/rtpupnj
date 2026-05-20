@@ -14,6 +14,7 @@ class Sertifikasi extends Model
     protected $table = 'sertifikasi';
 
     protected $fillable = [
+        'users_id',
         'nama',
         'slug',
         'gambar',
@@ -25,5 +26,10 @@ class Sertifikasi extends Model
     {
         $this->attributes['nama'] = $value;
         $this->attributes['slug'] = Str::slug($value);
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'users_id');
     }
 }

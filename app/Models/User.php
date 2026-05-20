@@ -42,4 +42,39 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    public function konten()
+    {
+        return $this->hasMany(Konten::class, 'users_id');
+    }
+
+    public function lomba()
+    {
+        return $this->hasMany(Lomba::class, 'users_id');
+    }
+
+    public function tentangRTPU()
+    {
+        return $this->hasMany(TentangRTPU::class, 'users_id');
+    }
+
+    public function strukturOrganisasi()
+    {
+        return $this->hasMany(StrukturOrganisasi::class, 'users_id');
+    }
+
+    public function produk()
+    {
+        return $this->hasMany(Produk::class, 'users_id');
+    }
+
+    public function produkPUT()
+    {
+        return $this->hasMany(PUTProduk::class, 'users_id');
+    }
+
+    public function sertifikasi()
+    {
+        return $this->hasMany(Sertifikasi::class, 'users_id');
+    }
 }

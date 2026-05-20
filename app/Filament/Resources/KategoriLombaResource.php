@@ -26,7 +26,7 @@ class KategoriLombaResource extends Resource
 
     protected static ?string $navigationGroup = 'Beranda';
 
-    protected static ?int $navigationSort = 4;
+    protected static ?int $navigationSort = 3;
 
     public static function form(Form $form): Form
     {

@@ -28,6 +28,8 @@ class CareProfilResource extends Resource
 
     protected static ?string $navigationGroup = 'PUT - CARE';
 
+    protected static bool $shouldRegisterNavigation = false;
+
     public static function form(Form $form): Form
     {
         return $form

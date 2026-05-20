@@ -28,6 +28,8 @@ class PutoiProfilResource extends Resource
 
     protected static ?string $navigationGroup = 'PUT - PUTOI';
 
+    protected static bool $shouldRegisterNavigation = false;
+
     public static function form(Form $form): Form
     {
         return $form

@@ -272,6 +272,10 @@
 }
 .filter-reset:hover { color: #ef4444; }
 
+.search-input::-webkit-search-cancel-button {
+    display: none;
+}
+
 /* Card */
 .content-card {
     background: #fff; border: 1px solid #e5e7eb; border-radius: 14px;

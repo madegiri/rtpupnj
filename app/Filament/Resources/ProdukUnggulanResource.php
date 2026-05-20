@@ -30,6 +30,7 @@ class ProdukUnggulanResource extends Resource
     protected static ?string $navigationLabel = 'Produk Unggulan'; 
     protected static ?string $pluralModelLabel = 'Produk Unggulan';
     protected static ?string $navigationGroup = 'Produk';
+    protected static bool $shouldRegisterNavigation = false;
 
     public static function form(Form $form): Form
     {

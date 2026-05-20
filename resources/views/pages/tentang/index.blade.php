@@ -7,7 +7,7 @@
     <div class="container">
 
         {{-- Page Header --}}
-        <div class="page-header mb-5">
+        <div class="page-header mb-3">
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb breadcrumb-custom">
                     <li class="breadcrumb-item"><a href="{{ route('home') }}">Beranda</a></li>
@@ -18,6 +18,27 @@
             <h1 class="section-title mt-1">Tentang RTPU PNJ</h1>
         </div>
 
+        {{-- Author meta --}}
+        @if($tentang && $tentang->user)
+        <div class="author-meta">
+            <i class="bi bi-person"></i>
+            <span class="author-text">
+                {{ $tentang->user->name }}
+            </span>
+            <span class="date-sep">·</span>
+            <span class="date-badge">
+                <i class="bi bi-calendar3"></i>
+                {{ $tentang->created_at->locale('id')->isoFormat('D MMMM YYYY') }}
+            </span>
+            <span class="date-sep">·</span>
+            <span class="date-badge">
+                <i class="bi bi-clock"></i>
+                {{ $tentang->created_at->format('H:i') }} WIB
+            </span>
+        </div>
+        <hr class="author-divider">
+        @endif
+
         <div class="row justify-content">
             <div class="text-center mb-5">
                 @if($tentang && $tentang->logo)
@@ -26,8 +47,10 @@
             </div>
             <div class="col-lg-12">
                 @if($tentang)
-                    <div class="article-body">
-                        {!! $tentang->isi !!}
+                    <div class="tentang-desc-box">
+                        <div class="article-body">
+                            {!! $tentang->isi !!}
+                        </div>
                     </div>
                 @else
                     <div class="empty-state">
@@ -90,6 +113,47 @@
     width: 100%;
     height: auto;
 }
+
+.author-meta {
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+    margin-bottom: 1.25rem;
+    flex-wrap: wrap;
+    font-weight: 500;
+    color: #9ca3af;
+}
+.author-meta .bi {
+    font-size: 0.78rem;
+    line-height: 1;
+}
+.author-text {
+    font-size: 0.82rem;
+    color: #9ca3af;
+}
+.date-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    font-size: 0.78rem;
+    font-weight: 500;
+    color: #9ca3af;
+}
+.date-badge .bi {
+    font-size: 0.78rem;
+    line-height: 1;
+}
+.date-sep {
+    color: #d1d5db;
+    font-size: 0.75rem;
+}
+.author-divider {
+    border: none;
+    border-top: 1px solid #f3f4f6;
+    margin: 0 0 1.5rem;
+}
+
+.tentang-desc-box { background: #f9fafb; border: 1px solid #e5e7eb; border-radius: 14px; padding: 1.75rem; }
 
 /* ─── Article body ─── */
 .article-body {

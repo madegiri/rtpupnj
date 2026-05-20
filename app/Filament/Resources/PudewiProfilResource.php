@@ -28,6 +28,8 @@ class PudewiProfilResource extends Resource
 
     protected static ?string $navigationGroup = 'PUT - PUDEWI';
 
+    protected static bool $shouldRegisterNavigation = false;
+
     public static function form(Form $form): Form
     {
         return $form

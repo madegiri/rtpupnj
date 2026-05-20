@@ -13,8 +13,14 @@ class TentangRTPU extends Model
     protected $table = 'tentang_rtpu';
 
     protected $fillable = [
+        'users_id',
         'isi',
         'logo'
     ];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'users_id');
+    }
 
 }

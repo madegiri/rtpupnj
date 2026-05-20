@@ -46,12 +46,14 @@ class SertifikasiResource extends Resource
                 
                 FileUpload::make('gambar')
                     ->image()
+                    ->label('Thumbnail Pelatihan')
                     ->directory('sertifikasi-gambar')
                     ->maxSize(512)
                     ->required(),
                 
                 RichEditor::make('deskripsi')
                     ->required()
+                    ->label('Deskripsi Pelatihan')
                     ->columnSpanFull()
                     ->toolbarButtons([
                         'attachFiles',
@@ -77,9 +79,10 @@ class SertifikasiResource extends Resource
         return $table
             ->columns([
                 //
-                ImageColumn::make('gambar'),
-                TextColumn::make('nama')->searchable()->sortable()->label('Judul Pelatihan'),
-                TextColumn::make('penyelenggara')->searchable()->sortable(),
+                ImageColumn::make('gambar')->label('Thumbnail Pelatihan'),
+                TextColumn::make('nama')->searchable()->label('Judul Pelatihan'),
+                TextColumn::make('penyelenggara')->searchable(),
+                TextColumn::make('created_at')->label('Tanggal Dibuat')->formatStateUsing(fn ($state) => \Carbon\Carbon::parse($state)->timezone('Asia/Jakarta')->locale('id')->translatedFormat('d F Y, H:i') . ' WIB'),
             ])
             ->filters([
                 Tables\Filters\TrashedFilter::make(),

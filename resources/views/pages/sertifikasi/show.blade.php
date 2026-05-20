@@ -24,6 +24,13 @@
                 <h1 class="article-title">{{ $sertifikasi->nama }}</h1>
 
                 <div class="article-meta">
+                    @if($sertifikasi->user)
+                    <span class="date-badge">
+                        <i class="bi bi-person"></i>
+                        {{ $sertifikasi->user->name }}
+                    </span>
+                    @endif
+                    <span class="date-sep">·</span>
                     <span class="date-badge">
                         <i class="bi bi-calendar3"></i>
                         {{ $sertifikasi->created_at->locale('id')->isoFormat('D MMMM YYYY') }}
@@ -229,6 +236,18 @@
 .article-body { font-size: 1rem; line-height: 1.9; color: #374151; text-align: justify;}
 .article-body p { margin-bottom: 1.25rem; }
 .article-body p:last-child { margin-bottom: 0; }
+.article-body h2,.article-body h3,.article-body h4 {
+    font-weight: 700; color: #111827; margin-top: 2rem; margin-bottom: 0.75rem;
+}
+.article-body a { color: #00998a; text-underline-offset: 3px; }
+.article-body a:hover { color: #006b5e; }
+.article-body ul,.article-body ol { padding-left: 1.5rem; margin-bottom: 1.25rem; }
+.article-body li { margin-bottom: 0.4rem; }
+.article-body blockquote {
+    border-left: 3px solid #00998a; margin: 1.5rem 0;
+    padding: 0.75rem 1.25rem; background: #f0fdfb;
+    border-radius: 0 8px 8px 0; color: #4b5563; font-style: italic;
+}
 
 /* ─── Buttons ─── */
 .btn-back {

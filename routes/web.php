@@ -7,17 +7,21 @@ use App\Http\Controllers\CaintController;
 use App\Http\Controllers\CareController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\HubungiKamiController;
+use App\Http\Controllers\KontenController;
 use App\Http\Controllers\LombaController;
 use App\Http\Controllers\PengumumanController;
 use App\Http\Controllers\PimpinanController;
+use App\Http\Controllers\ProdukController;
 use App\Http\Controllers\ProdukInovasiController;
 use App\Http\Controllers\ProdukUnggulanController;
 use App\Http\Controllers\PudewiController;
+use App\Http\Controllers\PUTController;
 use App\Http\Controllers\PutoiController;
 use App\Http\Controllers\SertifikasiController;
 use App\Http\Controllers\StrukturOrganisasiController;
 use App\Http\Controllers\TentangController;
 use Illuminate\Support\Facades\Route;
+use Shetabit\Visitor\Middlewares\LogVisits;
 
 /*
 |--------------------------------------------------------------------------
@@ -35,68 +39,126 @@ use Illuminate\Support\Facades\Route;
 // });
 
 // Home
-Route::get('/', [HomeController::class, 'index'])->name('home');
+// Route::get('/', [HomeController::class, 'index'])->name('home');
 
 // Beranda submenu
-Route::get('/artikel-inovasi', [ArtikelInovasiController::class, 'index'])->name('artikel-inovasi.index');
-Route::get('/artikel-inovasi/{slug}', [ArtikelInovasiController::class, 'show'])->name('artikel-inovasi.show');
+// Route::get('/artikel-inovasi', [ArtikelInovasiController::class, 'index'])->name('artikel-inovasi.index');
+// Route::get('/artikel-inovasi/{slug}', [ArtikelInovasiController::class, 'show'])->name('artikel-inovasi.show');
 
-Route::get('/berita', [BeritaController::class, 'index'])->name('berita.index');
-Route::get('/berita/{slug}', [BeritaController::class, 'show'])->name('berita.show');
+// Route::get('/berita', [BeritaController::class, 'index'])->name('berita.index');
+// Route::get('/berita/{slug}', [BeritaController::class, 'show'])->name('berita.show');
 
-Route::get('/pengumuman', [PengumumanController::class, 'index'])->name('pengumuman.index');
-Route::get('/pengumuman/{slug}', [PengumumanController::class, 'show'])->name('pengumuman.show');
+// Route::get('/pengumuman', [PengumumanController::class, 'index'])->name('pengumuman.index');
+// Route::get('/pengumuman/{slug}', [PengumumanController::class, 'show'])->name('pengumuman.show');
+
+// Route::prefix('konten')->name('konten.')->group(function () {
+//     Route::get('/{kategoriSlug}', [KontenController::class, 'index'])->name('index');
+//     Route::get('/{kategoriSlug}/{slug}', [KontenController::class, 'show'])->name('show');
+// });
 
 // Lomba
-Route::get('/lomba', [LombaController::class, 'index'])->name('lomba.index');
-Route::get('/lomba/{slug}', [LombaController::class, 'show'])->name('lomba.show');
+// Route::get('/lomba', [LombaController::class, 'index'])->name('lomba.index');
+// Route::get('/lomba/{slug}', [LombaController::class, 'show'])->name('lomba.show');
 
 // Tentang
-Route::get('/tentang', [TentangController::class, 'index'])->name('tentang.index');
-Route::get('/pimpinan', [PimpinanController::class, 'index'])->name('pimpinan.index');
-Route::get('/pimpinan/{slug}', [PimpinanController::class, 'show'])->name('pimpinan.show');
-Route::get('/struktur-organisasi', [StrukturOrganisasiController::class, 'index'])->name('struktur-organisasi.index');
-Route::get('/struktur-organisasi/{slug}', [StrukturOrganisasiController::class, 'show'])->name('struktur-organisasi.show');
+// Route::get('/tentang', [TentangController::class, 'index'])->name('tentang.index');
+// Route::get('/pimpinan', [PimpinanController::class, 'index'])->name('pimpinan.index');
+// Route::get('/pimpinan/{slug}', [PimpinanController::class, 'show'])->name('pimpinan.show');
+// Route::get('/struktur-organisasi', [StrukturOrganisasiController::class, 'index'])->name('struktur-organisasi.index');
+// Route::get('/struktur-organisasi/{slug}', [StrukturOrganisasiController::class, 'show'])->name('struktur-organisasi.show');
 
 // Produk
-Route::get('/produk-unggulan', [ProdukUnggulanController::class, 'index'])->name('produk-unggulan.index');
-Route::get('/produk-unggulan/{slug}', [ProdukUnggulanController::class, 'show'])->name('produk-unggulan.show');
+// Route::get('/produk-unggulan', [ProdukUnggulanController::class, 'index'])->name('produk-unggulan.index');
+// Route::get('/produk-unggulan/{slug}', [ProdukUnggulanController::class, 'show'])->name('produk-unggulan.show');
 
-Route::get('/produk-inovasi', [ProdukInovasiController::class, 'index'])->name('produk-inovasi.index');
-Route::get('/produk-inovasi/{slug}', [ProdukInovasiController::class, 'show'])->name('produk-inovasi.show');
+// Route::get('/produk-inovasi', [ProdukInovasiController::class, 'index'])->name('produk-inovasi.index');
+// Route::get('/produk-inovasi/{slug}', [ProdukInovasiController::class, 'show'])->name('produk-inovasi.show');
+
+// Route::prefix('produk')->name('produk.')->group(function () {
+//     Route::get('/{kategoriSlug}', [ProdukController::class, 'index'])->name('index');
+//     Route::get('/{kategoriSlug}/{slug}', [ProdukController::class, 'show'])->name('show');
+// });
 
 //PUTOI - Index Profil
-Route::get('/putoi', [PutoiController::class, 'index'])->name('putoi.index');
+// Route::get('/putoi', [PutoiController::class, 'index'])->name('putoi.index');
 
 //CARE - Index Prodil
-Route::get('/care', [CareController::class, 'index'])->name('care.index');
+// Route::get('/care', [CareController::class, 'index'])->name('care.index');
 
 //PUDEWI - Index Profil
-Route::get('/pudewi', [PudewiController::class, 'index'])->name('pudewi.index');
+// Route::get('/pudewi', [PudewiController::class, 'index'])->name('pudewi.index');
 
 // CAINT - Index profil
-Route::get('/pu', [CaintController::class, 'index'])->name('caint.index');
+// Route::get('/pu', [CaintController::class, 'index'])->name('caint.index');
 
 // CAINT - Per kategori index
-Route::get('/caint/smart-campus', [CaintController::class, 'smartCampus'])->name('caint.smart-campus.index');
-Route::get('/caint/green-energy', [CaintController::class, 'greenEnergy'])->name('caint.green-energy.index');
-Route::get('/caint/industrial-automation', [CaintController::class, 'industrialAutomation'])->name('caint.industrial-automation.index');
-Route::get('/caint/agriculture-environment', [CaintController::class, 'agricultureEnvironment'])->name('caint.agriculture-environment.index');
-Route::get('/caint/healthcare', [CaintController::class, 'healthcare'])->name('caint.healthcare.index');
+// Route::get('/caint/smart-campus', [CaintController::class, 'smartCampus'])->name('caint.smart-campus.index');
+// Route::get('/caint/green-energy', [CaintController::class, 'greenEnergy'])->name('caint.green-energy.index');
+// Route::get('/caint/industrial-automation', [CaintController::class, 'industrialAutomation'])->name('caint.industrial-automation.index');
+// Route::get('/caint/agriculture-environment', [CaintController::class, 'agricultureEnvironment'])->name('caint.agriculture-environment.index');
+// Route::get('/caint/healthcare', [CaintController::class, 'healthcare'])->name('caint.healthcare.index');
 
 // CAINT - Show produk per kategori
-Route::get('/caint/smart-campus/{slug}', [CaintController::class, 'show'])->name('caint.smart-campus.show');
-Route::get('/caint/green-energy/{slug}', [CaintController::class, 'show'])->name('caint.green-energy.show');
-Route::get('/caint/industrial-automation/{slug}', [CaintController::class, 'show'])->name('caint.industrial-automation.show');
-Route::get('/caint/agriculture-environment/{slug}', [CaintController::class, 'show'])->name('caint.agriculture-environment.show');
-Route::get('/caint/healthcare/{slug}', [CaintController::class, 'show'])->name('caint.healthcare.show');
+// Route::get('/caint/smart-campus/{slug}', [CaintController::class, 'show'])->name('caint.smart-campus.show');
+// Route::get('/caint/green-energy/{slug}', [CaintController::class, 'show'])->name('caint.green-energy.show');
+// Route::get('/caint/industrial-automation/{slug}', [CaintController::class, 'show'])->name('caint.industrial-automation.show');
+// Route::get('/caint/agriculture-environment/{slug}', [CaintController::class, 'show'])->name('caint.agriculture-environment.show');
+// Route::get('/caint/healthcare/{slug}', [CaintController::class, 'show'])->name('caint.healthcare.show');
 
 //AkSEN - Index Profil
-Route::get('/aksen', [AkSENController::class, 'index'])->name('aksen.index');
+// Route::get('/aksen', [AkSENController::class, 'index'])->name('aksen.index');
+
+// Route::prefix('put')->name('put.')->group(function () {
+//     Route::get('/{unit_slug}', [PUTController::class, 'index'])->name('index');
+//     Route::get('/{unit_slug}/{kategori_slug}', [PUTController::class, 'kategori'])->name('kategori');
+//     Route::get('/{unit_slug}/{kategori_slug}/{slug}', [PUTController::class, 'show'])->name('show');
+// });
 
 // Sertifikasi
-Route::get('/pelatihan', [SertifikasiController::class, 'index'])->name('sertifikasi.index');
-Route::get('/pelatihan/{slug}', [SertifikasiController::class, 'show'])->name('sertifikasi.show');
+// Route::get('/pelatihan', [SertifikasiController::class, 'index'])->name('sertifikasi.index');
+// Route::get('/pelatihan/{slug}', [SertifikasiController::class, 'show'])->name('sertifikasi.show');
 
 // Hubungi Kami
-Route::get('/hubungi-kami', [HubungiKamiController::class, 'index'])->name('hubungi-kami');
+// Route::get('/hubungi-kami', [HubungiKamiController::class, 'index'])->name('hubungi-kami');
+
+Route::middleware([LogVisits::class])->group(function () {
+
+    // Home
+    Route::get('/', [HomeController::class, 'index'])->name('home');
+
+    Route::prefix('konten')->name('konten.')->group(function () {
+        Route::get('/{kategoriSlug}', [KontenController::class, 'index'])->name('index');
+        Route::get('/{kategoriSlug}/{slug}', [KontenController::class, 'show'])->name('show');
+    });
+
+    // Lomba
+    Route::get('/lomba', [LombaController::class, 'index'])->name('lomba.index');
+    Route::get('/lomba/{slug}', [LombaController::class, 'show'])->name('lomba.show');
+
+    // Tentang
+    Route::get('/tentang', [TentangController::class, 'index'])->name('tentang.index');
+    Route::get('/pimpinan', [PimpinanController::class, 'index'])->name('pimpinan.index');
+    Route::get('/pimpinan/{slug}', [PimpinanController::class, 'show'])->name('pimpinan.show');
+    Route::get('/struktur-organisasi', [StrukturOrganisasiController::class, 'index'])->name('struktur-organisasi.index');
+    Route::get('/struktur-organisasi/{slug}', [StrukturOrganisasiController::class, 'show'])->name('struktur-organisasi.show');
+
+    Route::prefix('produk')->name('produk.')->group(function () {
+        Route::get('/{kategoriSlug}', [ProdukController::class, 'index'])->name('index');
+        Route::get('/{kategoriSlug}/{slug}', [ProdukController::class, 'show'])->name('show');
+    });
+
+    // PUT
+    Route::prefix('put')->name('put.')->group(function () {
+        Route::get('/{unit_slug}', [PUTController::class, 'index'])->name('index');
+        Route::get('/{unit_slug}/{kategori_slug}', [PUTController::class, 'kategori'])->name('kategori');
+        Route::get('/{unit_slug}/{kategori_slug}/{slug}', [PUTController::class, 'show'])->name('show');
+    });
+
+    // Sertifikasi
+    Route::get('/pelatihan', [SertifikasiController::class, 'index'])->name('sertifikasi.index');
+    Route::get('/pelatihan/{slug}', [SertifikasiController::class, 'show'])->name('sertifikasi.show');
+
+    // Hubungi Kami
+    Route::get('/hubungi-kami', [HubungiKamiController::class, 'index'])->name('hubungi-kami');
+
+});

@@ -5,6 +5,7 @@ namespace App\Filament\Resources\StrukturOrganisasiResource\Pages;
 use App\Filament\Resources\StrukturOrganisasiResource;
 use Filament\Actions;
 use Filament\Resources\Pages\EditRecord;
+use Illuminate\Support\Facades\Auth;
 
 class EditStrukturOrganisasi extends EditRecord
 {
@@ -22,5 +23,15 @@ class EditStrukturOrganisasi extends EditRecord
     protected function getRedirectUrl(): string
     {
         return $this->getResource()::getUrl('index');
+    }
+
+    protected function mutateFormDataBeforeSave(array $data): array
+    {
+        // hanya isi kalau masih null
+        if (empty($data['users_id'])) {
+            $data['users_id'] = Auth::id();
+        }
+
+        return $data;
     }
 }

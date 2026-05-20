@@ -26,7 +26,8 @@ class TentangRTPUResource extends Resource
 
     protected static ?string $navigationLabel = 'Tentang RTPU'; 
     protected static ?string $pluralModelLabel = 'Tentang RTPU';
-    protected static ?string $navigationGroup = 'Tentang RTPU';
+    protected static ?string $navigationGroup = 'Tentang';
+    protected static ?int $navigationSort = 1;
 
     public static function form(Form $form): Form
     {
@@ -42,6 +43,7 @@ class TentangRTPUResource extends Resource
 
                 RichEditor::make('isi')
                     ->required()
+                    ->label('Tentang RTPU')
                     ->columnSpanFull()
                     ->toolbarButtons([
                         'attachFiles',
@@ -68,8 +70,8 @@ class TentangRTPUResource extends Resource
             ->columns([
                 //
                 ImageColumn::make('logo')->label('Logo RTPU'),
-                TextColumn::make('isi')->limit(50)->searchable()->sortable()->label('Tentang RTPU'),
-                TextColumn::make('created_at')->dateTime()->sortable()->label('Tanggal Dibuat'),
+                TextColumn::make('isi')->limit(50)->searchable()->label('Tentang RTPU'),
+                TextColumn::make('created_at')->label('Tanggal Dibuat')->formatStateUsing(fn ($state) => \Carbon\Carbon::parse($state)->timezone('Asia/Jakarta')->locale('id')->translatedFormat('d F Y, H:i') . ' WIB'),
             ])
             ->filters([
                 Tables\Filters\TrashedFilter::make(),

@@ -43,16 +43,16 @@
     <div class="container">
         <div class="stats-grid">
             <div class="stat-item">
-                <div class="stat-number">{{ $stats['artikel_inovasi'] }}</div>
-                <div class="stat-label">Artikel Inovasi</div>
+                <div class="stat-number">{{ $stats['unit_put'] }}</div>
+                <div class="stat-label">Unit PUT</div>
             </div>
             <div class="stat-item">
-                <div class="stat-number">{{ $stats['produk_unggulan'] }}</div>
-                <div class="stat-label">Produk Unggulan</div>
+                <div class="stat-number">{{ $stats['kategori_produk'] }}</div>
+                <div class="stat-label">Kategori Produk PUT</div>
             </div>
             <div class="stat-item">
-                <div class="stat-number">{{ $stats['produk_inovasi'] }}</div>
-                <div class="stat-label">Produk Inovasi</div>
+                <div class="stat-number">{{ $stats['produk'] }}</div>
+                <div class="stat-label">Produk PUT</div>
             </div>
             <div class="stat-item">
                 <div class="stat-number">{{ $stats['sertifikasi'] }}</div>
@@ -87,11 +87,11 @@
 </section>
 
 {{-- ===================== ARTIKEL INOVASI ===================== --}}
-<section class="home-section">
+{{-- <section class="home-section">
     <div class="container">
         <div class="section-head-row">
             <div>
-                {{-- <span class="section-eyebrow">Terbaru</span> --}}
+                <span class="section-eyebrow">Terbaru</span>
                 <h2 class="section-title">Artikel Inovasi</h2>
             </div>
             <a href="{{ route('artikel-inovasi.index') }}" class="btn-lihat-semua">
@@ -135,14 +135,14 @@
             @endforelse
         </div>
     </div>
-</section>
+</section> --}}
 
 {{-- ===================== BERITA ===================== --}}
-<section class="home-section">
+{{-- <section class="home-section">
     <div class="container">
         <div class="section-head-row">
             <div>
-                {{-- <span class="section-eyebrow">Informasi</span> --}}
+                <span class="section-eyebrow">Informasi</span>
                 <h2 class="section-title">Berita Terkini</h2>
             </div>
             <a href="{{ route('berita.index') }}" class="btn-lihat-semua">
@@ -181,14 +181,14 @@
             @endforelse
         </div>
     </div>
-</section>
+</section> --}}
 
 {{-- ===================== PENGUMUMAN ===================== --}}
-<section class="home-section">
+{{-- <section class="home-section">
     <div class="container">
         <div class="section-head-row">
             <div>
-                {{-- <span class="section-eyebrow">Penting</span> --}}
+                <span class="section-eyebrow">Penting</span>
                 <h2 class="section-title">Pengumuman</h2>
             </div>
             <a href="{{ route('pengumuman.index') }}" class="btn-lihat-semua">
@@ -227,14 +227,102 @@
             @endforelse
         </div>
     </div>
-</section>
+</section> --}}
 
-{{-- ===================== PRODUK UNGGULAN ===================== --}}
+{{-- ===================== PUSAT UNGGULAN ===================== --}}
 <section class="home-section">
     <div class="container">
         <div class="section-head-row">
             <div>
-                {{-- <span class="section-eyebrow">Unggulan</span> --}}
+                {{-- <span class="section-eyebrow">Pusat Unggulan</span> --}}
+                <h2 class="section-title">Pusat Unggulan</h2>
+            </div>
+        </div>
+        <div class="row g-4">
+            @forelse($unitPutsHome as $unit)
+            <div class="col-12 col-sm-6 col-lg-4">
+                <a href="{{ route('put.index', $unit->slug) }}" class="content-card h-100" style="text-decoration:none; color:inherit;">
+                    <div class="content-card-thumb">
+                        @if($unit->thumbnail)
+                            <img src="{{ asset('storage/' . $unit->thumbnail) }}" alt="{{ $unit->nama_singkat_unit_put }}">
+                        @else
+                            <div class="content-card-thumb-placeholder"><i class="bi bi-buildings"></i></div>
+                        @endif
+                    </div>
+                    <div class="content-card-body">
+                        <h6 class="content-card-title">{{ $unit->nama_singkat_unit_put }}</h6>
+                        <p class="content-card-excerpt">{{ Str::limit(html_entity_decode(strip_tags($unit->deskripsi)), 110) }}</p>
+                    </div>
+                </a>
+            </div>
+            @empty
+            <div class="col-12">
+                <div class="empty-state">
+                    <i class="bi bi-buildings"></i>
+                    <p>Belum ada pusat unggulan.</p>
+                </div>
+            </div>
+            @endforelse
+        </div>
+    </div>
+</section>
+
+@foreach($berandaKonten as $slug => $kategori)
+<section class="home-section">
+    <div class="container">
+        <div class="section-head-row">
+            <div>
+                {{-- <h2 class="section-title">{{ $data['kategori']->nama_kategori_konten }}</h2> --}}
+                <h2 class="section-title">{{ $kategori->nama_kategori_konten }}</h2>
+            </div>
+            <a href="{{ route('konten.index', $slug) }}" class="btn-lihat-semua">
+                Lihat Semua <i class="bi bi-arrow-right"></i>
+            </a>
+        </div>
+        <div class="row g-4">
+            @forelse($kategori->konten as $item)
+            <div class="col-12 col-sm-6 col-lg-4">
+                <a href="{{ route('konten.show', [$slug, $item->slug]) }}" class="content-card h-100" style="text-decoration:none; color:inherit;">
+                    <div class="content-card-thumb">
+                        <span class="card-chip">{{ $kategori->nama_kategori_konten }}</span>
+                        @if($item->thumbnail)
+                            <img src="{{ asset('storage/' . $item->thumbnail) }}" alt="{{ $item->judul }}">
+                        @else
+                            <div class="content-card-thumb-placeholder"><i class="bi bi-file-text"></i></div>
+                        @endif
+                    </div>
+                    <div class="content-card-body">
+                        <div class="date-badge mt-1 mb-2">
+                            <i class="bi bi-calendar3"></i>
+                            {{ $item->created_at->locale('id')->isoFormat('D MMMM YYYY') }}
+                            <span class="date-sep">·</span>
+                            <i class="bi bi-clock"></i>
+                            {{ $item->created_at->format('H:i') }} WIB
+                        </div>
+                        <h6 class="content-card-title">{{ Str::limit($item->judul, 65) }}</h6>
+                        <p class="content-card-excerpt">{{ Str::limit(html_entity_decode(strip_tags($item->isi)), 110) }}</p>
+                    </div>
+                </a>
+            </div>
+            @empty
+            <div class="col-12">
+                <div class="empty-state">
+                    <i class="bi bi-newspaper"></i>
+                    <p>Belum ada {{ strtolower($kategori->nama_kategori_konten) }}.</p>
+                </div>
+            </div>
+            @endforelse
+        </div>
+    </div>
+</section>
+@endforeach
+
+{{-- ===================== PRODUK UNGGULAN ===================== --}}
+{{-- <section class="home-section">
+    <div class="container">
+        <div class="section-head-row">
+            <div>
+                <span class="section-eyebrow">Unggulan</span>
                 <h2 class="section-title">Produk Unggulan</h2>
             </div>
             <a href="{{ route('produk-unggulan.index') }}" class="btn-lihat-semua">
@@ -273,14 +361,14 @@
             @endforelse
         </div>
     </div>
-</section>
+</section> --}}
 
 {{-- ===================== PRODUK INOVASI ===================== --}}
-<section class="home-section">
+{{-- <section class="home-section">
     <div class="container">
         <div class="section-head-row">
             <div>
-                {{-- <span class="section-eyebrow">Inovasi</span> --}}
+                <span class="section-eyebrow">Inovasi</span>
                 <h2 class="section-title">Produk Inovasi</h2>
             </div>
             <a href="{{ route('produk-inovasi.index') }}" class="btn-lihat-semua">
@@ -319,7 +407,54 @@
             @endforelse
         </div>
     </div>
+</section> --}}
+
+@foreach($produkKategori as $slug => $kategori)
+<section class="home-section">
+    <div class="container">
+        <div class="section-head-row">
+            <div>
+                {{-- <span class="section-eyebrow">Unggulan</span> --}}
+                <h2 class="section-title">{{ $kategori->nama_kategori_produk }}</h2>
+            </div>
+            <a href="{{ route('produk.index', $slug) }}" class="btn-lihat-semua">
+                Lihat Semua <i class="bi bi-arrow-right"></i>
+            </a>
+        </div>
+        <div class="row g-4">
+            @forelse($kategori->produk  as $item)
+            <div class="col-12 col-sm-6 col-lg-4">
+                <a href="{{ route('produk.show', [$slug, $item->slug]) }}" class="content-card h-100" style="text-decoration:none; color:inherit;">
+                    <div class="content-card-thumb">
+                        <span class="card-chip">{{ $kategori->nama_kategori_produk }}</span>
+                        @if($item->gambar)
+                            <img src="{{ asset('storage/' . $item->gambar) }}" alt="{{ $item->nama }}">
+                        @else
+                            <div class="content-card-thumb-placeholder"><i class="bi bi-star"></i></div>
+                        @endif
+                    </div>
+                    <div class="content-card-body">
+                        <div class="date-badge mt-1 mb-2">
+                            <i class="bi bi-calendar3"></i>
+                            {{ $item->created_at->locale('id')->isoFormat('D MMMM YYYY') }}
+                            <span class="date-sep">·</span>
+                            <i class="bi bi-clock"></i>
+                            {{ $item->created_at->format('H:i') }} WIB
+                        </div>
+                        <h6 class="content-card-title">
+                            {{ Str::limit($item->nama, 50) }}
+                        </h6>
+                        <p class="content-card-excerpt">{{ Str::limit(html_entity_decode(strip_tags($item->deskripsi)), 80) }}</p>
+                    </div>
+                </a>
+            </div>
+            @empty
+            <div class="col-12"><div class="empty-state"><i class="bi bi-star"></i><p>Belum ada {{ strtolower($kategori->nama_kategori_produk) }}.</p></div></div>
+            @endforelse
+        </div>
+    </div>
 </section>
+@endforeach
 
 {{-- ===================== SERTIFIKASI ===================== --}}
 <section class="home-section">
@@ -478,8 +613,8 @@
 /* ─── Stats bar ─── */
 .stats-bar { background: #00998a; padding: 2.25rem 0; }
 .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; text-align: center; }
-.stat-number { font-size: 2.1rem; font-weight: 800; color: #ffffff; line-height: 1; letter-spacing: -0.03em; }
-.stat-label { font-size: 0.8rem; font-weight: 400; color: rgba(255,255,255,0.72); margin-top: 0.35rem; }
+.stat-number { font-size: 3rem; font-weight: 800; color: #ffffff; line-height: 1; letter-spacing: -0.03em; }
+.stat-label { font-size: 0.9rem; font-weight: 500; color: rgba(255,255,255,0.72); margin-top: 0.35rem; }
 @media (max-width: 575.98px) { .stats-grid { grid-template-columns: repeat(2, 1fr); } }
 
 /* ─── CTA ─── */

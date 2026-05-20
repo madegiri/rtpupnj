@@ -35,13 +35,14 @@ class AdminPanelProvider extends PanelProvider
             ])
             ->navigationGroups([
                 NavigationGroup::make('Beranda'),
-                NavigationGroup::make('Tentang RTPU'),
+                NavigationGroup::make('Tentang'),
                 NavigationGroup::make('Produk'),
-                NavigationGroup::make('PUT - AkSEN'),
-                NavigationGroup::make('PUT - CAINT'),
-                NavigationGroup::make('PUT - CARE'),
-                NavigationGroup::make('PUT - PUDEWI'),
-                NavigationGroup::make('PUT - PUTOI'),
+                NavigationGroup::make('Pusat Unggulan'),
+                // NavigationGroup::make('PUT - AkSEN'),
+                // NavigationGroup::make('PUT - CAINT'),
+                // NavigationGroup::make('PUT - CARE'),
+                // NavigationGroup::make('PUT - PUDEWI'),
+                // NavigationGroup::make('PUT - PUTOI'),
                 NavigationGroup::make('Program Pelatihan'),
             ])
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')

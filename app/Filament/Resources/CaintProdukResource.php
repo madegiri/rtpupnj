@@ -32,6 +32,8 @@ class CaintProdukResource extends Resource
     protected static ?string $pluralModelLabel = 'CAINT Produk'; 
     protected static ?string $navigationGroup = 'PUT - CAINT';
 
+    protected static bool $shouldRegisterNavigation = false;
+
     public static function form(Form $form): Form
     {
         return $form

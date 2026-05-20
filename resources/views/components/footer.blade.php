@@ -29,18 +29,24 @@
             <div class="footer-col">
                 <h6 class="footer-col-title">Tautan Cepat</h6>
                 <ul class="footer-links">
-                    <li><a href="{{ route('artikel-inovasi.index') }}">Artikel Inovasi</a></li>
+                    {{-- <li><a href="{{ route('artikel-inovasi.index') }}">Artikel Inovasi</a></li>
                     <li><a href="{{ route('berita.index') }}">Berita</a></li>
-                    <li><a href="{{ route('pengumuman.index') }}">Pengumuman</a></li>
+                    <li><a href="{{ route('pengumuman.index') }}">Pengumuman</a></li> --}}
+                    @foreach($kategoriKontens as $kat)
+                        <li><a href="{{ route('konten.index', $kat->slug) }}">{{ $kat->nama_kategori_konten }}</a></li>
+                    @endforeach
                     <li><a href="{{ route('lomba.index') }}">Lomba</a></li>
                     <li><a href="{{ route('tentang.index') }}">Tentang RTPU</a></li>
                     <li><a href="{{ route('struktur-organisasi.index') }}">Struktur Organisasi</a></li>
+                    @foreach($kategoriProduks as $kat)
+                        <li><a href="{{ route('produk.index', $kat->slug) }}">{{ $kat->nama_kategori_produk }}</a></li>
+                    @endforeach
                     <li><a href="{{ route('sertifikasi.index') }}">Pelatihan</a></li>
                 </ul>
             </div>
 
             {{-- Kolom 3: Pusat Unggulan --}}
-            <div class="footer-col">
+            {{-- <div class="footer-col">
                 <h6 class="footer-col-title">Pusat Unggulan</h6>
                 <ul class="footer-links">
                     <li><a href="{{ route('produk-unggulan.index') }}">Produk Unggulan</a></li>
@@ -50,6 +56,20 @@
                     <li><a href="{{ route('care.index') }}">CARE</a></li>
                     <li><a href="{{ route('pudewi.index') }}">PUDEWI</a></li>
                     <li><a href="{{ route('putoi.index') }}">PUTOI</a></li>
+                </ul>
+            </div> --}}
+
+            {{-- Kolom 3: Pusat Unggulan --}}
+            <div class="footer-col">
+                <h6 class="footer-col-title">Pusat Unggulan</h6>
+                <ul class="footer-links">
+                    @foreach($unitPuts as $unit)
+                    <li>
+                        <a href="{{ route('put.index', $unit->slug) }}">
+                            {{ $unit->nama_singkat_unit_put }}
+                        </a>
+                    </li>
+                    @endforeach
                 </ul>
             </div>
 

@@ -14,6 +14,7 @@ class StrukturOrganisasi extends Model
     protected $table = 'struktur_organisasi';
 
     protected $fillable = [
+        'users_id',
         'gambar',
         'nama',
         'slug',
@@ -25,5 +26,10 @@ class StrukturOrganisasi extends Model
     {
         $this->attributes['nama'] = $value;
         $this->attributes['slug'] = Str::slug($value);
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'users_id');
     }
 }

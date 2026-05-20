@@ -28,7 +28,8 @@ class StrukturOrganisasiResource extends Resource
 
     protected static ?string $navigationLabel = 'Struktur Organisasi'; 
     protected static ?string $pluralModelLabel = 'Struktur Organisasi';
-    protected static ?string $navigationGroup = 'Tentang RTPU';
+    protected static ?string $navigationGroup = 'Tentang';
+    protected static ?int $navigationSort = 2;
 
     public static function form(Form $form): Form
     {
@@ -38,19 +39,21 @@ class StrukturOrganisasiResource extends Resource
                 TextInput::make('nama')
                     ->required()
                     ->maxLength(255),
-                
-                FileUpload::make('gambar')
-                    ->image()
-                    ->directory('struktur-organisasi-gambar')
-                    ->maxSize(512) // 512 KB
-                    ->required(),
-                
+
                 TextInput::make('jabatan')
                     ->required()
                     ->maxLength(255),
                 
+                FileUpload::make('gambar')
+                    ->image()
+                    ->label('Foto')
+                    ->directory('struktur-organisasi-gambar')
+                    ->maxSize(512) // 512 KB
+                    ->required(),
+                
                 RichEditor::make('deskripsi')
                     ->required()
+                    ->label('Profil')
                     ->columnSpanFull()
                     ->toolbarButtons([
                         'attachFiles',
@@ -76,9 +79,10 @@ class StrukturOrganisasiResource extends Resource
         return $table
             ->columns([
                 //
-                TextColumn::make('nama')->searchable()->sortable(),
-                TextColumn::make('jabatan')->searchable()->sortable(),
-                ImageColumn::make('gambar'),
+                ImageColumn::make('gambar')->label('Foto'),
+                TextColumn::make('nama')->searchable(),
+                TextColumn::make('jabatan')->searchable(),
+                TextColumn::make('created_at')->label('Tanggal Dibuat')->formatStateUsing(fn ($state) => \Carbon\Carbon::parse($state)->timezone('Asia/Jakarta')->locale('id')->translatedFormat('d F Y, H:i') . ' WIB'),
             ])
             ->filters([
                 Tables\Filters\TrashedFilter::make(),

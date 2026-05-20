@@ -41,15 +41,26 @@ class HomeController extends Controller
         // $produkUnggulan = ProdukUnggulan::latest()->take(3)->get();
         // $produkInovasi = ProdukInovasi::latest()->take(3)->get();
 
+        // $produkKategori = KategoriProduk::whereIn('slug', self::PRODUK_SLUGS)
+        //         ->get()
+        //         ->keyBy('slug')
+        //         ->each(function ($kategori) {
+        //             $kategori->setRelation(
+        //                 'produk',
+        //                 $kategori->produk()->latest()->take(3)->get()
+        //             );
+        //         });
+
         $produkKategori = KategoriProduk::whereIn('slug', self::PRODUK_SLUGS)
-                ->get()
-                ->keyBy('slug')
-                ->each(function ($kategori) {
-                    $kategori->setRelation(
-                        'produk',
-                        $kategori->produk()->latest()->take(3)->get()
-                    );
-                });
+            ->orderByRaw("FIELD(slug, 'produk-unggulan', 'produk-inovasi')")
+            ->get()
+            ->keyBy('slug')
+            ->each(function ($kategori) {
+                $kategori->setRelation(
+                    'produk',
+                    $kategori->produk()->latest()->take(3)->get()
+                );
+            });
 
         $unitPutsHome = UnitPUT::latest()->take(3)->get();
 

@@ -47,11 +47,11 @@
                 <div class="stat-label">Unit PUT</div>
             </div>
             <div class="stat-item">
-                <div class="stat-number">{{ $stats['kategori_produk'] }}</div>
+                <div class="stat-number">{{ $stats['kategori_produk_put'] }}</div>
                 <div class="stat-label">Kategori Produk PUT</div>
             </div>
             <div class="stat-item">
-                <div class="stat-number">{{ $stats['produk'] }}</div>
+                <div class="stat-number">{{ $stats['produk_put'] }}</div>
                 <div class="stat-label">Produk PUT</div>
             </div>
             <div class="stat-item">

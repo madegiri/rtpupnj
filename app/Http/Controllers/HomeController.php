@@ -6,9 +6,11 @@ use App\Models\ArtikelInovasi;
 use App\Models\Berita;
 use App\Models\KategoriKonten;
 use App\Models\KategoriProduk;
+use App\Models\KategoriProdukPUT;
 use App\Models\Pengumuman;
 use App\Models\ProdukInovasi;
 use App\Models\ProdukUnggulan;
+use App\Models\PUTProduk;
 use App\Models\Sertifikasi;
 use App\Models\UnitPUT;
 use Illuminate\Http\Request;
@@ -62,8 +64,8 @@ class HomeController extends Controller
 
         $stats = [
             'unit_put'        => UnitPUT::count(),
-            'kategori_produk' => KategoriProduk::count(),
-            'produk'          => \App\Models\Produk::count(), // sesuaikan model name-nya
+            'kategori_produk_put' => KategoriProdukPUT::count(),
+            'produk_put'          => PUTProduk::count(), 
             'sertifikasi'     => Sertifikasi::count(),
         ];
 

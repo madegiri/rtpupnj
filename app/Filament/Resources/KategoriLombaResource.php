@@ -52,6 +52,8 @@ class KategoriLombaResource extends Resource
 
                 TextColumn::make('lomba_count')
                     ->label('Jumlah Lomba'),
+
+                TextColumn::make('created_at')->label('Tanggal Dibuat')->formatStateUsing(fn ($state) => \Carbon\Carbon::parse($state)->timezone('Asia/Jakarta')->locale('id')->translatedFormat('d F Y, H:i') . ' WIB'),
             ])
             ->filters([
                 Tables\Filters\TrashedFilter::make(),

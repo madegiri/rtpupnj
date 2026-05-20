@@ -14,7 +14,7 @@
                     <li class="breadcrumb-item active">Lomba</li>
                 </ol>
             </nav>
-            <h1 class="section-title mt-1">Lomba</h1>
+            <h1 class="section-title mt-1">Lomba Pekan Inovasi</h1>
             <p class="section-subtitle">Informasi lomba yang dapat diikuti.</p>
         </div>
 

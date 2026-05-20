@@ -18,6 +18,13 @@
         <h1 class="article-title mt-2">{{ $lomba->nama_lomba }}</h1>
 
         <div class="article-meta">
+            @if($lomba->user)
+            <span class="date-badge">
+                <i class="bi bi-person"></i>
+                {{ $lomba->user->name }}
+            </span>
+            @endif
+            <span class="date-sep">·</span>
             <span class="date-badge">
                 <i class="bi bi-calendar3"></i>
                 {{ $lomba->created_at->locale('id')->isoFormat('D MMMM YYYY') }}

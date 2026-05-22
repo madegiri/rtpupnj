@@ -141,7 +141,7 @@
 .konten-desc-box { background: #f9fafb; border: 1px solid #e5e7eb; border-radius: 14px; padding: 1.75rem; }
 
 /* ─── Article body ─── */
-.article-body { font-size: 1rem; line-height: 1.9; color: #374151; text-align: justify; }
+.article-body { font-size: 1rem; line-height: 1.9; color: #374151; text-align: justify; word-break: break-word; overflow-wrap: break-word;}
 .article-body h1, .article-body h2, .article-body h3, .article-body h4 {
     font-weight: 700; color: #111827; letter-spacing: -0.015em; margin-top: 2rem; margin-bottom: 0.75rem;
 }

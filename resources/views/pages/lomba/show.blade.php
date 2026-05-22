@@ -293,7 +293,7 @@
     display: flex; align-items: center; gap: 0.5rem; margin-bottom: 1rem;
 }
 .deskripsi-title i { color: #00998a; }
-.article-body { font-size: 1rem; line-height: 1.9; color: #374151; text-align: justify; }
+.article-body { font-size: 1rem; line-height: 1.9; color: #374151; text-align: justify; word-break: break-word; overflow-wrap: break-word;}
 .article-body p { margin-bottom: 1.25rem; }
 .article-body p:last-child { margin-bottom: 0; }
 .article-body h2,.article-body h3,.article-body h4 {

@@ -96,6 +96,27 @@
                 </ul>
             </div>
 
+            {{-- Kolom: Statistik Pengunjung per Negara --}}
+            <div class="footer-col">
+                <h6 class="footer-col-title">Pengunjung Kami</h6>
+                <ul class="footer-visitor-stats">
+                    @forelse($visitorsByCountry as $stat)
+                        <li>
+                            <span class="visitor-country">
+                                @if($stat->country_code)
+                                    <img src="https://flagcdn.com/24x18/{{ strtolower($stat->country_code) }}.png"
+                                        alt="{{ $stat->country }}" class="flag-icon">
+                                @endif
+                                {{ $stat->country }}
+                            </span>
+                            <span class="visitor-count">{{ number_format($stat->total) }}</span>
+                        </li>
+                    @empty
+                        <li><span class="visitor-country">Belum ada data</span></li>
+                    @endforelse
+                </ul>
+            </div>
+
         </div>
 
     </div>
@@ -122,9 +143,38 @@
 /* Grid layout */
 .footer-grid {
     display: grid;
-    grid-template-columns: 1.8fr 1fr 1fr 1.4fr;
+    grid-template-columns: 1.6fr 1fr 1fr 1fr 1.2fr;
     gap: 3rem;
     padding-bottom: 3rem;
+}
+
+.footer-visitor-stats {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.footer-visitor-stats li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.855rem;
+    color: rgba(255,255,255,0.42);
+    padding: 0.35rem 0;
+}
+
+.flag-icon {
+    width: 18px;
+    height: 13px;
+    object-fit: cover;
+    border-radius: 2px;
+    margin-right: 0.4rem;
+    vertical-align: middle;
+}
+
+.visitor-count {
+    font-weight: 600;
+    color: rgba(255,255,255,0.65);
 }
 
 @media (max-width: 991.98px) {

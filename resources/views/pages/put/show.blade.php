@@ -48,6 +48,26 @@
                     </span>
                 </div>
 
+                {{-- Video Produk --}}
+                @if($produk->video)
+                <div class="video-section mb-4">
+                    <h5 class="produk-desc-title">
+                        <i class="bi bi-play-circle"></i> Video Produk
+                    </h5>
+                    <div class="video-player-wrap">
+                        <video
+                            controls
+                            preload="metadata"
+                            playsinline
+                            @if($produk->thumbnail) poster="{{ asset('storage/' . $produk->thumbnail) }}" @endif
+                            class="video-player">
+                            <source src="{{ asset('storage/' . $produk->video) }}" type="video/mp4">
+                            Browser Anda tidak mendukung pemutaran video.
+                        </video>
+                    </div>
+                </div>
+                @endif
+
                 <div class="row g-4 mb-4">
                     {{-- Poster kiri --}}
                     @if($produk->poster)

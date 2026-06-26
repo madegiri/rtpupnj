@@ -22,6 +22,7 @@ class PUTProduk extends Model
         'poster',
         'galeri',
         'isi',
+        'video',
     ];
 
     public function setJudulAttribute($value)

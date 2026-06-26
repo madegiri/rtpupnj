@@ -47,7 +47,7 @@ return [
 	| Shetabit\Visitor\Contracts\GeoIpResolver.
 	|
 	*/
-	'geoip'   => false,           // disable enrichment by default
+	'geoip'   => true,           // disable enrichment by default
 	'resolver'=> 'stevebauman',   // default resolver
 	'resolvers' => [
 		'stevebauman' => \Shetabit\Visitor\Resolvers\GeoIp\SteveBaumanResolver::class,

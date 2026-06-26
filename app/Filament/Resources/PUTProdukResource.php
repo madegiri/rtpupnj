@@ -110,6 +110,14 @@ class PUTProdukResource extends Resource
                             ->multiple()
                             ->required()
                             ->directory('put-produk/galeri'),
+
+                        Forms\Components\FileUpload::make('video')
+                            ->label('Video Produk')
+                            ->directory('put-produk/video')
+                            ->acceptedFileTypes(['video/mp4', 'video/webm'])
+                            ->maxSize(12288) 
+                            ->downloadable()
+                            ->openable()
                 ])->columns(2),
             ]);
     }

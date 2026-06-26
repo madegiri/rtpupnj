@@ -192,6 +192,32 @@
     border-radius: 50px; backdrop-filter: blur(4px);
 }
 
+.video-section {
+    margin-top: 1.5rem;
+}
+
+.video-player-wrap {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    background: #0a0a0a;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 8px 28px rgba(0, 0, 0, 0.18);
+}
+
+.video-player {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    display: block;
+    background: #0a0a0a;
+}
+
+.video-player::-webkit-media-controls-panel {
+    background: linear-gradient(transparent, rgba(0,0,0,0.4));
+}
+
 /* ─── Lightbox ─── */
 .lightbox-overlay {
     display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.88);

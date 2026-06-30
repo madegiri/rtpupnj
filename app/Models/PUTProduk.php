@@ -44,4 +44,44 @@ class PUTProduk extends Model
     {
         return $this->belongsTo(KategoriProdukPUT::class, 'kategori_produk_put_id');
     }
+
+    public function getVideoEmbedUrlAttribute(): ?string
+    {
+        if (!$this->video) {
+            return null;
+        }
+
+        $url = trim($this->video);
+
+        if (preg_match('/(?:youtube\.com\/(?:watch\?v=|embed\/|shorts\/)|youtu\.be\/)([a-zA-Z0-9_-]{11})/', $url, $m)) {
+            return 'https://www.youtube.com/embed/' . $m[1];
+        }
+
+        if (preg_match('/drive\.google\.com\/file\/d\/([a-zA-Z0-9_-]+)/', $url, $m)) {
+            return 'https://drive.google.com/file/d/' . $m[1] . '/preview';
+        }
+
+        if (preg_match('/drive\.google\.com\/open\?id=([a-zA-Z0-9_-]+)/', $url, $m)) {
+            return 'https://drive.google.com/file/d/' . $m[1] . '/preview';
+        }
+
+        return null;
+    }
+
+    public function getVideoTypeAttribute(): ?string
+    {
+        if (!$this->video) {
+            return null;
+        }
+
+        if (preg_match('/(?:youtube\.com|youtu\.be)/', $this->video)) {
+            return 'youtube';
+        }
+
+        if (str_contains($this->video, 'drive.google.com')) {
+            return 'drive';
+        }
+
+        return 'direct';
+    }
 }

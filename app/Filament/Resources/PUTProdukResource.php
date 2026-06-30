@@ -111,13 +111,17 @@ class PUTProdukResource extends Resource
                             ->required()
                             ->directory('put-produk/galeri'),
 
-                        Forms\Components\FileUpload::make('video')
-                            ->label('Video Produk')
-                            ->directory('put-produk/video')
-                            ->acceptedFileTypes(['video/mp4', 'video/webm'])
-                            ->maxSize(12288) 
-                            ->downloadable()
-                            ->openable()
+                        // Forms\Components\FileUpload::make('video')
+                        //     ->label('Video Produk')
+                        //     ->directory('put-produk/video')
+                        //     ->acceptedFileTypes(['video/mp4', 'video/webm'])
+                        //     ->maxSize(12288) 
+                        //     ->downloadable()
+                        //     ->openable()
+                        TextInput::make('video')
+                            ->label('Link Video Produk')
+                            ->helperText('Tempel link YouTube atau Google Drive. Untuk tampilan terbaik di HP, disarankan pakai YouTube.')
+                            ->url(),
                 ])->columns(2),
             ]);
     }

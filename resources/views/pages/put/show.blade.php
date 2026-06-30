@@ -49,7 +49,7 @@
                 </div>
 
                 {{-- Video Produk --}}
-                @if($produk->video)
+                {{-- @if($produk->video)
                 <div class="video-section mb-4">
                     <h5 class="produk-desc-title">
                         <i class="bi bi-play-circle"></i> Video Produk
@@ -64,6 +64,58 @@
                             <source src="{{ asset('storage/' . $produk->video) }}" type="video/mp4">
                             Browser Anda tidak mendukung pemutaran video.
                         </video>
+                    </div>
+                </div>
+                @endif --}}
+
+                {{-- Video Produk --}}
+                {{-- @if($produk->video)
+                <div class="video-section mb-4">
+                    <h5 class="produk-desc-title">
+                        <i class="bi bi-play-circle"></i> Video Produk
+                    </h5>
+                    <div class="video-player-wrap">
+                        @if($produk->video_embed_url)
+                            <iframe
+                                src="{{ $produk->video_embed_url }}"
+                                class="video-player"
+                                allow="autoplay; fullscreen; encrypted-media"
+                                allowfullscreen
+                                referrerpolicy="strict-origin-when-cross-origin">
+                            </iframe>
+                        @else
+                            <video controls preload="metadata" playsinline class="video-player"
+                                @if($produk->thumbnail) poster="{{ asset('storage/' . $produk->thumbnail) }}" @endif>
+                                <source src="{{ $produk->video }}" type="video/mp4">
+                                Browser Anda tidak mendukung pemutaran video.
+                            </video>
+                        @endif
+                    </div>
+                </div>
+                @endif --}}
+
+                {{-- Video Produk --}}
+                @if($produk->video)
+                <div class="video-section mb-4">
+                    <h5 class="produk-desc-title">
+                        <i class="bi bi-play-circle"></i> Video Produk
+                    </h5>
+                    <div class="video-player-wrap @if($produk->video_type === 'drive') is-drive @endif">
+                        @if($produk->video_embed_url)
+                            <iframe
+                                src="{{ $produk->video_embed_url }}"
+                                class="video-player"
+                                allow="autoplay; fullscreen; encrypted-media"
+                                allowfullscreen
+                                referrerpolicy="strict-origin-when-cross-origin">
+                            </iframe>
+                        @else
+                            <video controls preload="metadata" playsinline class="video-player"
+                                @if($produk->thumbnail) poster="{{ asset('storage/' . $produk->thumbnail) }}" @endif>
+                                <source src="{{ $produk->video }}" type="video/mp4">
+                                Browser Anda tidak mendukung pemutaran video.
+                            </video>
+                        @endif
                     </div>
                 </div>
                 @endif

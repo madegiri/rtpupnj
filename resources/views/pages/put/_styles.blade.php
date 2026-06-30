@@ -218,6 +218,25 @@
     background: linear-gradient(transparent, rgba(0,0,0,0.4));
 }
 
+.video-player-wrap iframe.video-player {
+    width: 100%;
+    height: 100%;
+    border: 0;
+    display: block;
+}
+
+/* .video-player-wrap.is-drive {
+    aspect-ratio: auto;
+    min-height: 220px;
+} */
+
+@media (max-width: 576px) {
+    .video-player-wrap.is-drive {
+        aspect-ratio: 4 / 3;
+        min-height: 260px;
+    }
+}
+
 /* ─── Lightbox ─── */
 .lightbox-overlay {
     display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.88);

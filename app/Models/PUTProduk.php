@@ -15,7 +15,7 @@ class PUTProduk extends Model
 
     protected $fillable = [
         'users_id',
-        'kategori_produk_put_id',
+        'sub_kategori_produk_put_id',
         'judul',
         'slug',
         'thumbnail',
@@ -40,9 +40,14 @@ class PUTProduk extends Model
         return $this->belongsTo(User::class, 'users_id');
     }
 
-    public function kategoriProduk()
+    // public function kategoriProduk()
+    // {
+    //     return $this->belongsTo(KategoriProdukPUT::class, 'kategori_produk_put_id');
+    // }
+
+    public function subKategoriProdukPut()
     {
-        return $this->belongsTo(KategoriProdukPUT::class, 'kategori_produk_put_id');
+        return $this->belongsTo(SubKategoriProdukPUT::class, 'sub_kategori_produk_put_id');
     }
 
     public function getVideoEmbedUrlAttribute(): ?string

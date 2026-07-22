@@ -6,7 +6,7 @@
 <section class="py-5">
     <div class="container">
 
-        <div class="page-header mb-3">
+        <div class="page-header mb-5">
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb breadcrumb-custom">
                     <li class="breadcrumb-item"><a href="{{ route('home') }}">Beranda</a></li>
@@ -20,88 +20,81 @@
             </nav>
             <h1 class="section-title mt-1">{{ $kategori->nama_kategori }}</h1>
             <p class="section-subtitle">
-                Produk-produk {{ $unitPut->nama_singkat_unit_put }}
-                dalam bidang {{ $kategori->nama_kategori }}.
+                Sub kategori dan produk {{ $unitPut->nama_singkat_unit_put }}
+                dalam kategori {{ $kategori->nama_kategori }}.
             </p>
         </div>
 
-        {{-- Search Bar --}}
-        <div class="search-wrapper mb-4">
-            <form action="{{ route('put.kategori', [$unitPut->slug, $kategori->slug]) }}" method="GET">
-                <div class="search-box">
-                    <i class="bi bi-search search-icon"></i>
-                    <input
-                        type="text"
-                        name="search"
-                        class="search-input"
-                        placeholder="Cari produk..."
-                        value="{{ $search ?? '' }}"
-                        autocomplete="off"
-                    >
-                    @if($search ?? false)
-                        <a href="{{ route('put.kategori', [$unitPut->slug, $kategori->slug]) }}" class="search-clear">
-                            <i class="bi bi-x-lg"></i>
-                        </a>
-                    @endif
+        {{-- Preview Per Sub Kategori --}}
+        @forelse($subKategoris as $sub)
+        @php $produks = $previewPerSubKategori[$sub->id] ?? collect(); @endphp
+
+        <div class="kategori-section">
+            <div class="kategori-header">
+                <div class="kategori-header-left">
+                    <span class="section-eyebrow">Sub Kategori</span>
+                    <h2 class="section-title mt-1">{{ $sub->nama_sub_kategori }}</h2>
                 </div>
-            </form>
-            @if($search ?? false)
-                <p class="search-result-info">
-                    Menampilkan hasil untuk <strong>"{{ $search }}"</strong>
-                </p>
+                <a href="{{ route('put.sub_kategori', [$unitPut->slug, $kategori->slug, $sub->slug]) }}"
+                   class="btn-lihat-semua">
+                    Lihat Semua <i class="bi bi-arrow-right"></i>
+                </a>
+            </div>
+
+            @if($produks->count() > 0)
+            <div class="row g-4">
+                @foreach($produks as $produk)
+                <div class="col-12 col-sm-6 col-lg-4">
+                    <a href="{{ route('put.show', [$unitPut->slug, $kategori->slug, $sub->slug, $produk->slug]) }}"
+                       class="content-card h-100" style="text-decoration:none; color:inherit;">
+                        <div class="content-card-thumb">
+                            <span class="card-chip">{{ $sub->nama_sub_kategori }}</span>
+                            @if($produk->thumbnail)
+                                <img src="{{ asset('storage/' . $produk->thumbnail) }}"
+                                     alt="{{ $produk->judul }}">
+                            @else
+                                <div class="content-card-thumb-placeholder">
+                                    <i class="bi bi-box"></i>
+                                </div>
+                            @endif
+                        </div>
+                        <div class="content-card-body">
+                            <div class="date-badge mt-1 mb-2">
+                                <i class="bi bi-calendar3"></i>
+                                {{ $produk->created_at->translatedFormat('d F Y') }}
+                                <span class="date-sep">·</span>
+                                <i class="bi bi-clock"></i>
+                                {{ $produk->created_at->format('H:i') }} WIB
+                            </div>
+                            <h6 class="content-card-title">
+                                {{ Str::limit($produk->judul, 80) }}
+                            </h6>
+                            <p class="content-card-excerpt">
+                                {{ Str::limit(strip_tags($produk->isi), 100) }}
+                            </p>
+                        </div>
+                    </a>
+                </div>
+                @endforeach
+            </div>
+            @else
+            <div class="empty-state">
+                <i class="bi bi-box"></i>
+                <p>Belum ada produk untuk sub kategori ini.</p>
+            </div>
             @endif
         </div>
 
-        <div class="row g-4">
-            @forelse($produks as $produk)
-            <div class="col-12 col-sm-6 col-lg-4">
-                <a href="{{ route('put.show', [$unitPut->slug, $kategori->slug, $produk->slug]) }}"
-                   class="content-card h-100" style="text-decoration:none; color:inherit;">
-                    <div class="content-card-thumb">
-                        <span class="card-chip">{{ $kategori->nama_kategori }}</span>
-                        @if($produk->thumbnail)
-                            <img src="{{ asset('storage/' . $produk->thumbnail) }}"
-                                 alt="{{ $produk->judul }}">
-                        @else
-                            <div class="content-card-thumb-placeholder">
-                                <i class="bi bi-box"></i>
-                            </div>
-                        @endif
-                    </div>
-                    <div class="content-card-body">
-                        <div class="date-badge mt-1 mb-2">
-                            <i class="bi bi-calendar3"></i>
-                            {{ $produk->created_at->locale('id')->isoFormat('D MMMM YYYY') }}
-                            <span class="date-sep">·</span>
-                            <i class="bi bi-clock"></i>
-                            {{ $produk->created_at->format('H:i') }} WIB
-                        </div>
-                        <h6 class="content-card-title">
-                            {{ Str::limit($produk->judul, 80) }}
-                        </h6>
-                        <p class="content-card-excerpt">
-                            {{ Str::limit(strip_tags($produk->isi), 100) }}
-                        </p>
-                    </div>
-                </a>
-            </div>
-            @empty
-            <div class="col-12">
-                <div class="empty-state">
-                    <i class="bi bi-box"></i>
-                    <p>Belum ada produk untuk kategori ini.</p>
-                </div>
-            </div>
-            @endforelse
-        </div>
-
-        @if($produks->hasPages())
-        <div class="d-flex justify-content-center mt-5">
-            <div class="pagination-wrapper">
-                {{ $produks->links('pagination::bootstrap-5') }}
-            </div>
-        </div>
+        @if(!$loop->last)
+        <div class="kategori-divider"></div>
         @endif
+
+        @empty
+        <div class="empty-state">
+            <i class="bi bi-grid-3x3-gap"></i>
+            <p>Belum ada sub kategori untuk kategori ini.</p>
+        </div>
+        @endforelse
 
     </div>
 </section>

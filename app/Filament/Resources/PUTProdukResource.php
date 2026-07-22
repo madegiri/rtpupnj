@@ -5,6 +5,7 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\PUTProdukResource\Pages;
 use App\Filament\Resources\PUTProdukResource\RelationManagers;
 use App\Models\PUTProduk;
+use App\Models\UnitPUT;
 use Filament\Forms;
 use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Components\Select;
@@ -29,7 +30,7 @@ class PUTProdukResource extends Resource
     protected static ?string $pluralModelLabel = 'Produk PUT';
     protected static ?string $navigationGroup = 'Pusat Unggulan';
 
-    protected static ?int $navigationSort = 3;
+    protected static ?int $navigationSort = 4;
 
     public static function form(Form $form): Form
     {
@@ -40,23 +41,39 @@ class PUTProdukResource extends Resource
                 ->schema([
                     Select::make('unit_put_id')
                         ->label('Unit PUT')
-                        ->relationship('kategoriProduk.unitPut', 'nama_singkat_unit_put')
+                        ->options(UnitPUT::pluck('nama_singkat_unit_put', 'id'))
                         ->required()
                         ->preload()
                         ->searchable()
                         ->live()
-                        ->afterStateUpdated(fn (Forms\Set $set) => $set('kategori_produk_put_id', null)),
+                        ->afterStateUpdated(fn (Forms\Set $set) => $set('kategori_produk_put_id', null))
+                        ->dehydrated(false),
 
                     Select::make('kategori_produk_put_id')
                         ->label('Kategori Produk')
                         ->required()
                         ->searchable()
                         ->preload()
+                        ->live()
                         ->options(function (Forms\Get $get) {
                             $unitPutId = $get('unit_put_id');
                             if (!$unitPutId) return [];
                             return \App\Models\KategoriProdukPUT::where('unit_put_id', $unitPutId)
                                 ->pluck('nama_kategori', 'id');
+                        })
+                        ->afterStateUpdated(fn (Forms\Set $set) => $set('sub_kategori_produk_put_id', null))
+                        ->dehydrated(false),
+
+                    Select::make('sub_kategori_produk_put_id')
+                        ->label('Sub Kategori Produk')
+                        ->required()
+                        ->searchable()
+                        ->preload()
+                        ->options(function (Forms\Get $get) {
+                            $kategoriId = $get('kategori_produk_put_id');
+                            if (!$kategoriId) return [];
+                            return \App\Models\SubKategoriProdukPUT::where('kategori_produk_put_id', $kategoriId)
+                                ->pluck('nama_sub_kategori', 'id');
                         }),
 
                     TextInput::make('judul')
@@ -139,12 +156,16 @@ class PUTProdukResource extends Resource
                     ->limit(50)
                     ->searchable(),
 
-                TextColumn::make('kategoriProduk.unitPut.nama_singkat_unit_put')
+                TextColumn::make('subKategoriProdukPut.kategoriProdukPut.unitPut.nama_singkat_unit_put')
                     ->label('Unit PUT')
                     ->searchable(),
 
-                TextColumn::make('kategoriProduk.nama_kategori')
+                TextColumn::make('subKategoriProdukPut.kategoriProdukPut.nama_kategori')
                     ->label('Kategori Produk')
+                    ->searchable(),
+
+                TextColumn::make('subKategoriProdukPut.nama_sub_kategori')
+                    ->label('Sub Kategori Produk')
                     ->searchable(),
                 
                 TextColumn::make('created_at')->label('Tanggal Dibuat')->formatStateUsing(fn ($state) => \Carbon\Carbon::parse($state)->timezone('Asia/Jakarta')->locale('id')->translatedFormat('d F Y, H:i') . ' WIB'),
@@ -153,15 +174,15 @@ class PUTProdukResource extends Resource
                 Tables\Filters\TrashedFilter::make(),
                 SelectFilter::make('unit_put')
                     ->label('Filter Unit PUT')
-                    ->relationship('kategoriProduk.unitPut', 'nama_singkat_unit_put')
-                    ->preload()
-                    ->searchable(),
-                    
-                SelectFilter::make('kategori_produk_put_id')
+                    ->relationship('subKategoriProdukPut.kategoriProdukPut.unitPut', 'nama_singkat_unit_put'),
+
+                SelectFilter::make('kategori_produk_put')
                     ->label('Filter Kategori')
-                    ->relationship('kategoriProduk', 'nama_kategori')
-                    ->preload()
-                    ->searchable(),
+                    ->relationship('subKategoriProdukPut.kategoriProdukPut', 'nama_kategori'),
+
+                SelectFilter::make('sub_kategori_produk_put_id')
+                    ->label('Filter Sub Kategori')
+                    ->relationship('subKategoriProdukPut', 'nama_sub_kategori'),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),

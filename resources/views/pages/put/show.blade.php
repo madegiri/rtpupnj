@@ -20,6 +20,11 @@
                         {{ $kategori->nama_kategori }}
                     </a>
                 </li>
+                <li class="breadcrumb-item">
+                    <a href="{{ route('put.sub_kategori', [$unitPut->slug, $kategori->slug, $subKategori->slug]) }}">
+                        {{ $subKategori->nama_sub_kategori }}
+                    </a>
+                </li>
                 <li class="breadcrumb-item active">{{ Str::limit($produk->judul, 40) }}</li>
             </ol>
         </nav>
@@ -47,52 +52,6 @@
                         {{ $produk->created_at->format('H:i') }} WIB
                     </span>
                 </div>
-
-                {{-- Video Produk --}}
-                {{-- @if($produk->video)
-                <div class="video-section mb-4">
-                    <h5 class="produk-desc-title">
-                        <i class="bi bi-play-circle"></i> Video Produk
-                    </h5>
-                    <div class="video-player-wrap">
-                        <video
-                            controls
-                            preload="metadata"
-                            playsinline
-                            @if($produk->thumbnail) poster="{{ asset('storage/' . $produk->thumbnail) }}" @endif
-                            class="video-player">
-                            <source src="{{ asset('storage/' . $produk->video) }}" type="video/mp4">
-                            Browser Anda tidak mendukung pemutaran video.
-                        </video>
-                    </div>
-                </div>
-                @endif --}}
-
-                {{-- Video Produk --}}
-                {{-- @if($produk->video)
-                <div class="video-section mb-4">
-                    <h5 class="produk-desc-title">
-                        <i class="bi bi-play-circle"></i> Video Produk
-                    </h5>
-                    <div class="video-player-wrap">
-                        @if($produk->video_embed_url)
-                            <iframe
-                                src="{{ $produk->video_embed_url }}"
-                                class="video-player"
-                                allow="autoplay; fullscreen; encrypted-media"
-                                allowfullscreen
-                                referrerpolicy="strict-origin-when-cross-origin">
-                            </iframe>
-                        @else
-                            <video controls preload="metadata" playsinline class="video-player"
-                                @if($produk->thumbnail) poster="{{ asset('storage/' . $produk->thumbnail) }}" @endif>
-                                <source src="{{ $produk->video }}" type="video/mp4">
-                                Browser Anda tidak mendukung pemutaran video.
-                            </video>
-                        @endif
-                    </div>
-                </div>
-                @endif --}}
 
                 {{-- Video Produk --}}
                 @if($produk->video)
@@ -140,7 +99,7 @@
                         {{-- Thumbnail --}}
                         @if($produk->thumbnail)
                         <div class="article-hero-img mb-3">
-                            <span class="card-chip">{{ $kategori->nama_kategori }}</span>
+                            <span class="card-chip">{{ $subKategori->nama_sub_kategori }}</span>
                             <img src="{{ asset('storage/' . $produk->thumbnail) }}"
                                  alt="{{ $produk->judul }}"
                                  class="lightbox-trigger"
@@ -208,15 +167,15 @@
         <div class="related-section">
             <div class="related-header">
                 <span class="section-eyebrow">Lihat Juga</span>
-                <h2 class="section-title mt-1">Produk {{ $kategori->nama_kategori }} Lainnya</h2>
+                <h2 class="section-title mt-1">Produk {{ $subKategori->nama_sub_kategori }} Lainnya</h2>
             </div>
             <div class="row g-4">
                 @foreach($related as $rel)
                 <div class="col-12 col-sm-6 col-lg-4">
-                    <a href="{{ route('put.show', [$unitPut->slug, $kategori->slug, $rel->slug]) }}"
+                    <a href="{{ route('put.show', [$unitPut->slug, $kategori->slug, $subKategori->slug, $rel->slug]) }}"
                        class="content-card h-100" style="text-decoration:none; color:inherit;">
                         <div class="content-card-thumb">
-                            <span class="card-chip">{{ $kategori->nama_kategori }}</span>
+                            <span class="card-chip">{{ $subKategori->nama_sub_kategori }}</span>
                             @if($rel->thumbnail)
                                 <img src="{{ asset('storage/' . $rel->thumbnail) }}"
                                      alt="{{ $rel->judul }}">
@@ -246,9 +205,9 @@
                 @endforeach
             </div>
             <div class="text-center mt-4">
-                <a href="{{ route('put.kategori', [$unitPut->slug, $kategori->slug]) }}"
+                <a href="{{ route('put.sub_kategori', [$unitPut->slug, $kategori->slug, $subKategori->slug]) }}"
                    class="btn-lihat-semua">
-                    Lihat Semua {{ $kategori->nama_kategori }}
+                    Lihat Semua {{ $subKategori->nama_sub_kategori }}
                     <i class="bi bi-arrow-right"></i>
                 </a>
             </div>

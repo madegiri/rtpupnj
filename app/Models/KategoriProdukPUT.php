@@ -30,8 +30,13 @@ class KategoriProdukPUT extends Model
         return $this->belongsTo(UnitPUT::class, 'unit_put_id');
     }
 
-    public function putProduk()
+    // public function putProduk()
+    // {
+    //     return $this->hasMany(PUTProduk::class, 'kategori_produk_put_id');
+    // }
+
+    public function subKategori()
     {
-        return $this->hasMany(PUTProduk::class, 'kategori_produk_put_id');
+        return $this->hasMany(SubKategoriProdukPUT::class, 'kategori_produk_put_id');
     }
 }

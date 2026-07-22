@@ -61,8 +61,8 @@ class KategoriProdukPUTResource extends Resource
                     ->label('Nama Kategori Produk PUT')
                     ->searchable(),
                 
-                TextColumn::make('put_produk_count')
-                    ->label('Jumlah Produk'),
+                TextColumn::make('sub_kategori_count')
+                    ->label('Jumlah Sub Kategori'),
                 
                 TextColumn::make('created_at')->label('Tanggal Dibuat')->formatStateUsing(fn ($state) => \Carbon\Carbon::parse($state)->timezone('Asia/Jakarta')->locale('id')->translatedFormat('d F Y, H:i') . ' WIB'),
             ])
@@ -83,7 +83,9 @@ class KategoriProdukPUTResource extends Resource
                         ->color('danger')
                         ->requiresConfirmation()
                         ->action(function (\Illuminate\Support\Collection $records) {
-                            $adaProduk = $records->filter(fn ($record) => $record->putProduk()->exists());
+                            $adaProduk = $records->filter(
+                                fn ($record) => $record->subKategori()->whereHas('putProduk')->exists()
+                            );
 
                             if ($adaProduk->isNotEmpty()) {
                                 $namaKategori = $adaProduk->pluck('nama_kategori')->join(', ');
@@ -94,7 +96,7 @@ class KategoriProdukPUTResource extends Resource
                                     ->body("Kategori berikut masih memiliki produk: {$namaKategori}. Semua penghapusan dibatalkan.")
                                     ->send();
 
-                                return; 
+                                return;
                             }
 
                             $records->each->delete();
@@ -130,7 +132,7 @@ class KategoriProdukPUTResource extends Resource
     public static function getEloquentQuery(): Builder
     {
         return parent::getEloquentQuery()
-            ->withCount('putProduk')
+            ->withCount('subKategori')
             ->withoutGlobalScopes([
                 SoftDeletingScope::class,
             ]);

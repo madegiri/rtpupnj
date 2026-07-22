@@ -23,14 +23,19 @@ class EditPUTProduk extends EditRecord
     // Saat edit, isi unit_put_id dari relasi supaya dropdown tidak kosong
     protected function mutateFormDataBeforeFill(array $data): array
     {
-        $data['unit_put_id'] = $this->record->kategoriProduk->unit_put_id ?? null;
+        // $data['unit_put_id'] = $this->record->kategoriProduk->unit_put_id ?? null;
+        // return $data;
+
+        $subKategori = $this->record->subKategoriProdukPut;
+        $data['kategori_produk_put_id'] = $subKategori->kategori_produk_put_id ?? null;
+        $data['unit_put_id'] = $subKategori->kategoriProdukPut->unit_put_id ?? null;
         return $data;
     }
 
     // Buang unit_put_id sebelum save, karena bukan kolom di db
     protected function mutateFormDataBeforeSave(array $data): array
     {
-        unset($data['unit_put_id']);
+        unset($data['unit_put_id'], $data['kategori_produk_put_id']);
 
         // hanya isi kalau masih null
         if (empty($data['users_id'])) {

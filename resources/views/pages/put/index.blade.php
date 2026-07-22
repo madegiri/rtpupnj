@@ -78,7 +78,7 @@
         @endif
         @endif
 
-        {{-- Preview Per Kategori --}}
+        {{-- Preview Per Kategori (lintas semua sub kategori di dalamnya) --}}
         @foreach($kategoris as $kategori)
         @php $produks = $previewPerKategori[$kategori->id] ?? collect(); @endphp
 
@@ -87,10 +87,6 @@
                 <div class="kategori-header-left">
                     <span class="section-eyebrow">Kategori</span>
                     <h2 class="section-title mt-1">{{ $kategori->nama_kategori }}</h2>
-                    {{-- <p class="kategori-count">
-                        <i class="bi bi-grid-3x3-gap"></i>
-                        {{ $kategori->put_produk_count }} produk tersedia
-                    </p> --}}
                 </div>
                 <a href="{{ route('put.kategori', [$unitPut->slug, $kategori->slug]) }}"
                    class="btn-lihat-semua">
@@ -101,11 +97,12 @@
             @if($produks->count() > 0)
             <div class="row g-4">
                 @foreach($produks as $produk)
+                @php $subKategori = $produk->subKategoriProdukPut; @endphp
                 <div class="col-12 col-sm-6 col-lg-4">
-                    <a href="{{ route('put.show', [$unitPut->slug, $kategori->slug, $produk->slug]) }}"
+                    <a href="{{ route('put.show', [$unitPut->slug, $kategori->slug, $subKategori->slug, $produk->slug]) }}"
                        class="content-card h-100" style="text-decoration:none; color:inherit;">
                         <div class="content-card-thumb">
-                            <span class="card-chip">{{ $kategori->nama_kategori }}</span>
+                            <span class="card-chip">{{ $subKategori->nama_sub_kategori }}</span>
                             @if($produk->thumbnail)
                                 <img src="{{ asset('storage/' . $produk->thumbnail) }}"
                                      alt="{{ $produk->judul }}">
@@ -118,7 +115,7 @@
                         <div class="content-card-body">
                             <div class="date-badge mt-1 mb-2">
                                 <i class="bi bi-calendar3"></i>
-                                {{ $produk->created_at->locale('id')->isoFormat('D MMMM YYYY') }}
+                                {{ $produk->created_at->translatedFormat('d F Y') }}
                                 <span class="date-sep">·</span>
                                 <i class="bi bi-clock"></i>
                                 {{ $produk->created_at->format('H:i') }} WIB

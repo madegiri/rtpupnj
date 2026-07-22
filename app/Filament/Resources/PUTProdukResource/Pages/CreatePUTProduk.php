@@ -13,7 +13,7 @@ class CreatePUTProduk extends CreateRecord
 
     protected function mutateFormDataBeforeCreate(array $data): array
     {
-        unset($data['unit_put_id']);
+        unset($data['unit_put_id'], $data['kategori_produk_put_id']);
         $data['users_id'] = Auth::id();
         return $data;
     }

@@ -148,10 +148,17 @@ Route::middleware([LogVisits::class])->group(function () {
     });
 
     // PUT
+    // Route::prefix('put')->name('put.')->group(function () {
+    //     Route::get('/{unit_slug}', [PUTController::class, 'index'])->name('index');
+    //     Route::get('/{unit_slug}/{kategori_slug}', [PUTController::class, 'kategori'])->name('kategori');
+    //     Route::get('/{unit_slug}/{kategori_slug}/{slug}', [PUTController::class, 'show'])->name('show');
+    // });
+
     Route::prefix('put')->name('put.')->group(function () {
         Route::get('/{unit_slug}', [PUTController::class, 'index'])->name('index');
         Route::get('/{unit_slug}/{kategori_slug}', [PUTController::class, 'kategori'])->name('kategori');
-        Route::get('/{unit_slug}/{kategori_slug}/{slug}', [PUTController::class, 'show'])->name('show');
+        Route::get('/{unit_slug}/{kategori_slug}/{sub_kategori_slug}', [PUTController::class, 'subKategori'])->name('sub_kategori');
+        Route::get('/{unit_slug}/{kategori_slug}/{sub_kategori_slug}/{slug}', [PUTController::class, 'show'])->name('show');
     });
 
     // Sertifikasi

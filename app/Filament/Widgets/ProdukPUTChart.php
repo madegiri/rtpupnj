@@ -19,7 +19,7 @@ class ProdukPUTChart extends ChartWidget
 
     protected function getData(): array
     {
-        $units = UnitPUT::with(['kategoriProduk' => function ($query) {
+        $units = UnitPUT::with(['kategoriProduk.subKategori' => function ($query) {
             $query->withCount('putProduk');
         }])->get();
 
@@ -42,7 +42,12 @@ class ProdukPUTChart extends ChartWidget
 
         foreach ($units as $index => $unit) {
             $labels[] = $unit->nama_singkat_unit_put;
-            $data[] = $unit->kategoriProduk->sum('put_produk_count');
+
+            $totalProduk = $unit->kategoriProduk
+                ->flatMap(fn ($kategori) => $kategori->subKategori)
+                ->sum('put_produk_count');
+
+            $data[] = $totalProduk;
             $backgroundColors[] = $colors[$index % count($colors)];
         }
 

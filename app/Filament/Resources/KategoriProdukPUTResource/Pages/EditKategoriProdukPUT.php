@@ -15,11 +15,15 @@ class EditKategoriProdukPUT extends EditRecord
         return [
             Actions\DeleteAction::make()
                 ->before(function ($action) {
-                    if ($this->record->putProduk()->exists()) {
+                    $adaProduk = $this->record->subKategori()
+                        ->whereHas('putProduk')
+                        ->exists();
+
+                    if ($adaProduk) {
                         \Filament\Notifications\Notification::make()
                             ->danger()
                             ->title('Tidak bisa dihapus!')
-                            ->body('Kategori masih memiliki produk. Hapus semua produk terlebih dahulu.')
+                            ->body('Kategori masih memiliki produk di dalam sub kategorinya. Hapus semua produk terlebih dahulu.')
                             ->send();
                         $action->cancel();
                     }

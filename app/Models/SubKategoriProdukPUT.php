@@ -32,6 +32,6 @@ class SubKategoriProdukPUT extends Model
 
     public function putProduk()
     {
-        return $this->hasMany(PutProduk::class, 'sub_kategori_produk_put_id');
+        return $this->hasMany(PUTProduk::class, 'sub_kategori_produk_put_id');
     }
 }

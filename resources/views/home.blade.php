@@ -74,7 +74,7 @@
             <div class="col-lg-8">
                 <div class="ratio ratio-16x9 rounded-4 overflow-hidden" style="box-shadow: 0 12px 40px rgba(0,0,0,0.12);">
                     <iframe
-                        src="https://www.youtube.com/embed/Im00a5ZL46I?si=yLLF5wFikHgNixod"
+                        src="https://www.youtube.com/embed/jZ_BGN3rfxk?si=HMKT5KWaG7DIq2GD"
                         title="Video Profil RTPU PNJ"
                         frameborder="0"
                         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"

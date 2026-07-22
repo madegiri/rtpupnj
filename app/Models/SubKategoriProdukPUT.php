@@ -27,7 +27,7 @@ class SubKategoriProdukPUT extends Model
 
     public function kategoriProdukPut()
     {
-        return $this->belongsTo(KategoriProdukPut::class, 'kategori_produk_put_id');
+        return $this->belongsTo(KategoriProdukPUT::class, 'kategori_produk_put_id');
     }
 
     public function putProduk()

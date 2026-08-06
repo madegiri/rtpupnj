@@ -255,9 +255,17 @@
                 </li>
 
                 {{-- Sertifikasi --}}
-                <li class="nav-item">
+                {{-- <li class="nav-item">
                     <a class="nav-link-custom {{ request()->routeIs('sertifikasi.*') ? 'active' : '' }}"
                        href="{{ route('sertifikasi.index') }}">
+                        Pelatihan
+                    </a>
+                </li> --}}
+
+                {{-- Sertifikasi --}}
+                <li class="nav-item">
+                    <a class="nav-link-custom"
+                       href="https://lms-rtpu.pnj.ac.id/course" target="_blank" rel="noopener noreferrer">
                         Pelatihan
                     </a>
                 </li>

@@ -41,7 +41,8 @@
                     @foreach($kategoriProduks as $kat)
                         <li><a href="{{ route('produk.index', $kat->slug) }}">{{ $kat->nama_kategori_produk }}</a></li>
                     @endforeach
-                    <li><a href="{{ route('sertifikasi.index') }}">Pelatihan</a></li>
+                    {{-- <li><a href="{{ route('sertifikasi.index') }}">Pelatihan</a></li> --}}
+                    <li><a href="https://lms-rtpu.pnj.ac.id/course" target="_blank" rel="noopener noreferrer">Pelatihan</a></li>
                 </ul>
             </div>
 

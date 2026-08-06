@@ -54,10 +54,10 @@
                 <div class="stat-number">{{ $stats['produk_put'] }}</div>
                 <div class="stat-label">Produk PUT</div>
             </div>
-            <div class="stat-item">
+            {{-- <div class="stat-item">
                 <div class="stat-number">{{ $stats['sertifikasi'] }}</div>
                 <div class="stat-label">Pelatihan</div>
-            </div>
+            </div> --}}
         </div>
     </div>
 </section>
@@ -457,11 +457,11 @@
 @endforeach
 
 {{-- ===================== SERTIFIKASI ===================== --}}
-<section class="home-section">
+{{-- <section class="home-section">
     <div class="container">
         <div class="section-head-row">
             <div>
-                {{-- <span class="section-eyebrow">Pelatihan</span> --}}
+                <span class="section-eyebrow">Pelatihan</span>
                 <h2 class="section-title">Pelatihan</h2>
             </div>
             <a href="{{ route('sertifikasi.index') }}" class="btn-lihat-semua">
@@ -500,7 +500,7 @@
             @endforelse
         </div>
     </div>
-</section>
+</section> --}}
 
 {{-- ===================== CTA ===================== --}}
 <section class="cta-section">
@@ -612,10 +612,10 @@
 
 /* ─── Stats bar ─── */
 .stats-bar { background: #00998a; padding: 2.25rem 0; }
-.stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; text-align: center; }
+.stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; text-align: center; }
 .stat-number { font-size: 3rem; font-weight: 800; color: #ffffff; line-height: 1; letter-spacing: -0.03em; }
 .stat-label { font-size: 0.9rem; font-weight: 500; color: rgba(255,255,255,0.72); margin-top: 0.35rem; }
-@media (max-width: 575.98px) { .stats-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 575.98px) { .stats-grid { grid-template-columns: repeat(1, 1fr); } }
 
 /* ─── CTA ─── */
 .cta-section { padding: 5rem 0; background: #ffffff; }

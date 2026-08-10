@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\Models\KategoriKonten;
 use App\Models\KategoriProduk;
+use App\Models\ProfilPekanInovasi;
 use App\Models\UnitPUT;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\View;
@@ -46,6 +47,8 @@ class AppServiceProvider extends ServiceProvider
                     ->limit(10)
                     ->get();
             }));
+
+            $view->with('profilPekanInovasis', ProfilPekanInovasi::latest()->get());
         });
     }
 }

@@ -38,6 +38,7 @@ class AdminPanelProvider extends PanelProvider
                 NavigationGroup::make('Tentang'),
                 NavigationGroup::make('Produk'),
                 NavigationGroup::make('Pusat Unggulan'),
+                NavigationGroup::make('Pekan Inovasi'),
                 // NavigationGroup::make('PUT - AkSEN'),
                 // NavigationGroup::make('PUT - CAINT'),
                 // NavigationGroup::make('PUT - CARE'),

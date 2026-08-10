@@ -53,6 +53,11 @@ class User extends Authenticatable
         return $this->hasMany(Lomba::class, 'users_id');
     }
 
+    public function produkPekanInovasi()
+    {
+        return $this->hasMany(ProdukPekanInovasi::class, 'users_id');
+    }
+
     public function tentangRTPU()
     {
         return $this->hasMany(TentangRTPU::class, 'users_id');

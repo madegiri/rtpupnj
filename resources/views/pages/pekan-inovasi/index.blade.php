@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', $unitPut->nama_lengkap_unit_put . ' - RTPU PNJ')
+@section('title', $profil->nama_pekan_inovasi . ' - RTPU PNJ')
 
 @section('content')
 <section class="py-5">
@@ -11,92 +11,57 @@
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb breadcrumb-custom">
                     <li class="breadcrumb-item"><a href="{{ route('home') }}">Beranda</a></li>
-                    <li class="breadcrumb-item active">Pusat Unggulan</li>
-                    <li class="breadcrumb-item active">{{ $unitPut->nama_singkat_unit_put }}</li>
+                    <li class="breadcrumb-item active">Pekan Inovasi</li>
+                    <li class="breadcrumb-item active">{{ $profil->nama_pekan_inovasi }}</li>
                 </ol>
             </nav>
-            <h1 class="section-title mt-1">{{ $unitPut->nama_lengkap_unit_put }}</h1>
-            <p class="section-subtitle">
-                <span class="put-abbr">({{ $unitPut->nama_singkat_unit_put }})</span>
-            </p>
+            <h1 class="section-title mt-1">{{ $profil->nama_pekan_inovasi }}</h1>
         </div>
 
         {{-- Thumbnail Profil --}}
-        @if($unitPut->thumbnail)
+        @if($profil->thumbnail)
         <div class="row justify-content-center mb-4">
             <div class="col-lg-8">
                 <div class="article-hero-img">
-                    <img src="{{ asset('storage/' . $unitPut->thumbnail) }}"
-                         alt="{{ $unitPut->nama_singkat_unit_put }}">
+                    <img src="{{ asset('storage/' . $profil->thumbnail) }}"
+                         alt="{{ $profil->nama_pekan_inovasi }}">
                 </div>
             </div>
         </div>
         @endif
 
         {{-- Deskripsi Profil --}}
-        @if($unitPut->deskripsi)
+        @if($profil->deskripsi)
         <div class="row mb-5">
             <div class="col-lg-12">
                 <div class="produk-desc-box">
                     <h5 class="produk-desc-title">
-                        <i class="bi bi-building"></i>
-                        Tentang {{ $unitPut->nama_singkat_unit_put }}
+                        <i class="bi bi-calendar-event"></i>
+                        Tentang {{ $profil->nama_pekan_inovasi }}
                     </h5>
                     <div class="article-body">
-                        {!! $unitPut->deskripsi !!}
+                        {!! $profil->deskripsi !!}
                     </div>
                 </div>
             </div>
         </div>
         @endif
 
-        {{-- Galeri Poster --}}
-        {{-- @if(!empty($unitPut->poster))
-        @php
-            $posters = is_array($unitPut->poster) ? $unitPut->poster : json_decode($unitPut->poster, true);
-        @endphp
-        @if(!empty($posters))
-        <div class="poster-section mb-5">
-            <h5 class="produk-desc-title mb-4">
-                <i class="bi bi-images"></i> Poster {{ $unitPut->nama_singkat_unit_put }}
-            </h5>
-            <div class="row g-3">
-                @foreach($posters as $i => $poster)
-                <div class="col-6 col-sm-4 col-lg-3">
-                    <div class="poster-card"
-                         onclick="openLightbox('{{ asset('storage/' . $poster) }}')">
-                        <img src="{{ asset('storage/' . $poster) }}"
-                             alt="Poster {{ $unitPut->nama_singkat_unit_put }} {{ $i + 1 }}">
-                        <div class="poster-overlay">
-                            <i class="bi bi-zoom-in"></i>
-                        </div>
-                    </div>
-                </div>
-                @endforeach
-            </div>
-        </div>
-        @endif
-        @endif --}}
-
-        {{-- Galeri Poster --}}
-        @if(!empty($unitPut->poster))
-        @php
-            $posters = is_array($unitPut->poster) ? $unitPut->poster : json_decode($unitPut->poster, true);
-        @endphp
-        @if(!empty($posters))
+        {{-- Galeri Kegiatan --}}
+        @if(!empty($profil->galeri_kegiatan))
         <div class="slider-section mb-5">
             <h5 class="produk-desc-title mb-4">
-                <i class="bi bi-images"></i> Poster {{ $unitPut->nama_singkat_unit_put }}
+                <i class="bi bi-images"></i> Galeri Kegiatan {{ $profil->nama_pekan_inovasi }}
             </h5>
             <div class="slider-wrap">
-                <button class="slider-nav slider-nav-prev" onclick="slideGallery('posterUnitPut', -1)">
+                <button class="slider-nav slider-nav-prev" onclick="slideGallery('galeriKegiatan', -1)">
                     <i class="bi bi-chevron-left"></i>
                 </button>
 
-                <div class="slider-track slider-track-portrait" id="posterUnitPut">
-                    @foreach($posters as $i => $poster)
-                    <div class="slider-card slider-card-portrait" onclick="openLightbox('{{ asset('storage/' . $poster) }}')">
-                        <img src="{{ asset('storage/' . $poster) }}" alt="Poster {{ $unitPut->nama_singkat_unit_put }} {{ $i + 1 }}" loading="lazy">
+                <div class="slider-track" id="galeriKegiatan">
+                    @foreach($profil->galeri_kegiatan as $i => $foto)
+                    <div class="slider-card" onclick="openLightbox('{{ asset('storage/' . $foto) }}')">
+                        <img src="{{ asset('storage/' . $foto) }}" alt="Galeri Kegiatan {{ $i + 1 }}" loading="lazy">
                         <div class="slider-card-overlay">
                             <i class="bi bi-zoom-in"></i>
                         </div>
@@ -104,15 +69,43 @@
                     @endforeach
                 </div>
 
-                <button class="slider-nav slider-nav-next" onclick="slideGallery('posterUnitPut', 1)">
+                <button class="slider-nav slider-nav-next" onclick="slideGallery('galeriKegiatan', 1)">
                     <i class="bi bi-chevron-right"></i>
                 </button>
             </div>
         </div>
         @endif
+
+        {{-- Galeri Poster Produk --}}
+        @if(!empty($profil->poster))
+        <div class="slider-section mb-5">
+            <h5 class="produk-desc-title mb-4">
+                <i class="bi bi-file-earmark-image"></i> Poster Pameran Produk {{ $profil->nama_pekan_inovasi }}
+            </h5>
+            <div class="slider-wrap">
+                <button class="slider-nav slider-nav-prev" onclick="slideGallery('posterProduk', -1)">
+                    <i class="bi bi-chevron-left"></i>
+                </button>
+
+                <div class="slider-track slider-track-portrait" id="posterProduk">
+                    @foreach($profil->poster as $i => $poster)
+                    <div class="slider-card slider-card-portrait" onclick="openLightbox('{{ asset('storage/' . $poster) }}')">
+                        <img src="{{ asset('storage/' . $poster) }}" alt="Poster {{ $profil->nama_pekan_inovasi }} {{ $i + 1 }}" loading="lazy">
+                        <div class="slider-card-overlay">
+                            <i class="bi bi-zoom-in"></i>
+                        </div>
+                    </div>
+                    @endforeach
+                </div>
+
+                <button class="slider-nav slider-nav-next" onclick="slideGallery('posterProduk', 1)">
+                    <i class="bi bi-chevron-right"></i>
+                </button>
+            </div>
+        </div>
         @endif
 
-        {{-- Preview Per Kategori (lintas semua sub kategori di dalamnya) --}}
+        {{-- Preview Per Kategori --}}
         @foreach($kategoris as $kategori)
         @php $produks = $previewPerKategori[$kategori->id] ?? collect(); @endphp
 
@@ -122,7 +115,7 @@
                     <span class="section-eyebrow">Kategori</span>
                     <h2 class="section-title mt-1">{{ $kategori->nama_kategori }}</h2>
                 </div>
-                <a href="{{ route('put.kategori', [$unitPut->slug, $kategori->slug]) }}"
+                <a href="{{ route('pekan-inovasi.kategori', [$profil->slug, $kategori->slug]) }}"
                    class="btn-lihat-semua">
                     Lihat Semua <i class="bi bi-arrow-right"></i>
                 </a>
@@ -131,12 +124,11 @@
             @if($produks->count() > 0)
             <div class="row g-4">
                 @foreach($produks as $produk)
-                @php $subKategori = $produk->subKategoriProdukPut; @endphp
                 <div class="col-12 col-sm-6 col-lg-4">
-                    <a href="{{ route('put.show', [$unitPut->slug, $kategori->slug, $subKategori->slug, $produk->slug]) }}"
+                    <a href="{{ route('pekan-inovasi.show', [$profil->slug, $kategori->slug, $produk->slug]) }}"
                        class="content-card h-100" style="text-decoration:none; color:inherit;">
                         <div class="content-card-thumb">
-                            <span class="card-chip">{{ $subKategori->nama_sub_kategori }}</span>
+                            <span class="card-chip">{{ $kategori->nama_kategori }}</span>
                             @if($produk->thumbnail)
                                 <img src="{{ asset('storage/' . $produk->thumbnail) }}"
                                      alt="{{ $produk->judul }}">
@@ -182,15 +174,6 @@
     </div>
 </section>
 
-{{-- Lightbox --}}
-<div class="lightbox-overlay" id="lightboxOverlay" onclick="closeLightbox()">
-    <button class="lightbox-close" onclick="closeLightbox()">
-        <i class="bi bi-x-lg"></i>
-    </button>
-    <img src="" alt="" class="lightbox-img" id="lightboxImg"
-         onclick="event.stopPropagation()">
-</div>
-
 <style>
 .slider-wrap {
     position: relative;
@@ -206,10 +189,13 @@
     scroll-snap-type: x mandatory;
     scroll-behavior: smooth;
     padding: 0.25rem 0.25rem 0.5rem;
+    /* sembunyikan scrollbar - Firefox */
     scrollbar-width: none;
+    /* sembunyikan scrollbar - IE/Edge lama */
     -ms-overflow-style: none;
 }
 
+/* sembunyikan scrollbar - Chrome, Safari, Edge (Chromium) */
 .slider-track::-webkit-scrollbar {
     display: none;
 }
@@ -217,7 +203,7 @@
 .slider-card {
     flex: 0 0 auto;
     width: 320px;
-    aspect-ratio: 16 / 9;
+    aspect-ratio: 16 / 9;   /* landscape, konsisten */
     scroll-snap-align: start;
     border-radius: 12px;
     overflow: hidden;
@@ -272,8 +258,13 @@
     transition: opacity 0.2s ease, visibility 0.2s ease;
 }
 
-.slider-nav-prev { left: -23px; }
-.slider-nav-next { right: -23px; }
+.slider-nav-prev {
+    left: -23px;
+}
+
+.slider-nav-next {
+    right: -23px;
+}
 
 .slider-nav:hover {
     background: #f5f5f5;
@@ -285,22 +276,38 @@
     pointer-events: none;
 }
 
+/* Responsive: card lebih kecil & tombol nav disembunyikan di HP (geser pakai jari) */
 @media (max-width: 768px) {
-    .slider-card { width: 240px; }
-    .slider-nav { display: none; }
+    .slider-card {
+        width: 240px;
+    }
+    .slider-nav {
+        display: none;
+    }
 }
 
 .slider-card-portrait {
     width: 220px;
-    aspect-ratio: 3 / 4;
+    aspect-ratio: 3 / 4;   /* portrait, sesuai proporsi poster A4/A3 pada umumnya */
 }
 
 @media (max-width: 768px) {
-    .slider-card-portrait { width: 170px; }
+    .slider-card-portrait {
+        width: 170px;
+    }
 }
 </style>
 
-@include('pages.put._styles')
+{{-- Lightbox --}}
+<div class="lightbox-overlay" id="lightboxOverlay" onclick="closeLightbox()">
+    <button class="lightbox-close" onclick="closeLightbox()">
+        <i class="bi bi-x-lg"></i>
+    </button>
+    <img src="" alt="" class="lightbox-img" id="lightboxImg"
+         onclick="event.stopPropagation()">
+</div>
+
+@include('pages.pekan-inovasi._styles')
 
 <script>
 function openLightbox(src) {
@@ -323,6 +330,7 @@ function slideGallery(id, direction) {
     track.scrollBy({ left: direction * (cardWidth + gap) * 2, behavior: 'smooth' });
 }
 
+// ==== Auto show/hide chevron ====
 function initSliderNav(trackId) {
     const track = document.getElementById(trackId);
     if (!track) return;
@@ -333,10 +341,11 @@ function initSliderNav(trackId) {
     if (!prevBtn || !nextBtn) return;
 
     function updateNavState() {
-        const canScroll = track.scrollWidth > track.clientWidth + 4;
+        const canScroll = track.scrollWidth > track.clientWidth + 4; // toleransi rounding
         const atStart = track.scrollLeft <= 4;
         const atEnd = track.scrollLeft + track.clientWidth >= track.scrollWidth - 4;
 
+        // kalau semua foto sudah muat, sembunyikan kedua panah
         if (!canScroll) {
             prevBtn.classList.add('is-hidden');
             nextBtn.classList.add('is-hidden');
@@ -353,7 +362,8 @@ function initSliderNav(trackId) {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-    initSliderNav('posterUnitPut');
+    initSliderNav('galeriKegiatan');
+    initSliderNav('posterProduk');
 });
 </script>
 @endsection

@@ -73,7 +73,7 @@ class PUTController extends Controller
         $produks = PUTProduk::where('sub_kategori_produk_put_id', $subKategori->id)
             ->when($search, fn ($query, $search) => $query->where('judul', 'like', "%{$search}%"))
             ->latest('id')
-            ->paginate(9)
+            ->paginate(6)
             ->withQueryString();
 
         return view('pages.put.sub_kategori', compact('unitPut', 'kategori', 'subKategori', 'produks', 'search'));

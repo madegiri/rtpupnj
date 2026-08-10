@@ -9,6 +9,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\HubungiKamiController;
 use App\Http\Controllers\KontenController;
 use App\Http\Controllers\LombaController;
+use App\Http\Controllers\PekanInovasiController;
 use App\Http\Controllers\PengumumanController;
 use App\Http\Controllers\PimpinanController;
 use App\Http\Controllers\ProdukController;
@@ -159,6 +160,12 @@ Route::middleware([LogVisits::class])->group(function () {
         Route::get('/{unit_slug}/{kategori_slug}', [PUTController::class, 'kategori'])->name('kategori');
         Route::get('/{unit_slug}/{kategori_slug}/{sub_kategori_slug}', [PUTController::class, 'subKategori'])->name('sub_kategori');
         Route::get('/{unit_slug}/{kategori_slug}/{sub_kategori_slug}/{slug}', [PUTController::class, 'show'])->name('show');
+    });
+
+    Route::prefix('pekan-inovasi')->name('pekan-inovasi.')->group(function () {
+        Route::get('/{profil_slug}', [PekanInovasiController::class, 'index'])->name('index');
+        Route::get('/{profil_slug}/{kategori_slug}', [PekanInovasiController::class, 'kategori'])->name('kategori');
+        Route::get('/{profil_slug}/{kategori_slug}/{slug}', [PekanInovasiController::class, 'show'])->name('show');
     });
 
     // Sertifikasi

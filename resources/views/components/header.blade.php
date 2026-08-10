@@ -254,6 +254,35 @@
                     </ul>
                 </li>
 
+                {{-- Pekan Inovasi --}}
+                <li class="nav-item dropdown">
+                    <a class="nav-link-custom dropdown-toggle {{ request()->routeIs('pekan-inovasi.*') ? 'active' : '' }}"
+                    href="#"
+                    role="button"
+                    data-bs-toggle="dropdown"
+                    aria-expanded="false">
+                        Pekan Inovasi
+                    </a>
+
+                    <ul class="dropdown-menu dropdown-menu-custom">
+                        @forelse ($profilPekanInovasis as $profil)
+                            <li>
+                                <a class="dropdown-item-custom {{ request()->is('pekan-inovasi/' . $profil->slug . '*') ? 'active' : '' }}"
+                                href="{{ route('pekan-inovasi.index', $profil->slug) }}">
+                                    {{ $profil->nama_pekan_inovasi }}
+                                </a>
+                            </li>
+                        @empty
+                            <li>
+                                <span class="dropdown-item-custom text-muted">
+                                    Belum ada Pekan Inovasi
+                                </span>
+                            </li>
+                        @endforelse
+                    </ul>
+                </li>
+
+
                 {{-- Sertifikasi --}}
                 {{-- <li class="nav-item">
                     <a class="nav-link-custom {{ request()->routeIs('sertifikasi.*') ? 'active' : '' }}"

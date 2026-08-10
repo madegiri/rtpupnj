@@ -74,6 +74,22 @@
                 </ul>
             </div>
 
+            {{-- Kolom: Pekan Inovasi --}}
+            <div class="footer-col">
+                <h6 class="footer-col-title">Pekan Inovasi</h6>
+                <ul class="footer-links">
+                    @forelse($profilPekanInovasis as $profil)
+                    <li>
+                        <a href="{{ route('pekan-inovasi.index', $profil->slug) }}">
+                            {{ $profil->nama_pekan_inovasi }}
+                        </a>
+                    </li>
+                    @empty
+                    <li><span class="footer-links-empty">Belum ada Pekan Inovasi</span></li>
+                    @endforelse
+                </ul>
+            </div>
+
             {{-- Kolom 4: Kontak --}}
             <div class="footer-col">
                 <h6 class="footer-col-title">Kontak Kami</h6>
@@ -144,7 +160,7 @@
 /* Grid layout */
 .footer-grid {
     display: grid;
-    grid-template-columns: 1.6fr 1fr 1fr 1fr 1.2fr;
+    grid-template-columns: 1.5fr 0.9fr 0.9fr 0.9fr 0.9fr 1.1fr;
     gap: 3rem;
     padding-bottom: 3rem;
 }
@@ -298,6 +314,14 @@
 .footer-links a:hover {
     color: #ffffff;
     padding-left: 4px;
+}
+
+.footer-links-empty {
+    display: inline-block;
+    font-size: 0.875rem;
+    font-weight: 400;
+    color: #737373;
+    padding: 0.28rem 0;
 }
 
 /* Contact list */

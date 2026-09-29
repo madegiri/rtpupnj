@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', \App\Services\TranslateService::to($subKategori->nama_sub_kategori, app()->getLocale()) . ' - ' . \App\Services\TranslateService::to($kategori->nama_kategori, app()->getLocale()) . ' - ' . \App\Services\TranslateService::to($unitPut->nama_singkat_unit_put, app()->getLocale()) . ' RTPU PNJ')
+@section('title', \App\Services\TranslateService::to($subKategori->nama_sub_kategori, app()->getLocale()) . ' - ' . \App\Services\TranslateService::to($kategori->nama_kategori, app()->getLocale()) . ' - ' . $unitPut->nama_singkat_unit_put . ' RTPU PNJ')
 
 @section('content')
 <section class="py-5">
@@ -12,7 +12,7 @@
                     <li class="breadcrumb-item"><a href="{{ route('home') }}">{{ \App\Services\TranslateService::to('Beranda', app()->getLocale()) }}</a></li>
                     <li class="breadcrumb-item">
                         <a href="{{ route('put.index', $unitPut->slug) }}">
-                            {{ \App\Services\TranslateService::to($unitPut->nama_singkat_unit_put, app()->getLocale()) }}
+                            {{ $unitPut->nama_singkat_unit_put }}
                         </a>
                     </li>
                     <li class="breadcrumb-item">
@@ -25,7 +25,7 @@
             </nav>
             <h1 class="section-title mt-1">{{ \App\Services\TranslateService::to($subKategori->nama_sub_kategori, app()->getLocale()) }}</h1>
             <p class="section-subtitle">
-                {{ \App\Services\TranslateService::to('Produk dan riset', app()->getLocale()) }} {{ \App\Services\TranslateService::to($unitPut->nama_singkat_unit_put, app()->getLocale()) }}
+                {{ \App\Services\TranslateService::to('Produk dan riset', app()->getLocale()) }} {{ $unitPut->nama_singkat_unit_put }}
                 {{ \App\Services\TranslateService::to('dalam kategori', app()->getLocale()) }} {{ \App\Services\TranslateService::to($kategori->nama_kategori, app()->getLocale()) }}
                 - {{ \App\Services\TranslateService::to('sub kategori', app()->getLocale()) }} {{ \App\Services\TranslateService::to($subKategori->nama_sub_kategori, app()->getLocale()) }}.
             </p>

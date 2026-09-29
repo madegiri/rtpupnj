@@ -12,7 +12,7 @@
                 <ol class="breadcrumb breadcrumb-custom">
                     <li class="breadcrumb-item"><a href="{{ route('home') }}">{{ \App\Services\TranslateService::to('Beranda', app()->getLocale()) }}</a></li>
                     <li class="breadcrumb-item active">{{ \App\Services\TranslateService::to('Pusat Unggulan', app()->getLocale()) }}</li>
-                    <li class="breadcrumb-item active">{{ \App\Services\TranslateService::to($unitPut->nama_singkat_unit_put, app()->getLocale()) }}</li>
+                    <li class="breadcrumb-item active">{{ $unitPut->nama_singkat_unit_put }}</li>
                 </ol>
             </nav>
             <h1 class="section-title mt-1">{{ \App\Services\TranslateService::to($unitPut->nama_lengkap_unit_put, app()->getLocale()) }}</h1>
@@ -93,7 +93,7 @@
                 <div class="produk-desc-box">
                     <h5 class="produk-desc-title">
                         <i class="bi bi-building"></i>
-                        {{ \App\Services\TranslateService::to('Tentang', app()->getLocale()) }} {{ \App\Services\TranslateService::to($unitPut->nama_singkat_unit_put, app()->getLocale()) }}
+                        {{ \App\Services\TranslateService::to('Tentang', app()->getLocale()) }} {{ $unitPut->nama_singkat_unit_put }}
                     </h5>
                     @if($unitPut->deskripsi)
                     <div class="article-body">
@@ -255,7 +255,7 @@
         @if(!empty($posters))
         <div class="slider-section mb-5">
             <h5 class="produk-desc-title mb-4">
-                <i class="bi bi-images"></i> {{ \App\Services\TranslateService::to('Poster', app()->getLocale()) }} {{ \App\Services\TranslateService::to($unitPut->nama_singkat_unit_put, app()->getLocale()) }}
+                <i class="bi bi-images"></i> {{ \App\Services\TranslateService::to('Poster', app()->getLocale()) }} {{ $unitPut->nama_singkat_unit_put }}
             </h5>
             <div class="slider-wrap">
                 <button class="slider-nav slider-nav-prev" onclick="slideGallery('posterUnitPut', -1)">

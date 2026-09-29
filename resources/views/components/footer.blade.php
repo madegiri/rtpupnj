@@ -62,7 +62,7 @@
                     @foreach($unitPuts as $unit)
                     <li>
                         <a href="{{ route('put.index', $unit->slug) }}">
-                            {{ \App\Services\TranslateService::to($unit->nama_singkat_unit_put, app()->getLocale()) }}
+                            {{ $unit->nama_singkat_unit_put }}
                         </a>
                     </li>
                     @endforeach

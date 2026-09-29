@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', $unitPut->nama_lengkap_unit_put . ' - RTPU PNJ')
+@section('title', \App\Services\TranslateService::to($unitPut->nama_lengkap_unit_put, app()->getLocale()) . ' - RTPU PNJ')
 
 @section('content')
 <section class="py-5">
@@ -10,75 +10,244 @@
         <div class="page-header mb-5">
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb breadcrumb-custom">
-                    <li class="breadcrumb-item"><a href="{{ route('home') }}">Beranda</a></li>
-                    <li class="breadcrumb-item active">Pusat Unggulan</li>
-                    <li class="breadcrumb-item active">{{ $unitPut->nama_singkat_unit_put }}</li>
+                    <li class="breadcrumb-item"><a href="{{ route('home') }}">{{ \App\Services\TranslateService::to('Beranda', app()->getLocale()) }}</a></li>
+                    <li class="breadcrumb-item active">{{ \App\Services\TranslateService::to('Pusat Unggulan', app()->getLocale()) }}</li>
+                    <li class="breadcrumb-item active">{{ \App\Services\TranslateService::to($unitPut->nama_singkat_unit_put, app()->getLocale()) }}</li>
                 </ol>
             </nav>
-            <h1 class="section-title mt-1">{{ $unitPut->nama_lengkap_unit_put }}</h1>
+            <h1 class="section-title mt-1">{{ \App\Services\TranslateService::to($unitPut->nama_lengkap_unit_put, app()->getLocale()) }}</h1>
             <p class="section-subtitle">
                 <span class="put-abbr">({{ $unitPut->nama_singkat_unit_put }})</span>
             </p>
         </div>
 
-        {{-- Thumbnail Profil --}}
+        {{-- Thumbnail Profil (statis, selalu tampil) --}}
         @if($unitPut->thumbnail)
         <div class="row justify-content-center mb-4">
             <div class="col-lg-8">
                 <div class="article-hero-img">
                     <img src="{{ asset('storage/' . $unitPut->thumbnail) }}"
-                         alt="{{ $unitPut->nama_singkat_unit_put }}">
+                        alt="{{ $unitPut->nama_singkat_unit_put }}">
                 </div>
             </div>
         </div>
         @endif
 
-        {{-- Deskripsi Profil --}}
-        @if($unitPut->deskripsi)
-        <div class="row mb-5">
-            <div class="col-lg-12">
+        {{-- Tab Pills (di bawah thumbnail/poster) --}}
+        <ul class="nav nav-pills nav-pills-custom mb-4" id="unitPutTab" role="tablist">
+            <li class="nav-item" role="presentation">
+                <button class="nav-link active" id="profil-tab" data-bs-toggle="pill"
+                        data-bs-target="#profil-pane" type="button" role="tab"
+                        aria-controls="profil-pane" aria-selected="true">
+                    1. {{ \App\Services\TranslateService::to('Profil', app()->getLocale()) }}
+                </button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="visimisi-tab" data-bs-toggle="pill"
+                        data-bs-target="#visimisi-pane" type="button" role="tab"
+                        aria-controls="visimisi-pane" aria-selected="false">
+                    2. {{ \App\Services\TranslateService::to('Visi & Misi', app()->getLocale()) }}
+                </button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="kebijakan-tab" data-bs-toggle="pill"
+                        data-bs-target="#kebijakan-pane" type="button" role="tab"
+                        aria-controls="kebijakan-pane" aria-selected="false">
+                    3. {{ \App\Services\TranslateService::to('Dukungan Kebijakan', app()->getLocale()) }}
+                </button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="sdm-tab" data-bs-toggle="pill"
+                        data-bs-target="#sdm-pane" type="button" role="tab"
+                        aria-controls="sdm-pane" aria-selected="false">
+                    4. {{ \App\Services\TranslateService::to('Sumber Daya Manusia', app()->getLocale()) }}
+                </button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="sarpras-tab" data-bs-toggle="pill"
+                        data-bs-target="#sarpras-pane" type="button" role="tab"
+                        aria-controls="sarpras-pane" aria-selected="false">
+                    5. {{ \App\Services\TranslateService::to('Sarana & Prasarana', app()->getLocale()) }}
+                </button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="roadmap-tab" data-bs-toggle="pill"
+                        data-bs-target="#roadmap-pane" type="button" role="tab"
+                        aria-controls="roadmap-pane" aria-selected="false">
+                    6. {{ \App\Services\TranslateService::to('Roadmap', app()->getLocale()) }}
+                </button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="struktur-tab" data-bs-toggle="pill"
+                        data-bs-target="#struktur-pane" type="button" role="tab"
+                        aria-controls="struktur-pane" aria-selected="false">
+                    7. {{ \App\Services\TranslateService::to('Struktur Organisasi', app()->getLocale()) }}
+                </button>
+            </li>
+        </ul>
+
+        <div class="tab-content mb-5" id="unitPutTabContent">
+
+            {{-- Pane: Profil (deskripsi) --}}
+            <div class="tab-pane fade show active" id="profil-pane" role="tabpanel" aria-labelledby="profil-tab" tabindex="0">
                 <div class="produk-desc-box">
                     <h5 class="produk-desc-title">
                         <i class="bi bi-building"></i>
-                        Tentang {{ $unitPut->nama_singkat_unit_put }}
+                        {{ \App\Services\TranslateService::to('Tentang', app()->getLocale()) }} {{ \App\Services\TranslateService::to($unitPut->nama_singkat_unit_put, app()->getLocale()) }}
                     </h5>
+                    @if($unitPut->deskripsi)
                     <div class="article-body">
-                        {!! $unitPut->deskripsi !!}
+                        {!! \App\Services\TranslateService::to($unitPut->deskripsi, app()->getLocale()) !!}
                     </div>
+                    @else
+                    <p class="text-muted mb-0">{{ \App\Services\TranslateService::to('Deskripsi belum tersedia.', app()->getLocale()) }}</p>
+                    @endif
                 </div>
             </div>
-        </div>
-        @endif
 
-        {{-- Galeri Poster --}}
-        {{-- @if(!empty($unitPut->poster))
-        @php
-            $posters = is_array($unitPut->poster) ? $unitPut->poster : json_decode($unitPut->poster, true);
-        @endphp
-        @if(!empty($posters))
-        <div class="poster-section mb-5">
-            <h5 class="produk-desc-title mb-4">
-                <i class="bi bi-images"></i> Poster {{ $unitPut->nama_singkat_unit_put }}
-            </h5>
-            <div class="row g-3">
-                @foreach($posters as $i => $poster)
-                <div class="col-6 col-sm-4 col-lg-3">
-                    <div class="poster-card"
-                         onclick="openLightbox('{{ asset('storage/' . $poster) }}')">
-                        <img src="{{ asset('storage/' . $poster) }}"
-                             alt="Poster {{ $unitPut->nama_singkat_unit_put }} {{ $i + 1 }}">
-                        <div class="poster-overlay">
-                            <i class="bi bi-zoom-in"></i>
+            {{-- Pane: Visi & Misi --}}
+            <div class="tab-pane fade" id="visimisi-pane" role="tabpanel" aria-labelledby="visimisi-tab" tabindex="0">
+                <div class="produk-desc-box">
+                    <h5 class="produk-desc-title">
+                        <i class="bi bi-flag"></i>
+                        {{ \App\Services\TranslateService::to('Visi & Misi', app()->getLocale()) }}
+                    </h5>
+                    @if($unitPut->visi_misi)
+                    <div class="article-body">
+                        {!! \App\Services\TranslateService::to($unitPut->visi_misi, app()->getLocale()) !!}
+                    </div>
+                    @else
+                    <p class="text-muted mb-0">{{ \App\Services\TranslateService::to('Visi & misi belum tersedia.', app()->getLocale()) }}</p>
+                    @endif
+                </div>
+            </div>
+
+            {{-- Pane: Dukungan Kebijakan --}}
+            <div class="tab-pane fade" id="kebijakan-pane" role="tabpanel" aria-labelledby="kebijakan-tab" tabindex="0">
+                <div class="produk-desc-box">
+                    <h5 class="produk-desc-title">
+                        <i class="bi bi-file-earmark-text"></i>
+                        {{ \App\Services\TranslateService::to('Dukungan Aturan / Kebijakan', app()->getLocale()) }}
+                    </h5>
+                    @if($unitPut->dukungan_kebijakan)
+                    <div class="article-body">
+                        {!! \App\Services\TranslateService::to($unitPut->dukungan_kebijakan, app()->getLocale()) !!}
+                    </div>
+                    @else
+                    <p class="text-muted mb-0">{{ \App\Services\TranslateService::to('Dukungan aturan/kebijakan belum tersedia.', app()->getLocale()) }}</p>
+                    @endif
+                </div>
+            </div>
+
+            {{-- Pane: SDM --}}
+            <div class="tab-pane fade" id="sdm-pane" role="tabpanel" aria-labelledby="sdm-tab" tabindex="0">
+                <div class="produk-desc-box">
+                    <h5 class="produk-desc-title">
+                        <i class="bi bi-people"></i>
+                        {{ \App\Services\TranslateService::to('Sumber Daya Manusia', app()->getLocale()) }}
+                    </h5>
+                    @if($unitPut->sdm)
+                    <div class="article-body">
+                        {!! \App\Services\TranslateService::to($unitPut->sdm, app()->getLocale()) !!}
+                    </div>
+                    @else
+                    <p class="text-muted mb-0">{{ \App\Services\TranslateService::to('Data SDM belum tersedia.', app()->getLocale()) }}</p>
+                    @endif
+                </div>
+            </div>
+
+            {{-- Pane: Sarana & Prasarana --}}
+            <div class="tab-pane fade" id="sarpras-pane" role="tabpanel" aria-labelledby="sarpras-tab" tabindex="0">
+                <div class="produk-desc-box">
+                    <h5 class="produk-desc-title">
+                        <i class="bi bi-building-gear"></i>
+                        {{ \App\Services\TranslateService::to('Sarana & Prasarana', app()->getLocale()) }}
+                    </h5>
+                    @if($unitPut->sarana_prasarana)
+                    <div class="article-body">
+                        {!! \App\Services\TranslateService::to($unitPut->sarana_prasarana, app()->getLocale()) !!}
+                    </div>
+                    @else
+                    <p class="text-muted mb-0">{{ \App\Services\TranslateService::to('Data sarana & prasarana belum tersedia.', app()->getLocale()) }}</p>
+                    @endif
+                </div>
+            </div>
+
+            {{-- Pane: Roadmap --}}
+            <div class="tab-pane fade" id="roadmap-pane" role="tabpanel" aria-labelledby="roadmap-tab" tabindex="0">
+                <h5 class="produk-desc-title mb-4">
+                    <i class="bi bi-signpost-split"></i>
+                    {{ \App\Services\TranslateService::to('Roadmap', app()->getLocale()) }}
+                </h5>
+                @if(!empty($unitPut->roadmap))
+                <div class="roadmap-list">
+                    @foreach($unitPut->roadmap as $item)
+                    <div class="roadmap-item d-flex mb-4">
+                        <div class="roadmap-year me-3">
+                            <span class="badge">{{ $item['tahun'] }}</span>
+                        </div>
+                        <div class="roadmap-body">
+                            <h6 class="mb-1">{{ \App\Services\TranslateService::to($item['tahap'], app()->getLocale()) }}</h6>
+                            <div class="article-body">
+                                {!! \App\Services\TranslateService::to($item['deskripsi_tahapan'], app()->getLocale()) !!}
+                            </div>
                         </div>
                     </div>
+                    @endforeach
                 </div>
-                @endforeach
+                @else
+                <div class="empty-state">
+                    <i class="bi bi-signpost-split"></i>
+                    <p>{{ \App\Services\TranslateService::to('Roadmap belum tersedia.', app()->getLocale()) }}</p>
+                </div>
+                @endif
             </div>
-        </div>
-        @endif
-        @endif --}}
 
-        {{-- Galeri Poster --}}
+            {{-- Pane: Struktur Organisasi --}}
+            <div class="tab-pane fade" id="struktur-pane" role="tabpanel" aria-labelledby="struktur-tab" tabindex="0">
+                <h5 class="produk-desc-title mb-4">
+                    <i class="bi bi-diagram-3"></i>
+                    {{ \App\Services\TranslateService::to('Struktur Organisasi', app()->getLocale()) }}
+                </h5>
+                @if(!empty($unitPut->struktur_organisasi))
+                <div class="slider-wrap">
+                    <button class="slider-nav slider-nav-prev" onclick="slideGallery('strukturUnitPut', -1)">
+                        <i class="bi bi-chevron-left"></i>
+                    </button>
+                    <div class="slider-track" id="strukturUnitPut">
+                        @foreach($unitPut->struktur_organisasi as $anggota)
+                        <div class="slider-card slider-card-person">
+                            <div class="person-photo">
+                                @if(!empty($anggota['foto']))
+                                <img src="{{ asset('storage/' . $anggota['foto']) }}" alt="{{ $anggota['nama'] }}">
+                                @else
+                                <div class="person-photo-placeholder">
+                                    <i class="bi bi-person"></i>
+                                </div>
+                                @endif
+                            </div>
+                            <div class="person-body">
+                                <span class="person-jabatan">{{ \App\Services\TranslateService::to($anggota['jabatan'], app()->getLocale()) }}</span>
+                                <h6 class="person-name">{{ $anggota['nama'] }}</h6>
+                            </div>
+                        </div>
+                        @endforeach
+                    </div>
+                    <button class="slider-nav slider-nav-next" onclick="slideGallery('strukturUnitPut', 1)">
+                        <i class="bi bi-chevron-right"></i>
+                    </button>
+                </div>
+                @else
+                <div class="empty-state">
+                    <i class="bi bi-diagram-3"></i>
+                    <p>{{ \App\Services\TranslateService::to('Struktur organisasi belum tersedia.', app()->getLocale()) }}</p>
+                </div>
+                @endif
+            </div>
+
+        </div>
+
+        {{-- Galeri Poster (statis, selalu tampil) --}}
         @if(!empty($unitPut->poster))
         @php
             $posters = is_array($unitPut->poster) ? $unitPut->poster : json_decode($unitPut->poster, true);
@@ -86,13 +255,12 @@
         @if(!empty($posters))
         <div class="slider-section mb-5">
             <h5 class="produk-desc-title mb-4">
-                <i class="bi bi-images"></i> Poster {{ $unitPut->nama_singkat_unit_put }}
+                <i class="bi bi-images"></i> {{ \App\Services\TranslateService::to('Poster', app()->getLocale()) }} {{ \App\Services\TranslateService::to($unitPut->nama_singkat_unit_put, app()->getLocale()) }}
             </h5>
             <div class="slider-wrap">
                 <button class="slider-nav slider-nav-prev" onclick="slideGallery('posterUnitPut', -1)">
                     <i class="bi bi-chevron-left"></i>
                 </button>
-
                 <div class="slider-track slider-track-portrait" id="posterUnitPut">
                     @foreach($posters as $i => $poster)
                     <div class="slider-card slider-card-portrait" onclick="openLightbox('{{ asset('storage/' . $poster) }}')">
@@ -103,7 +271,6 @@
                     </div>
                     @endforeach
                 </div>
-
                 <button class="slider-nav slider-nav-next" onclick="slideGallery('posterUnitPut', 1)">
                     <i class="bi bi-chevron-right"></i>
                 </button>
@@ -119,12 +286,12 @@
         <div class="kategori-section">
             <div class="kategori-header">
                 <div class="kategori-header-left">
-                    <span class="section-eyebrow">Kategori</span>
-                    <h2 class="section-title mt-1">{{ $kategori->nama_kategori }}</h2>
+                    <span class="section-eyebrow">{{ \App\Services\TranslateService::to('Kategori', app()->getLocale()) }}</span>
+                    <h2 class="section-title mt-1">{{ \App\Services\TranslateService::to($kategori->nama_kategori, app()->getLocale()) }}</h2>
                 </div>
                 <a href="{{ route('put.kategori', [$unitPut->slug, $kategori->slug]) }}"
                    class="btn-lihat-semua">
-                    Lihat Semua <i class="bi bi-arrow-right"></i>
+                    {{ \App\Services\TranslateService::to('Lihat Semua', app()->getLocale()) }} <i class="bi bi-arrow-right"></i>
                 </a>
             </div>
 
@@ -136,7 +303,7 @@
                     <a href="{{ route('put.show', [$unitPut->slug, $kategori->slug, $subKategori->slug, $produk->slug]) }}"
                        class="content-card h-100" style="text-decoration:none; color:inherit;">
                         <div class="content-card-thumb">
-                            <span class="card-chip">{{ $subKategori->nama_sub_kategori }}</span>
+                            <span class="card-chip">{{ \App\Services\TranslateService::to($subKategori->nama_sub_kategori, app()->getLocale()) }}</span>
                             @if($produk->thumbnail)
                                 <img src="{{ asset('storage/' . $produk->thumbnail) }}"
                                      alt="{{ $produk->judul }}">
@@ -149,16 +316,16 @@
                         <div class="content-card-body">
                             <div class="date-badge mt-1 mb-2">
                                 <i class="bi bi-calendar3"></i>
-                                {{ $produk->created_at->locale('id')->isoFormat('D MMMM YYYY') }}
+                                {{ $produk->created_at->locale(app()->getLocale())->isoFormat('D MMMM YYYY') }}
                                 <span class="date-sep">·</span>
                                 <i class="bi bi-clock"></i>
-                                {{ $produk->created_at->format('H:i') }} WIB
+                                {{ $produk->created_at->format('H:i') }} {{ \App\Services\TranslateService::timezoneLabel() }}
                             </div>
                             <h6 class="content-card-title">
-                                {{ Str::limit($produk->judul, 80) }}
+                                {{ Str::limit(\App\Services\TranslateService::to($produk->judul, app()->getLocale()), 80) }}
                             </h6>
                             <p class="content-card-excerpt">
-                                {{ Str::limit(strip_tags($produk->isi), 100) }}
+                                {{ Str::limit(\App\Services\TranslateService::to(strip_tags($produk->isi), app()->getLocale()), 100) }}
                             </p>
                         </div>
                     </a>
@@ -168,7 +335,7 @@
             @else
             <div class="empty-state">
                 <i class="bi bi-box"></i>
-                <p>Belum ada produk untuk kategori ini.</p>
+                <p>{{ \App\Services\TranslateService::to('Belum ada produk untuk kategori ini.', app()->getLocale()) }}</p>
             </div>
             @endif
         </div>
@@ -298,6 +465,12 @@
 @media (max-width: 768px) {
     .slider-card-portrait { width: 170px; }
 }
+
+.roadmap-item .roadmap-year .badge {
+    font-size: 0.8rem;
+    padding: 0.5rem 0.85rem;
+    background-color: #00998a;
+}
 </style>
 
 @include('pages.put._styles')
@@ -354,6 +527,11 @@ function initSliderNav(trackId) {
 
 document.addEventListener('DOMContentLoaded', () => {
     initSliderNav('posterUnitPut');
+    initSliderNav('strukturUnitPut');
+});
+
+document.getElementById('struktur-tab')?.addEventListener('shown.bs.tab', () => {
+    initSliderNav('strukturUnitPut');
 });
 </script>
 @endsection

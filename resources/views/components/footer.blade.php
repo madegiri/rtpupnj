@@ -9,12 +9,11 @@
                     <img src="{{ asset('logo/logo.png') }}" alt="Logo PNJ" height="46">
                     <div class="footer-brand-text">
                         <span class="footer-brand-name">RTPU PNJ</span>
-                        <span class="footer-brand-sub">Politeknik Negeri Jakarta</span>
+                        <span class="footer-brand-sub">{{ \App\Services\TranslateService::to('Politeknik Negeri Jakarta', app()->getLocale()) }}</span>
                     </div>
                 </div>
                 <p class="footer-desc">
-                    Rekayasa Teknologi dan Pusat Unggulan (RTPU) Politeknik Negeri Jakarta adalah
-                    pusat riset dan inovasi teknologi terapan untuk mendukung industri dan masyarakat Indonesia.
+                    {{ \App\Services\TranslateService::to('Rekayasa Teknologi dan Pusat Unggulan (RTPU) Politeknik Negeri Jakarta adalah pusat riset dan inovasi teknologi terapan untuk mendukung industri dan masyarakat Indonesia.', app()->getLocale()) }}
                 </p>
                 {{-- Social Media --}}
                 <div class="footer-socials">
@@ -27,22 +26,18 @@
 
             {{-- Kolom 2: Tautan Cepat --}}
             <div class="footer-col">
-                <h6 class="footer-col-title">Tautan Cepat</h6>
+                <h6 class="footer-col-title">{{ \App\Services\TranslateService::to('Tautan Cepat', app()->getLocale()) }}</h6>
                 <ul class="footer-links">
-                    {{-- <li><a href="{{ route('artikel-inovasi.index') }}">Artikel Inovasi</a></li>
-                    <li><a href="{{ route('berita.index') }}">Berita</a></li>
-                    <li><a href="{{ route('pengumuman.index') }}">Pengumuman</a></li> --}}
                     @foreach($kategoriKontens as $kat)
-                        <li><a href="{{ route('konten.index', $kat->slug) }}">{{ $kat->nama_kategori_konten }}</a></li>
+                        <li><a href="{{ route('konten.index', $kat->slug) }}">{{ \App\Services\TranslateService::to($kat->nama_kategori_konten, app()->getLocale()) }}</a></li>
                     @endforeach
-                    <li><a href="{{ route('lomba.index') }}">Lomba</a></li>
-                    <li><a href="{{ route('tentang.index') }}">Tentang RTPU</a></li>
-                    <li><a href="{{ route('struktur-organisasi.index') }}">Struktur Organisasi</a></li>
+                    <li><a href="{{ route('lomba.index') }}">{{ \App\Services\TranslateService::to('Lomba', app()->getLocale()) }}</a></li>
+                    <li><a href="{{ route('tentang.index') }}">{{ \App\Services\TranslateService::to('Tentang RTPU', app()->getLocale()) }}</a></li>
+                    <li><a href="{{ route('struktur-organisasi.index') }}">{{ \App\Services\TranslateService::to('Struktur Organisasi', app()->getLocale()) }}</a></li>
                     @foreach($kategoriProduks as $kat)
-                        <li><a href="{{ route('produk.index', $kat->slug) }}">{{ $kat->nama_kategori_produk }}</a></li>
+                        <li><a href="{{ route('produk.index', $kat->slug) }}">{{ \App\Services\TranslateService::to($kat->nama_kategori_produk, app()->getLocale()) }}</a></li>
                     @endforeach
-                    {{-- <li><a href="{{ route('sertifikasi.index') }}">Pelatihan</a></li> --}}
-                    <li><a href="https://lms-rtpu.pnj.ac.id/course" target="_blank" rel="noopener noreferrer">Pelatihan</a></li>
+                    <li><a href="https://lms-rtpu.pnj.ac.id/course" target="_blank" rel="noopener noreferrer">{{ \App\Services\TranslateService::to('Pelatihan', app()->getLocale()) }}</a></li>
                 </ul>
             </div>
 
@@ -62,12 +57,12 @@
 
             {{-- Kolom 3: Pusat Unggulan --}}
             <div class="footer-col">
-                <h6 class="footer-col-title">Pusat Unggulan</h6>
+                <h6 class="footer-col-title">{{ \App\Services\TranslateService::to('Pusat Unggulan', app()->getLocale()) }}</h6>
                 <ul class="footer-links">
                     @foreach($unitPuts as $unit)
                     <li>
                         <a href="{{ route('put.index', $unit->slug) }}">
-                            {{ $unit->nama_singkat_unit_put }}
+                            {{ \App\Services\TranslateService::to($unit->nama_singkat_unit_put, app()->getLocale()) }}
                         </a>
                     </li>
                     @endforeach
@@ -76,23 +71,23 @@
 
             {{-- Kolom: Pekan Inovasi --}}
             <div class="footer-col">
-                <h6 class="footer-col-title">Pekan Inovasi</h6>
+                <h6 class="footer-col-title">{{ \App\Services\TranslateService::to('Pekan Inovasi', app()->getLocale()) }}</h6>
                 <ul class="footer-links">
                     @forelse($profilPekanInovasis as $profil)
                     <li>
                         <a href="{{ route('pekan-inovasi.index', $profil->slug) }}">
-                            {{ $profil->nama_pekan_inovasi }}
+                            {{ \App\Services\TranslateService::to($profil->nama_pekan_inovasi, app()->getLocale()) }}
                         </a>
                     </li>
                     @empty
-                    <li><span class="footer-links-empty">Belum ada Pekan Inovasi</span></li>
+                    <li><span class="footer-links-empty">{{ \App\Services\TranslateService::to('Belum ada Pekan Inovasi', app()->getLocale()) }}</span></li>
                     @endforelse
                 </ul>
             </div>
 
             {{-- Kolom 4: Kontak --}}
             <div class="footer-col">
-                <h6 class="footer-col-title">Kontak Kami</h6>
+                <h6 class="footer-col-title">{{ \App\Services\TranslateService::to('Kontak Kami', app()->getLocale()) }}</h6>
                 <ul class="footer-contact">
                     <li>
                         <span class="contact-icon"><i class="bi bi-geo-alt-fill"></i></span>
@@ -115,7 +110,7 @@
 
             {{-- Kolom: Statistik Pengunjung per Negara --}}
             <div class="footer-col">
-                <h6 class="footer-col-title">Pengunjung Kami</h6>
+                <h6 class="footer-col-title">{{ \App\Services\TranslateService::to('Pengunjung Kami', app()->getLocale()) }}</h6>
                 <ul class="footer-visitor-stats">
                     @forelse($visitorsByCountry as $stat)
                         <li>
@@ -129,7 +124,7 @@
                             <span class="visitor-count">{{ number_format($stat->total) }}</span>
                         </li>
                     @empty
-                        <li><span class="visitor-country">Belum ada data</span></li>
+                        <li><span class="visitor-country">{{ \App\Services\TranslateService::to('Belum ada data', app()->getLocale()) }}</span></li>
                     @endforelse
                 </ul>
             </div>
@@ -142,8 +137,8 @@
     <div class="footer-bottom">
         <div class="container">
             <div class="footer-bottom-inner">
-                <p>&copy; {{ date('Y') }} RTPU Politeknik Negeri Jakarta. All rights reserved.</p>
-                <p>Rekayasa Teknologi dan Pusat Unggulan Politeknik Negeri Jakarta</p>
+                <p>&copy; {{ date('Y') }} RTPU {{ \App\Services\TranslateService::to('Politeknik Negeri Jakarta', app()->getLocale()) }}. All rights reserved.</p>
+                <p>{{ \App\Services\TranslateService::to('Rekayasa Teknologi dan Pusat Unggulan Politeknik Negeri Jakarta', app()->getLocale()) }}</p>
             </div>
         </div>
     </div>

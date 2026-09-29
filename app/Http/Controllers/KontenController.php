@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\KategoriKonten;
 use App\Models\Konten;
+use App\Services\TranslateService;
 use Illuminate\Http\Request;
 
 class KontenController extends Controller
@@ -17,7 +18,16 @@ class KontenController extends Controller
  
         $kontens = Konten::where('kategori_konten_id', $kategori->id)
             ->when($search, function ($query, $search) {
-                $query->where('judul', 'like', "%{$search}%");
+                $query->where(function ($q) use ($search) {
+                    $q->where('judul', 'like', "%{$search}%");
+
+                    if (app()->getLocale() !== 'id') {
+                        $translated = TranslateService::toIndonesian($search, app()->getLocale());
+                        if ($translated && $translated !== $search) {
+                            $q->orWhere('judul', 'like', "%{$translated}%");
+                        }
+                    }
+                });
             })
             ->latest()
             ->paginate(6)

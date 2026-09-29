@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', $produk->judul . ' - ' . $profil->nama_pekan_inovasi . ' RTPU PNJ')
+@section('title', \App\Services\TranslateService::to($produk->judul, app()->getLocale()) . ' - ' . \App\Services\TranslateService::to($profil->nama_pekan_inovasi, app()->getLocale()) . ' RTPU PNJ')
 
 @section('content')
 <section class="py-5">
@@ -9,25 +9,25 @@
         {{-- Breadcrumb --}}
         <nav aria-label="breadcrumb" class="mb-4">
             <ol class="breadcrumb breadcrumb-custom">
-                <li class="breadcrumb-item"><a href="{{ route('home') }}">Beranda</a></li>
+                <li class="breadcrumb-item"><a href="{{ route('home') }}">{{ \App\Services\TranslateService::to('Beranda', app()->getLocale()) }}</a></li>
                 <li class="breadcrumb-item">
                     <a href="{{ route('pekan-inovasi.index', $profil->slug) }}">
-                        {{ $profil->nama_pekan_inovasi }}
+                        {{ \App\Services\TranslateService::to($profil->nama_pekan_inovasi, app()->getLocale()) }}
                     </a>
                 </li>
                 <li class="breadcrumb-item">
                     <a href="{{ route('pekan-inovasi.kategori', [$profil->slug, $kategori->slug]) }}">
-                        {{ $kategori->nama_kategori }}
+                        {{ \App\Services\TranslateService::to($kategori->nama_kategori, app()->getLocale()) }}
                     </a>
                 </li>
-                <li class="breadcrumb-item active">{{ Str::limit($produk->judul, 40) }}</li>
+                <li class="breadcrumb-item active">{{ Str::limit(\App\Services\TranslateService::to($produk->judul, app()->getLocale()), 40) }}</li>
             </ol>
         </nav>
 
         <div class="row justify-content">
             <div class="col-lg-12">
 
-                <h1 class="article-title">{{ $produk->judul }}</h1>
+                <h1 class="article-title">{{ \App\Services\TranslateService::to($produk->judul, app()->getLocale()) }}</h1>
 
                 <div class="article-meta">
                     @if($produk->user)
@@ -39,12 +39,12 @@
                     @endif
                     <span class="date-badge">
                         <i class="bi bi-calendar3"></i>
-                        {{ $produk->created_at->locale('id')->isoFormat('D MMMM YYYY') }}
+                        {{ $produk->created_at->locale(app()->getLocale())->isoFormat('D MMMM YYYY') }}
                     </span>
                     <span class="date-sep">·</span>
                     <span class="date-badge">
                         <i class="bi bi-clock"></i>
-                        {{ $produk->created_at->format('H:i') }} WIB
+                        {{ $produk->created_at->format('H:i') }} {{ \App\Services\TranslateService::timezoneLabel() }}
                     </span>
                 </div>
 
@@ -52,7 +52,7 @@
                 @if($produk->video)
                 <div class="video-section mb-4">
                     <h5 class="produk-desc-title">
-                        <i class="bi bi-play-circle"></i> Video Produk
+                        <i class="bi bi-play-circle"></i> {{ \App\Services\TranslateService::to('Video Produk', app()->getLocale()) }}
                     </h5>
                     <div class="video-player-wrap @if($produk->video_type === 'drive') is-drive @endif">
                         @if($produk->video_embed_url)
@@ -67,7 +67,7 @@
                             <video controls preload="metadata" playsinline class="video-player"
                                 @if($produk->thumbnail) poster="{{ asset('storage/' . $produk->thumbnail) }}" @endif>
                                 <source src="{{ $produk->video }}" type="video/mp4">
-                                Browser Anda tidak mendukung pemutaran video.
+                                {{ \App\Services\TranslateService::to('Browser Anda tidak mendukung pemutaran video.', app()->getLocale()) }}
                             </video>
                         @endif
                     </div>
@@ -80,7 +80,7 @@
                     <div class="col-lg-5">
                         <div class="poster-wrap">
                             <div class="poster-label">
-                                <i class="bi bi-file-image"></i> Poster Produk
+                                 <i class="bi bi-file-image"></i> {{ \App\Services\TranslateService::to('Poster Produk', app()->getLocale()) }}
                             </div>
                             <img src="{{ asset('storage/' . $produk->poster) }}"
                                  alt="Poster {{ $produk->judul }}"
@@ -94,7 +94,7 @@
                         {{-- Thumbnail --}}
                         @if($produk->thumbnail)
                         <div class="article-hero-img mb-3">
-                            <span class="card-chip">{{ $kategori->nama_kategori }}</span>
+                            <span class="card-chip">{{ \App\Services\TranslateService::to($kategori->nama_kategori, app()->getLocale()) }}</span>
                             <img src="{{ asset('storage/' . $produk->thumbnail) }}"
                                  alt="{{ $produk->judul }}"
                                  class="lightbox-trigger"
@@ -107,7 +107,7 @@
                         @if(!empty($produk->galeri) && count($produk->galeri) > 0)
                         <div class="galeri-section mb-0">
                             <h5 class="galeri-title">
-                                <i class="bi bi-images"></i> Galeri Produk
+                                <i class="bi bi-images"></i> {{ \App\Services\TranslateService::to('Galeri Produk', app()->getLocale()) }}
                             </h5>
                             <div id="galeriCarousel" class="carousel slide" data-bs-ride="false">
                                 <div class="carousel-inner">
@@ -142,10 +142,10 @@
                 {{-- Deskripsi --}}
                 <div class="produk-desc-box">
                     <h5 class="produk-desc-title">
-                        <i class="bi bi-info-circle"></i> Deskripsi Produk
+                        <i class="bi bi-info-circle"></i> {{ \App\Services\TranslateService::to('Deskripsi Produk', app()->getLocale()) }}
                     </h5>
                     <div class="article-body">
-                        {!! $produk->isi !!}
+                        {!! \App\Services\TranslateService::to($produk->isi, app()->getLocale()) !!}
                     </div>
                 </div>
 
@@ -156,8 +156,8 @@
         @if($related->count())
         <div class="related-section">
             <div class="related-header">
-                <span class="section-eyebrow">Lihat Juga</span>
-                <h2 class="section-title mt-1">Produk {{ $kategori->nama_kategori }} Lainnya</h2>
+                <span class="section-eyebrow">{{ \App\Services\TranslateService::to('Lihat Juga', app()->getLocale()) }}</span>
+                <h2 class="section-title mt-1">{{ \App\Services\TranslateService::to('Produk', app()->getLocale()) }} {{ \App\Services\TranslateService::to($kategori->nama_kategori, app()->getLocale()) }} {{ \App\Services\TranslateService::to('Lainnya', app()->getLocale()) }}</h2>
             </div>
             <div class="row g-4">
                 @foreach($related as $rel)
@@ -165,7 +165,7 @@
                     <a href="{{ route('pekan-inovasi.show', [$profil->slug, $kategori->slug, $rel->slug]) }}"
                        class="content-card h-100" style="text-decoration:none; color:inherit;">
                         <div class="content-card-thumb">
-                            <span class="card-chip">{{ $kategori->nama_kategori }}</span>
+                            <span class="card-chip">{{ \App\Services\TranslateService::to($kategori->nama_kategori, app()->getLocale()) }}</span>
                             @if($rel->thumbnail)
                                 <img src="{{ asset('storage/' . $rel->thumbnail) }}"
                                      alt="{{ $rel->judul }}">
@@ -178,16 +178,16 @@
                         <div class="content-card-body">
                             <div class="date-badge mt-1 mb-2">
                                 <i class="bi bi-calendar3"></i>
-                                {{ $rel->created_at->locale('id')->isoFormat('D MMMM YYYY') }}
+                                {{ $rel->created_at->locale(app()->getLocale())->isoFormat('D MMMM YYYY') }}
                                 <span class="date-sep">·</span>
                                 <i class="bi bi-clock"></i>
-                                {{ $rel->created_at->format('H:i') }} WIB
+                                {{ $rel->created_at->format('H:i') }} {{ \App\Services\TranslateService::timezoneLabel() }}
                             </div>
                             <h6 class="content-card-title">
-                                {{ Str::limit($rel->judul, 80) }}
+                                {{ Str::limit(\App\Services\TranslateService::to($rel->judul, app()->getLocale()), 80) }}
                             </h6>
                             <p class="content-card-excerpt">
-                                {{ Str::limit(strip_tags($rel->isi), 100) }}
+                                {{ Str::limit(\App\Services\TranslateService::to(strip_tags($rel->isi), app()->getLocale()), 100) }}
                             </p>
                         </div>
                     </a>
@@ -197,7 +197,7 @@
             <div class="text-center mt-4">
                 <a href="{{ route('pekan-inovasi.kategori', [$profil->slug, $kategori->slug]) }}"
                    class="btn-lihat-semua">
-                    Lihat Semua {{ $kategori->nama_kategori }}
+                    {{ \App\Services\TranslateService::to('Lihat Semua', app()->getLocale()) }} {{ \App\Services\TranslateService::to($kategori->nama_kategori, app()->getLocale()) }}
                     <i class="bi bi-arrow-right"></i>
                 </a>
             </div>

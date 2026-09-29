@@ -7,8 +7,10 @@ use App\Filament\Resources\UnitPUTResource\RelationManagers;
 use App\Models\UnitPUT;
 use Filament\Forms;
 use Filament\Forms\Components\FileUpload;
+use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Components\Section;
+use Filament\Forms\Components\Tabs;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -35,58 +37,203 @@ class UnitPUTResource extends Resource
         return $form
             ->schema([
                 //
-                Section::make('Informasi Unit PUT')
-                ->schema([
-                    TextInput::make('nama_singkat_unit_put')
-                        ->required()
-                        ->label('Nama Singkat Unit PUT')
-                        ->maxLength(255)
-                        ->unique(ignoreRecord: true),
+                Tabs::make('Unit PUT')
+                    ->columnSpanFull()
+                    ->tabs([
+                        Tabs\Tab::make('General')
+                            ->schema([
+                                TextInput::make('nama_singkat_unit_put')
+                                    ->label('Nama Singkat Unit PUT')
+                                    ->required()
+                                    ->maxLength(255)
+                                    ->unique(ignoreRecord: true),
 
-                    TextInput::make('nama_lengkap_unit_put')
-                        ->required()
-                        ->label('Nama Lengkap Unit PUT')
-                        ->maxLength(255),
+                                TextInput::make('nama_lengkap_unit_put')
+                                    ->label('Nama Lengkap Unit PUT')
+                                    ->required()
+                                    ->maxLength(255),
+                                
+                                FileUpload::make('thumbnail')
+                                    ->label('Logo Unit PUT')
+                                    ->image()
+                                    ->maxSize(512) 
+                                    ->required()
+                                    ->directory('put-profil/thumbnail'),
 
-                    RichEditor::make('deskripsi')
-                        ->label('Deskripsi Unit PUT')
-                        ->required()
-                        ->columnSpanFull()
-                        ->toolbarButtons([
-                            'attachFiles',
-                            'blockquote',
-                            'bold',
-                            'bulletList',
-                            'codeBlock',
-                            'h2',
-                            'h3',
-                            'italic',
-                            'link',
-                            'orderedList',
-                            'redo',
-                            'strike',
-                            'underline',
-                            'undo',
-                        ]),
-                ])->columns(2),
+                                FileUpload::make('poster')
+                                    ->label('Poster Produk PUT')
+                                    ->image()
+                                    ->maxSize(512) 
+                                    ->nullable()
+                                    ->multiple()
+                                    ->directory('put-profil/poster'),
+                            ])->columns(2),
 
-                Section::make('Media Unit PUT')
-                ->schema([
-                    FileUpload::make('thumbnail')
-                        ->label('Logo Unit PUT')
-                        ->image()
-                        ->maxSize(512) 
-                        ->required()
-                        ->directory('put-profil/thumbnail'),
+                            Tabs\Tab::make('Profil')
+                                ->schema([
+                                    RichEditor::make('deskripsi')
+                                        ->label('Deskripsi Unit PUT')
+                                        ->required()
+                                        ->columnSpanFull()
+                                        ->toolbarButtons([
+                                            'attachFiles',
+                                            'blockquote',
+                                            'bold',
+                                            'bulletList',
+                                            'codeBlock',
+                                            'h2',
+                                            'h3',
+                                            'italic',
+                                            'link',
+                                            'orderedList',
+                                            'redo',
+                                            'strike',
+                                            'underline',
+                                            'undo',
+                                        ]),
+                                ]),
+                            
+                            Tabs\Tab::make('Visi & Misi')
+                                ->schema([
+                                    RichEditor::make('visi_misi')
+                                        ->label('Visi & Misi')
+                                        ->columnSpanFull()
+                                        ->toolbarButtons([
+                                            'attachFiles',
+                                            'blockquote',
+                                            'bold',
+                                            'bulletList',
+                                            'codeBlock',
+                                            'h2',
+                                            'h3',
+                                            'italic',
+                                            'link',
+                                            'orderedList',
+                                            'redo',
+                                            'strike',
+                                            'underline',
+                                            'undo',
+                                        ]),
+                                ]),
+                            
+                            Tabs\Tab::make('Dukungan Kebijakan')
+                                ->schema([
+                                    RichEditor::make('dukungan_kebijakan')
+                                        ->label('Dukungan Aturan / Kebijakan')
+                                        ->columnSpanFull()
+                                        ->toolbarButtons([
+                                            'attachFiles',
+                                            'blockquote',
+                                            'bold',
+                                            'bulletList',
+                                            'codeBlock',
+                                            'h2',
+                                            'h3',
+                                            'italic',
+                                            'link',
+                                            'orderedList',
+                                            'redo',
+                                            'strike',
+                                            'underline',
+                                            'undo',
+                                        ]),
+                                ]),
 
-                    FileUpload::make('poster')
-                        ->label('Poster Produk PUT')
-                        ->image()
-                        ->maxSize(512) 
-                        ->nullable()
-                        ->multiple()
-                        ->directory('put-profil/poster'),
-                ])->columns(2),
+                            Tabs\Tab::make('Sumber Daya Manusia (SDM)')
+                                ->schema([
+                                    RichEditor::make('sdm')
+                                        ->label('Sumber Daya Manusia (SDM)')
+                                        ->columnSpanFull()
+                                        ->toolbarButtons([
+                                            'attachFiles',
+                                            'blockquote',
+                                            'bold',
+                                            'bulletList',
+                                            'codeBlock',
+                                            'h2',
+                                            'h3',
+                                            'italic',
+                                            'link',
+                                            'orderedList',
+                                            'redo',
+                                            'strike',
+                                            'underline',
+                                            'undo',
+                                        ]),
+                                ]),
+
+                            Tabs\Tab::make('Sarana & Prasarana')
+                                ->schema([
+                                    RichEditor::make('sarana_prasarana')
+                                        ->label('Sarana & Prasarana')
+                                        ->columnSpanFull()
+                                        ->toolbarButtons([
+                                            'attachFiles',
+                                            'blockquote',
+                                            'bold',
+                                            'bulletList',
+                                            'codeBlock',
+                                            'h2',
+                                            'h3',
+                                            'italic',
+                                            'link',
+                                            'orderedList',
+                                            'redo',
+                                            'strike',
+                                            'underline',
+                                            'undo',
+                                        ]),
+                                ]),
+                            
+                            Tabs\Tab::make('Struktur Organisasi')
+                                ->schema([
+                                    Repeater::make('struktur_organisasi')
+                                        ->label('Struktur Organisasi')
+                                        ->schema([
+                                            FileUpload::make('foto')
+                                                ->label('Foto')
+                                                ->directory('struktur-organisasi-put/foto')
+                                                ->image()
+                                                ->maxSize(512)
+                                                ->imageEditor()
+                                                ->columnSpanFull(),
+
+                                            TextInput::make('nama')
+                                                ->label('Nama'),
+
+                                            TextInput::make('jabatan')
+                                                ->label('Jabatan'),
+                                        ])
+                                        ->defaultItems(1)
+                                        ->addActionLabel('Tambah Anggota')
+                                        ->reorderable()
+                                        ->columns(2)
+                                        ->columnSpanFull(),
+                                ]),
+                            
+                            Tabs\Tab::make('Roadmap')
+                                ->schema([
+                                    Repeater::make('roadmap')
+                                        ->label('Roadmap')
+                                        ->schema([
+                                            TextInput::make('tahun')
+                                                ->label('Tahun'),
+
+                                            TextInput::make('tahap')
+                                                ->label('Tahap')
+                                                ->helperText('mis. Tahap 1, Tahap 2'),
+
+                                            RichEditor::make('deskripsi_tahapan')
+                                                ->label('Deskripsi Tahapan')
+                                                ->columnSpanFull(),
+                                        ])
+                                        ->defaultItems(1)
+                                        ->addActionLabel('Tambah Tahapan')
+                                        ->reorderable()
+                                        ->columns(2)
+                                        ->columnSpanFull(),
+                                ]),
+                    ]),
             ]);
     }
 

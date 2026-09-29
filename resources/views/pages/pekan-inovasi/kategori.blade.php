@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', $kategori->nama_kategori . ' - ' . $profil->nama_pekan_inovasi . ' - RTPU PNJ')
+@section('title', \App\Services\TranslateService::to($kategori->nama_kategori, app()->getLocale()) . ' - ' . \App\Services\TranslateService::to($profil->nama_pekan_inovasi, app()->getLocale()) . ' - RTPU PNJ')
 
 @section('content')
 <section class="py-5">
@@ -9,18 +9,18 @@
         <div class="page-header mb-3">
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb breadcrumb-custom">
-                    <li class="breadcrumb-item"><a href="{{ route('home') }}">Beranda</a></li>
+                    <li class="breadcrumb-item"><a href="{{ route('home') }}">{{ \App\Services\TranslateService::to('Beranda', app()->getLocale()) }}</a></li>
                     <li class="breadcrumb-item">
                         <a href="{{ route('pekan-inovasi.index', $profil->slug) }}">
-                            {{ $profil->nama_pekan_inovasi }}
+                            {{ \App\Services\TranslateService::to($profil->nama_pekan_inovasi, app()->getLocale()) }}
                         </a>
                     </li>
-                    <li class="breadcrumb-item active">{{ $kategori->nama_kategori }}</li>
+                    <li class="breadcrumb-item active">{{ \App\Services\TranslateService::to($kategori->nama_kategori, app()->getLocale()) }}</li>
                 </ol>
             </nav>
-            <h1 class="section-title mt-1">{{ $kategori->nama_kategori }}</h1>
+            <h1 class="section-title mt-1">{{ \App\Services\TranslateService::to($kategori->nama_kategori, app()->getLocale()) }}</h1>
             <p class="section-subtitle">
-                Produk {{ $profil->nama_pekan_inovasi }} dalam kategori {{ $kategori->nama_kategori }}.
+                {{ \App\Services\TranslateService::to('Produk', app()->getLocale()) }} {{ \App\Services\TranslateService::to($profil->nama_pekan_inovasi, app()->getLocale()) }} {{ \App\Services\TranslateService::to('dalam kategori', app()->getLocale()) }} {{ \App\Services\TranslateService::to($kategori->nama_kategori, app()->getLocale()) }}.
             </p>
         </div>
 
@@ -33,7 +33,7 @@
                         type="text"
                         name="search"
                         class="search-input"
-                        placeholder="Cari produk..."
+                        placeholder="{{ \App\Services\TranslateService::to('Cari produk...', app()->getLocale()) }}"
                         value="{{ $search ?? '' }}"
                         autocomplete="off"
                     >
@@ -46,7 +46,7 @@
             </form>
             @if($search ?? false)
                 <p class="search-result-info">
-                    Menampilkan hasil untuk <strong>"{{ $search }}"</strong>
+                    {{ \App\Services\TranslateService::to('Menampilkan hasil untuk', app()->getLocale()) }} <strong>"{{ $search }}"</strong>
                 </p>
             @endif
         </div>
@@ -57,7 +57,7 @@
                 <a href="{{ route('pekan-inovasi.show', [$profil->slug, $kategori->slug, $produk->slug]) }}"
                    class="content-card h-100" style="text-decoration:none; color:inherit;">
                     <div class="content-card-thumb">
-                        <span class="card-chip">{{ $kategori->nama_kategori }}</span>
+                        <span class="card-chip">{{ \App\Services\TranslateService::to($kategori->nama_kategori, app()->getLocale()) }}</span>
                         @if($produk->thumbnail)
                             <img src="{{ asset('storage/' . $produk->thumbnail) }}"
                                  alt="{{ $produk->judul }}">
@@ -70,16 +70,16 @@
                     <div class="content-card-body">
                         <div class="date-badge mt-1 mb-2">
                             <i class="bi bi-calendar3"></i>
-                            {{ $produk->created_at->locale('id')->isoFormat('D MMMM YYYY') }}
+                            {{ $produk->created_at->locale(app()->getLocale())->isoFormat('D MMMM YYYY') }}
                             <span class="date-sep">·</span>
                             <i class="bi bi-clock"></i>
-                            {{ $produk->created_at->format('H:i') }} WIB
+                            {{ $produk->created_at->format('H:i') }} {{ \App\Services\TranslateService::timezoneLabel() }}
                         </div>
                         <h6 class="content-card-title">
-                            {{ Str::limit($produk->judul, 80) }}
+                            {{ Str::limit(\App\Services\TranslateService::to($produk->judul, app()->getLocale()), 80) }}
                         </h6>
                         <p class="content-card-excerpt">
-                            {{ Str::limit(strip_tags($produk->isi), 100) }}
+                            {{ Str::limit(\App\Services\TranslateService::to(strip_tags($produk->isi), app()->getLocale()), 100) }}
                         </p>
                     </div>
                 </a>
@@ -88,7 +88,7 @@
             <div class="col-12">
                 <div class="empty-state">
                     <i class="bi bi-box"></i>
-                    <p>Belum ada produk untuk kategori ini.</p>
+                    <p>{{ \App\Services\TranslateService::to('Belum ada produk untuk kategori ini.', app()->getLocale()) }}</p>
                 </div>
             </div>
             @endforelse

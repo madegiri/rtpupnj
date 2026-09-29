@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Tentang RTPU PNJ')
+@section('title', \App\Services\TranslateService::to('Tentang RTPU PNJ', app()->getLocale()))
 
 @section('content')
 <section class="py-5">
@@ -10,12 +10,12 @@
         <div class="page-header mb-3">
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb breadcrumb-custom">
-                    <li class="breadcrumb-item"><a href="{{ route('home') }}">Beranda</a></li>
-                    <li class="breadcrumb-item active">Tentang RTPU</li>
+                    <li class="breadcrumb-item"><a href="{{ route('home') }}">{{ \App\Services\TranslateService::to('Beranda', app()->getLocale()) }}</a></li>
+                    <li class="breadcrumb-item active">{{ \App\Services\TranslateService::to('Tentang RTPU', app()->getLocale()) }}</li>
                 </ol>
             </nav>
             {{-- <span class="section-eyebrow">Profil</span> --}}
-            <h1 class="section-title mt-1">Tentang RTPU PNJ</h1>
+            <h1 class="section-title mt-1">{{ \App\Services\TranslateService::to('Tentang RTPU PNJ', app()->getLocale()) }}</h1>
         </div>
 
         {{-- Author meta --}}
@@ -28,12 +28,12 @@
             <span class="date-sep">·</span>
             <span class="date-badge">
                 <i class="bi bi-calendar3"></i>
-                {{ $tentang->created_at->locale('id')->isoFormat('D MMMM YYYY') }}
+                {{ $tentang->created_at->locale(app()->getLocale())->isoFormat('D MMMM YYYY') }}
             </span>
             <span class="date-sep">·</span>
             <span class="date-badge">
                 <i class="bi bi-clock"></i>
-                {{ $tentang->created_at->format('H:i') }} WIB
+                {{ $tentang->created_at->format('H:i') }} {{ \App\Services\TranslateService::timezoneLabel() }}
             </span>
         </div>
         <hr class="author-divider">
@@ -49,13 +49,13 @@
                 @if($tentang)
                     <div class="tentang-desc-box">
                         <div class="article-body">
-                            {!! $tentang->isi !!}
+                            {!! \App\Services\TranslateService::to($tentang->isi, app()->getLocale()) !!}
                         </div>
                     </div>
                 @else
                     <div class="empty-state">
                         <i class="bi bi-info-circle"></i>
-                        <p>Informasi tentang RTPU belum tersedia.</p>
+                        <p>{{ \App\Services\TranslateService::to('Informasi tentang RTPU belum tersedia.', app()->getLocale()) }}</p>
                     </div>
                 @endif
             </div>

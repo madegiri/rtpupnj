@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Lomba - RTPU PNJ')
+@section('title', \App\Services\TranslateService::to('Lomba', app()->getLocale()) . ' - RTPU PNJ')
 
 @section('content')
 <section class="py-5">
@@ -10,12 +10,12 @@
         <div class="page-header mb-3">
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb breadcrumb-custom">
-                    <li class="breadcrumb-item"><a href="{{ route('home') }}">Beranda</a></li>
-                    <li class="breadcrumb-item active">Lomba</li>
+                    <li class="breadcrumb-item"><a href="{{ route('home') }}">{{ \App\Services\TranslateService::to('Beranda', app()->getLocale()) }}</a></li>
+                    <li class="breadcrumb-item active">{{ \App\Services\TranslateService::to('Lomba', app()->getLocale()) }}</li>
                 </ol>
             </nav>
-            <h1 class="section-title mt-1">Lomba Pekan Inovasi</h1>
-            <p class="section-subtitle">Informasi lomba yang dapat diikuti.</p>
+            <h1 class="section-title mt-1">{{ \App\Services\TranslateService::to('Lomba Pekan Inovasi', app()->getLocale()) }}</h1>
+            <p class="section-subtitle">{{ \App\Services\TranslateService::to('Informasi lomba yang dapat diikuti.', app()->getLocale()) }}</p>
         </div>
 
         {{-- Search & Filter --}}
@@ -31,7 +31,7 @@
                                 type="search"
                                 name="search"
                                 class="search-input"
-                                placeholder="Cari lomba..."
+                                placeholder="{{ \App\Services\TranslateService::to('Cari lomba...', app()->getLocale()) }}"
                                 value="{{ $search ?? '' }}"
                                 autocomplete="off"
                             >
@@ -46,10 +46,10 @@
                     {{-- Kategori --}}
                     <div class="col-6 col-md-3">
                         <select name="kategori" class="filter-select" onchange="this.form.submit()">
-                            <option value="">Semua Kategori</option>
+                            <option value="">{{ \App\Services\TranslateService::to('Semua Kategori', app()->getLocale()) }}</option>
                             @foreach($kategoriList as $kat)
                                 <option value="{{ $kat->id }}" {{ $kategori == $kat->id ? 'selected' : '' }}>
-                                    {{ $kat->nama_kategori }}
+                                    {{ \App\Services\TranslateService::to($kat->nama_kategori, app()->getLocale()) }}
                                 </option>
                             @endforeach
                         </select>
@@ -58,10 +58,10 @@
                     {{-- Peserta --}}
                     <div class="col-6 col-md-2">
                         <select name="peserta" class="filter-select" onchange="this.form.submit()">
-                            <option value="">Semua Peserta</option>
+                            <option value="">{{ \App\Services\TranslateService::to('Semua Peserta', app()->getLocale()) }}</option>
                             @foreach(\App\Models\Lomba::KATEGORI_PESERTA as $key => $label)
                                 <option value="{{ $key }}" {{ $peserta === $key ? 'selected' : '' }}>
-                                    {{ $label }}
+                                    {{ \App\Services\TranslateService::to($label, app()->getLocale()) }}
                                 </option>
                             @endforeach
                         </select>
@@ -70,10 +70,10 @@
                     {{-- Jenis Pelaksanaan --}}
                     <div class="col-12 col-md-2">
                         <select name="jenis" class="filter-select" onchange="this.form.submit()">
-                            <option value="">Semua Jenis Pelaksanaan</option>
+                            <option value="">{{ \App\Services\TranslateService::to('Semua Jenis Pelaksanaan', app()->getLocale()) }}</option>
                             @foreach(\App\Models\Lomba::JENIS_PELAKSANAAN as $key => $label)
                                 <option value="{{ $key }}" {{ $jenis === $key ? 'selected' : '' }}>
-                                    {{ $label }}
+                                    {{ \App\Services\TranslateService::to($label, app()->getLocale()) }}
                                 </option>
                             @endforeach
                         </select>
@@ -91,7 +91,7 @@
                 {{-- Active filters info --}}
                 @if($search || $kategori || $peserta || $jenis)
                 <div class="active-filters mt-2">
-                    <span class="filter-info-text">Filter aktif:</span>
+                    <span class="filter-info-text">{{ \App\Services\TranslateService::to('Filter aktif:', app()->getLocale()) }}</span>
                     @if($search)
                         <span class="filter-tag">
                             "{{ $search }}"
@@ -102,7 +102,7 @@
                     @endif
                     @if($kategori)
                         <span class="filter-tag">
-                            {{ $kategoriList->find($kategori)?->nama_kategori }}
+                            {{ \App\Services\TranslateService::to($kategoriList->find($kategori)?->nama_kategori, app()->getLocale()) }}
                             <a href="{{ route('lomba.index', array_filter(['search' => $search, 'peserta' => $peserta, 'jenis' => $jenis])) }}">
                                 <i class="bi bi-x"></i>
                             </a>
@@ -110,7 +110,7 @@
                     @endif
                     @if($peserta)
                         <span class="filter-tag">
-                            {{ \App\Models\Lomba::KATEGORI_PESERTA[$peserta] }}
+                            {{ \App\Services\TranslateService::to(\App\Models\Lomba::KATEGORI_PESERTA[$peserta], app()->getLocale()) }}
                             <a href="{{ route('lomba.index', array_filter(['search' => $search, 'kategori' => $kategori, 'jenis' => $jenis])) }}">
                                 <i class="bi bi-x"></i>
                             </a>
@@ -118,13 +118,13 @@
                     @endif
                     @if($jenis)
                         <span class="filter-tag">
-                            {{ \App\Models\Lomba::JENIS_PELAKSANAAN[$jenis] }}
+                            {{ \App\Services\TranslateService::to(\App\Models\Lomba::JENIS_PELAKSANAAN[$jenis], app()->getLocale()) }}
                             <a href="{{ route('lomba.index', array_filter(['search' => $search, 'kategori' => $kategori, 'peserta' => $peserta])) }}">
                                 <i class="bi bi-x"></i>
                             </a>
                         </span>
                     @endif
-                    <a href="{{ route('lomba.index') }}" class="filter-reset">Reset semua</a>
+                    <a href="{{ route('lomba.index') }}" class="filter-reset">{{ \App\Services\TranslateService::to('Reset semua', app()->getLocale()) }}</a>
                 </div>
                 @endif
 
@@ -137,7 +137,7 @@
             <div class="col-12 col-sm-6 col-lg-4">
                 <a href="{{ route('lomba.show', $lomba->slug) }}" class="content-card h-100" style="text-decoration:none; color:inherit;">
                     <div class="content-card-thumb">
-                        <span class="card-chip">{{ $lomba->kategoriLomba->nama_kategori }}</span>
+                        <span class="card-chip">{{ \App\Services\TranslateService::to($lomba->kategoriLomba->nama_kategori, app()->getLocale()) }}</span>
                         @if($lomba->gambar)
                             <img src="{{ asset('storage/' . $lomba->gambar) }}" alt="{{ $lomba->nama_lomba }}">
                         @else
@@ -150,7 +150,7 @@
                         <div class="lomba-badges mb-2">
                             <span class="badge-jenis">
                                 <i class="bi bi-geo-alt"></i>
-                                {{ \App\Models\Lomba::JENIS_PELAKSANAAN[$lomba->jenis_pelaksanaan] }}
+                                {{ \App\Services\TranslateService::to(\App\Models\Lomba::JENIS_PELAKSANAAN[$lomba->jenis_pelaksanaan], app()->getLocale()) }}
                             </span>
                             <span class="badge-deadline">
                                 <i class="bi bi-clock"></i>
@@ -158,8 +158,8 @@
                                     $mulai   = $lomba->tanggal_mulai_pendaftaran;
                                     $selesai = $lomba->tanggal_selesai_pendaftaran;
 
-                                    $mulai->locale('id');
-                                    $selesai->locale('id');
+                                    $mulai->locale(app()->getLocale());
+                                    $selesai->locale(app()->getLocale());   
 
                                     $bulanSama = $mulai->month === $selesai->month;
                                     $tahunSama = $mulai->year  === $selesai->year;
@@ -174,11 +174,11 @@
                                 @endif
                             </span>
                         </div>
-                        <h6 class="content-card-title">{{ Str::limit($lomba->nama_lomba, 80) }}</h6>
-                        <p class="content-card-excerpt">{{ Str::limit(strip_tags($lomba->deskripsi), 100) }}</p>
+                        <h6 class="content-card-title">{{ Str::limit(\App\Services\TranslateService::to($lomba->nama_lomba, app()->getLocale()), 80) }}</h6>
+                        <p class="content-card-excerpt">{{ Str::limit(\App\Services\TranslateService::to(strip_tags($lomba->deskripsi), app()->getLocale()), 100) }}</p>
                         <div class="lomba-peserta mt-auto pt-2">
                             @foreach($lomba->kategori_peserta as $peserta)
-                                <span class="badge-peserta">{{ \App\Models\Lomba::KATEGORI_PESERTA[$peserta] ?? $peserta }}</span>
+                                <span class="badge-peserta">{{ \App\Services\TranslateService::to(\App\Models\Lomba::KATEGORI_PESERTA[$peserta] ?? $peserta, app()->getLocale()) }}</span>
                             @endforeach
                         </div>
                     </div>
@@ -188,7 +188,7 @@
             <div class="col-12">
                 <div class="empty-state">
                     <i class="bi bi-trophy"></i>
-                    <p>Belum ada lomba yang tersedia.</p>
+                    <p>{{ \App\Services\TranslateService::to('Belum ada lomba yang tersedia.', app()->getLocale()) }}</p>
                 </div>
             </div>
             @endforelse

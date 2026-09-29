@@ -122,6 +122,11 @@ use Shetabit\Visitor\Middlewares\LogVisits;
 // Hubungi Kami
 // Route::get('/hubungi-kami', [HubungiKamiController::class, 'index'])->name('hubungi-kami');
 
+Route::get('lang/{locale}', function ($locale) {
+    session()->put('locale', in_array($locale, ['id', 'en']) ? $locale : 'id');
+    return back();
+})->name('lang.switch');
+
 Route::middleware([LogVisits::class])->group(function () {
 
     // Home

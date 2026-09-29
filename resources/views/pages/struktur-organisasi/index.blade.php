@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Struktur Organisasi RTPU PNJ')
+@section('title', \App\Services\TranslateService::to('Struktur Organisasi RTPU PNJ', app()->getLocale()))
 
 @section('content')
 <section class="py-5">
@@ -10,14 +10,14 @@
         <div class="page-header mb-5">
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb breadcrumb-custom">
-                    <li class="breadcrumb-item"><a href="{{ route('home') }}">Beranda</a></li>
-                    <li class="breadcrumb-item"><a href="{{ route('tentang.index') }}">Tentang</a></li>
-                    <li class="breadcrumb-item active">Struktur Organisasi</li>
+                    <li class="breadcrumb-item"><a href="{{ route('home') }}">{{ \App\Services\TranslateService::to('Beranda', app()->getLocale()) }}</a></li>
+                    <li class="breadcrumb-item"><a href="{{ route('tentang.index') }}">{{ \App\Services\TranslateService::to('Tentang', app()->getLocale()) }}</a></li>
+                    <li class="breadcrumb-item active">{{ \App\Services\TranslateService::to('Struktur Organisasi', app()->getLocale()) }}</li>
                 </ol>
             </nav>
             {{-- <span class="section-eyebrow">Organisasi</span> --}}
-            <h1 class="section-title mt-1">Struktur Organisasi</h1>
-            <p class="section-subtitle">Struktur organisasi Rekayasa Teknologi dan Pusat Unggulan Politeknik Negeri Jakarta.</p>
+            <h1 class="section-title mt-1">{{ \App\Services\TranslateService::to('Struktur Organisasi', app()->getLocale()) }}</h1>
+            <p class="section-subtitle">{{ \App\Services\TranslateService::to('Struktur organisasi Rekayasa Teknologi dan Pusat Unggulan Politeknik Negeri Jakarta.', app()->getLocale()) }}</p>
         </div>
 
         <div class="row g-4 justify-content">
@@ -34,7 +34,7 @@
                         @endif
                     </div>
                     <div class="person-body">
-                        <span class="person-jabatan">{{ $struktur->jabatan }}</span>
+                        <span class="person-jabatan">{{ \App\Services\TranslateService::to($struktur->jabatan, app()->getLocale()) }}</span>
                         <h6 class="person-name">
                             {{ $struktur->nama }}
                         </h6>
@@ -48,7 +48,7 @@
             <div class="col-12">
                 <div class="empty-state">
                     <i class="bi bi-building"></i>
-                    <p>Belum ada data struktur organisasi yang tersedia.</p>
+                    <p>{{ \App\Services\TranslateService::to('Belum ada data struktur organisasi yang tersedia.', app()->getLocale()) }}</p>
                 </div>
             </div>
             @endforelse

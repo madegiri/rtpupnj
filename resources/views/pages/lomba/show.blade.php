@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', $lomba->nama_lomba . ' - RTPU PNJ')
+@section('title', \App\Services\TranslateService::to($lomba->nama_lomba, app()->getLocale()) . ' - RTPU PNJ')
 
 @section('content')
 <section class="py-5">
@@ -9,13 +9,13 @@
         {{-- Breadcrumb --}}
         <nav aria-label="breadcrumb" class="mb-4">
             <ol class="breadcrumb breadcrumb-custom">
-                <li class="breadcrumb-item"><a href="{{ route('home') }}">Beranda</a></li>
-                <li class="breadcrumb-item"><a href="{{ route('lomba.index') }}">Lomba</a></li>
-                <li class="breadcrumb-item active">{{ Str::limit($lomba->nama_lomba, 40) }}</li>
+                <li class="breadcrumb-item"><a href="{{ route('home') }}">{{ \App\Services\TranslateService::to('Beranda', app()->getLocale()) }}</a></li>
+                <li class="breadcrumb-item"><a href="{{ route('lomba.index') }}">{{ \App\Services\TranslateService::to('Lomba', app()->getLocale()) }}</a></li>
+                <li class="breadcrumb-item active">{{ Str::limit(\App\Services\TranslateService::to($lomba->nama_lomba, app()->getLocale()), 40) }}</li>
             </ol>
         </nav>
 
-        <h1 class="article-title mt-2">{{ $lomba->nama_lomba }}</h1>
+        <h1 class="article-title mt-2">{{ \App\Services\TranslateService::to($lomba->nama_lomba, app()->getLocale()) }}</h1>
 
         <div class="article-meta">
             @if($lomba->user)
@@ -27,12 +27,12 @@
             <span class="date-sep">·</span>
             <span class="date-badge">
                 <i class="bi bi-calendar3"></i>
-                {{ $lomba->created_at->locale('id')->isoFormat('D MMMM YYYY') }}
+                {{ $lomba->created_at->locale(app()->getLocale())->isoFormat('D MMMM YYYY') }}
             </span>
             <span class="date-sep">·</span>
             <span class="date-badge">
                 <i class="bi bi-clock"></i>
-                {{ $lomba->created_at->format('H:i') }} WIB
+                {{ $lomba->created_at->format('H:i') }} {{ \App\Services\TranslateService::timezoneLabel() }}
             </span>
         </div>
 
@@ -42,7 +42,7 @@
             <div class="col-lg-6">
                 <div class="poster-sticky">
                     <div style="position: relative;">
-                        <span class="card-chip">{{ $lomba->kategoriLomba->nama_kategori }}</span>
+                        <span class="card-chip">{{ \App\Services\TranslateService::to($lomba->kategoriLomba->nama_kategori, app()->getLocale()) }}</span>
                         @if($lomba->gambar)
                             <img src="{{ asset('storage/' . $lomba->gambar) }}" alt="Poster {{ $lomba->nama_lomba }}" class="poster-img lightbox-trigger" onclick="openLightbox(this.src)">
                         @else
@@ -58,27 +58,27 @@
             <div class="col-lg-6">
                 <div class="info-card">
                     <div class="info-row">
-                        <span class="info-label"><i class="bi bi-tag"></i> Kategori Lomba</span>
-                        <span class="info-value">{{ $lomba->kategoriLomba->nama_kategori }}</span>
+                        <span class="info-label"><i class="bi bi-tag"></i> {{ \App\Services\TranslateService::to('Kategori Lomba', app()->getLocale()) }}</span>
+                        <span class="info-value">{{ \App\Services\TranslateService::to($lomba->kategoriLomba->nama_kategori, app()->getLocale()) }}</span>
                     </div>
                     <div class="info-row">
-                        <span class="info-label"><i class="bi bi-geo-alt"></i> Jenis Pelaksanaan Lomba</span>
-                        <span class="info-value">{{ \App\Models\Lomba::JENIS_PELAKSANAAN[$lomba->jenis_pelaksanaan] }}</span>
+                        <span class="info-label"><i class="bi bi-geo-alt"></i> {{ \App\Services\TranslateService::to('Jenis Pelaksanaan Lomba', app()->getLocale()) }}</span>
+                        <span class="info-value">{{ \App\Services\TranslateService::to(\App\Models\Lomba::JENIS_PELAKSANAAN[$lomba->jenis_pelaksanaan], app()->getLocale()) }}</span>
                     </div>
                     <div class="info-row">
-                        <span class="info-label"><i class="bi bi-people"></i> Peserta Lomba</span>
+                        <span class="info-label"><i class="bi bi-people"></i> {{ \App\Services\TranslateService::to('Peserta Lomba', app()->getLocale()) }}</span>
                         <div class="d-flex flex-wrap gap-1 mt-1">
                             @foreach($lomba->kategori_peserta as $peserta)
-                                <span class="badge-peserta">{{ \App\Models\Lomba::KATEGORI_PESERTA[$peserta] ?? $peserta }}</span>
+                                <span class="badge-peserta">{{ \App\Services\TranslateService::to(\App\Models\Lomba::KATEGORI_PESERTA[$peserta] ?? $peserta, app()->getLocale()) }}</span>
                             @endforeach
                         </div>
                     </div>
                     <div class="info-row">
-                        <span class="info-label"><i class="bi bi-calendar3"></i> Tanggal Pendaftaran Lomba</span>
+                        <span class="info-label"><i class="bi bi-calendar3"></i> {{ \App\Services\TranslateService::to('Tanggal Pendaftaran Lomba', app()->getLocale()) }}</span>
                         <span class="info-value">
                             @php
-                                $mulai   = $lomba->tanggal_mulai_pendaftaran->locale('id');
-                                $selesai = $lomba->tanggal_selesai_pendaftaran->locale('id');
+                                $mulai   = $lomba->tanggal_mulai_pendaftaran->locale(app()->getLocale());
+                                $selesai = $lomba->tanggal_selesai_pendaftaran->locale(app()->getLocale());
                                 $bulanSama = $mulai->month === $selesai->month;
                                 $tahunSama = $mulai->year  === $selesai->year;
                             @endphp
@@ -92,13 +92,13 @@
                         </span>
                     </div>
                     <div class="info-row">
-                        <span class="info-label"><i class="bi bi-building"></i> Penyelenggara Lomba</span>
+                        <span class="info-label"><i class="bi bi-building"></i> {{ \App\Services\TranslateService::to('Penyelenggara Lomba', app()->getLocale()) }}</span>
                         <span class="info-value">{{ $lomba->penyelenggara }}</span>
                     </div>
 
                     @if($lomba->link_pendaftaran)
                     <a href="{{ $lomba->link_pendaftaran }}" target="_blank" rel="noopener noreferrer" class="btn-daftar mt-3">
-                        <i class="bi bi-box-arrow-up-right"></i> Daftar Sekarang
+                        <i class="bi bi-box-arrow-up-right"></i> {{ \App\Services\TranslateService::to('Daftar Sekarang', app()->getLocale()) }}
                     </a>
                     @endif
                 </div>
@@ -107,18 +107,18 @@
 
         <div class="deskripsi-box mt-4">
             <h5 class="deskripsi-title">
-                <i class="bi bi-info-circle"></i> Deskripsi Lomba
+                <i class="bi bi-info-circle"></i> {{ \App\Services\TranslateService::to('Deskripsi Lomba', app()->getLocale()) }}
             </h5>
             <div class="article-body">
-                {!! $lomba->deskripsi !!}
+                {!! \App\Services\TranslateService::to($lomba->deskripsi, app()->getLocale()) !!}
             </div>
         </div>
 
         {{-- Related --}}
         <div class="related-section">
             <div class="related-header">
-                <span class="section-eyebrow">Kategori {{ $lomba->kategoriLomba->nama_kategori }}</span>
-                <h2 class="section-title mt-1">Lomba Lainnya</h2>
+                <span class="section-eyebrow">{{ \App\Services\TranslateService::to('Kategori', app()->getLocale()) }} {{ \App\Services\TranslateService::to($lomba->kategoriLomba->nama_kategori, app()->getLocale()) }}</span>
+                <h2 class="section-title mt-1">{{ \App\Services\TranslateService::to('Lomba Lainnya', app()->getLocale()) }}</h2>
             </div>
 
             @if($related->count())
@@ -127,7 +127,7 @@
                 <div class="col-12 col-sm-6 col-lg-4">
                     <a href="{{ route('lomba.show', $item->slug) }}" class="content-card h-100" style="text-decoration:none; color:inherit;">
                         <div class="content-card-thumb">
-                            <span class="card-chip">{{ $item->kategoriLomba->nama_kategori }}</span>
+                            <span class="card-chip">{{ \App\Services\TranslateService::to($item->kategoriLomba->nama_kategori, app()->getLocale()) }}</span>
                             @if($item->gambar)
                                 <img src="{{ asset('storage/' . $item->gambar) }}" alt="{{ $item->nama_lomba }}">
                             @else
@@ -140,13 +140,13 @@
                             <div class="lomba-badges mb-2">
                                 <span class="badge-jenis">
                                     <i class="bi bi-geo-alt"></i>
-                                    {{ \App\Models\Lomba::JENIS_PELAKSANAAN[$item->jenis_pelaksanaan] }}
+                                    {{ \App\Services\TranslateService::to(\App\Models\Lomba::JENIS_PELAKSANAAN[$item->jenis_pelaksanaan], app()->getLocale()) }}
                                 </span>
                                 <span class="badge-deadline">
                                     <i class="bi bi-clock"></i>
                                     @php
-                                        $mulai   = $item->tanggal_mulai_pendaftaran->locale('id');
-                                        $selesai = $item->tanggal_selesai_pendaftaran->locale('id');
+                                        $mulai   = $item->tanggal_mulai_pendaftaran->locale(app()->getLocale());
+                                        $selesai = $item->tanggal_selesai_pendaftaran->locale(app()->getLocale());
 
                                         $bulanSama = $mulai->month === $selesai->month;
                                         $tahunSama = $mulai->year  === $selesai->year;
@@ -161,11 +161,11 @@
                                     @endif
                                 </span>
                             </div>
-                            <h6 class="content-card-title">{{ Str::limit($item->nama_lomba, 80) }}</h6>
-                            <p class="content-card-excerpt">{{ Str::limit(strip_tags($item->deskripsi), 100) }}</p>
+                            <h6 class="content-card-title">{{ Str::limit(\App\Services\TranslateService::to($item->nama_lomba, app()->getLocale()), 80) }}</h6>
+                            <p class="content-card-excerpt">{{ Str::limit(strip_tags(\App\Services\TranslateService::to($item->deskripsi, app()->getLocale())), 100) }}</p>
                             <div class="lomba-peserta mt-auto pt-2">
                                 @foreach($item->kategori_peserta as $peserta)
-                                    <span class="badge-peserta-rel">{{ \App\Models\Lomba::KATEGORI_PESERTA[$peserta] ?? $peserta }}</span>
+                                    <span class="badge-peserta-rel">{{ \App\Services\TranslateService::to(\App\Models\Lomba::KATEGORI_PESERTA[$peserta] ?? $peserta, app()->getLocale()) }}</span>
                                 @endforeach
                             </div>
                         </div>
@@ -175,13 +175,13 @@
             </div>
             <div class="text-center mt-4">
                 <a href="{{ route('lomba.index', ['kategori' => $lomba->kategori_lomba_id]) }}" class="btn-lihat-semua">
-                    Lihat Semua Lomba {{ $lomba->kategoriLomba->nama_kategori }} <i class="bi bi-arrow-right"></i>
+                    {{ \App\Services\TranslateService::to('Lihat Semua Lomba', app()->getLocale()) }} {{ \App\Services\TranslateService::to($lomba->kategoriLomba->nama_kategori, app()->getLocale()) }} <i class="bi bi-arrow-right"></i>
                 </a>
             </div>
             @else
             <div class="empty-state">
                 <i class="bi bi-trophy"></i>
-                <p>Belum ada lomba lain dalam kategori ini.</p>
+                <p>{{ \App\Services\TranslateService::to('Belum ada lomba lain dalam kategori ini.', app()->getLocale()) }}</p>
             </div>
             @endif
         </div>

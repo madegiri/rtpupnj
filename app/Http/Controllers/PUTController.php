@@ -71,7 +71,18 @@ class PUTController extends Controller
         $search = $request->get('search');
 
         $produks = PUTProduk::where('sub_kategori_produk_put_id', $subKategori->id)
-            ->when($search, fn ($query, $search) => $query->where('judul', 'like', "%{$search}%"))
+            ->when($search, function ($query, $search) {
+                $query->where(function ($q) use ($search) {
+                    $q->where('judul', 'like', "%{$search}%");
+
+                    if (app()->getLocale() !== 'id') {
+                        $translated = \App\Services\TranslateService::toIndonesian($search, app()->getLocale());
+                        if ($translated && $translated !== $search) {
+                            $q->orWhere('judul', 'like', "%{$translated}%");
+                        }
+                    }
+                });
+            })
             ->latest('id')
             ->paginate(6)
             ->withQueryString();

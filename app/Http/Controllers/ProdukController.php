@@ -17,7 +17,16 @@ class ProdukController extends Controller
  
         $produks = Produk::where('kategori_produk_id', $kategori->id)
             ->when($search, function ($query, $search) {
-                $query->where('nama', 'like', "%{$search}%");
+                $query->where(function ($q) use ($search) {
+                    $q->where('nama', 'like', "%{$search}%");
+
+                    if (app()->getLocale() !== 'id') {
+                        $translated = \App\Services\TranslateService::toIndonesian($search, app()->getLocale());
+                        if ($translated && $translated !== $search) {
+                            $q->orWhere('nama', 'like', "%{$translated}%");
+                        }
+                    }
+                });
             })
             ->latest()
             ->paginate(6)

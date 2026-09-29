@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', $konten->judul . ' - RTPU PNJ')
+@section('title', \App\Services\TranslateService::to($konten->judul, app()->getLocale()) . ' - RTPU PNJ')
 
 @section('content')
 <section class="py-5">
@@ -11,15 +11,15 @@
                 {{-- Breadcrumb --}}
                 <nav aria-label="breadcrumb" class="mb-4">
                     <ol class="breadcrumb breadcrumb-custom">
-                        <li class="breadcrumb-item"><a href="{{ route('home') }}">Beranda</a></li>
+                        <li class="breadcrumb-item"><a href="{{ route('home') }}">{{ \App\Services\TranslateService::to('Beranda', app()->getLocale()) }}</a></li>
                         <li class="breadcrumb-item">
-                            <a href="{{ route('konten.index', $kategori->slug) }}">{{ $kategori->nama_kategori_konten }}</a>
+                            <a href="{{ route('konten.index', $kategori->slug) }}">{{ \App\Services\TranslateService::to($kategori->nama_kategori_konten, app()->getLocale()) }}</a>
                         </li>
-                        <li class="breadcrumb-item active">{{ Str::limit($konten->judul, 40) }}</li>
+                        <li class="breadcrumb-item active">{{ Str::limit(\App\Services\TranslateService::to($konten->judul, app()->getLocale()), 40) }}</li>
                     </ol>
                 </nav>
 
-                <h1 class="article-title">{{ $konten->judul }}</h1>
+                <h1 class="article-title">{{ \App\Services\TranslateService::to($konten->judul, app()->getLocale()) }}</h1>
 
                 <div class="article-meta">
                     @if($konten->user)
@@ -31,12 +31,12 @@
                     <span class="date-sep">·</span>
                     <span class="date-badge">
                         <i class="bi bi-calendar3"></i>
-                        {{ $konten->created_at->locale('id')->isoFormat('D MMMM YYYY') }}
+                        {{ $konten->created_at->locale(app()->getLocale())->isoFormat('D MMMM YYYY') }}
                     </span>
                     <span class="date-sep">·</span>
                     <span class="date-badge">
                         <i class="bi bi-clock"></i>
-                        {{ $konten->created_at->format('H:i') }} WIB
+                        {{ $konten->created_at->format('H:i') }} {{ \App\Services\TranslateService::timezoneLabel() }}
                     </span>
                 </div>
 
@@ -44,7 +44,7 @@
                     <div class="col-lg-8">
                         @if($konten->thumbnail)
                         <div class="article-hero-img">
-                            <span class="card-chip">{{ $kategori->nama_kategori_konten }}</span>
+                            <span class="card-chip">{{ \App\Services\TranslateService::to($kategori->nama_kategori_konten, app()->getLocale()) }}</span>
                             <img src="{{ asset('storage/' . $konten->thumbnail) }}" alt="{{ $konten->judul }}">
                         </div>
                         @endif
@@ -54,7 +54,7 @@
                 {{-- Isi --}}
                 <div class="konten-desc-box">
                     <div class="article-body">
-                        {!! $konten->isi !!}
+                        {!! \App\Services\TranslateService::to($konten->isi, app()->getLocale()) !!}
                     </div>
                 </div>
             </div>
@@ -64,15 +64,15 @@
         @if($related->count())
         <div class="related-section">
             <div class="related-header">
-                <span class="section-eyebrow">Baca Juga</span>
-                <h2 class="section-title mt-1">{{ $kategori->nama_kategori_konten }} Terkait</h2>
+                <span class="section-eyebrow">{{ \App\Services\TranslateService::to('Baca Juga', app()->getLocale()) }}</span>
+                <h2 class="section-title mt-1">{{ \App\Services\TranslateService::to($kategori->nama_kategori_konten, app()->getLocale()) }} {{ \App\Services\TranslateService::to('Terkait', app()->getLocale()) }}</h2>
             </div>
             <div class="row g-4">
                 @foreach($related as $item)
                 <div class="col-12 col-sm-6 col-lg-4">
                     <a href="{{ route('konten.show', [$kategori->slug, $item->slug]) }}" class="content-card h-100" style="text-decoration:none; color:inherit;">
                         <div class="content-card-thumb">
-                            <span class="card-chip">{{ $kategori->nama_kategori_konten }}</span>
+                            <span class="card-chip">{{ \App\Services\TranslateService::to($kategori->nama_kategori_konten, app()->getLocale()) }}</span>
                             @if($item->thumbnail)
                                 <img src="{{ asset('storage/' . $item->thumbnail) }}" alt="{{ $item->judul }}">
                             @else
@@ -84,13 +84,13 @@
                         <div class="content-card-body">
                             <div class="date-badge mt-1 mb-2">
                                 <i class="bi bi-calendar3"></i>
-                                {{ $item->created_at->locale('id')->isoFormat('D MMMM YYYY') }}
+                                {{ $item->created_at->locale(app()->getLocale())->isoFormat('D MMMM YYYY') }}
                                 <span class="date-sep">·</span>
                                 <i class="bi bi-clock"></i>
-                                {{ $item->created_at->format('H:i') }} WIB
+                                {{ $item->created_at->format('H:i') }} {{ \App\Services\TranslateService::timezoneLabel() }}
                             </div>
-                            <h6 class="content-card-title">{{ Str::limit($item->judul, 65) }}</h6>
-                            <p class="content-card-excerpt">{{ Str::limit(html_entity_decode(strip_tags($item->isi)), 120) }}</p>
+                            <h6 class="content-card-title">{{ Str::limit(\App\Services\TranslateService::to($item->judul, app()->getLocale()), 65) }}</h6>
+                            <p class="content-card-excerpt">{{ Str::limit(\App\Services\TranslateService::to(html_entity_decode(strip_tags($item->isi)), app()->getLocale()), 120) }}</p>
                         </div>
                     </a>
                 </div>
@@ -98,7 +98,7 @@
             </div>
             <div class="text-center mt-4">
                 <a href="{{ route('konten.index', $kategori->slug) }}" class="btn-lihat-semua">
-                    Lihat Semua {{ $kategori->nama_kategori_konten }} <i class="bi bi-arrow-right"></i>
+                    {{ \App\Services\TranslateService::to('Lihat Semua', app()->getLocale()) }} {{ \App\Services\TranslateService::to($kategori->nama_kategori_konten, app()->getLocale()) }} <i class="bi bi-arrow-right"></i>
                 </a>
             </div>
         </div>

@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', $kategori->nama_kategori_produk . ' - RTPU PNJ')
+@section('title', \App\Services\TranslateService::to($kategori->nama_kategori_produk, app()->getLocale()) . ' - RTPU PNJ')
 
 @section('content')
 <section class="py-5">
@@ -10,13 +10,13 @@
         <div class="page-header mb-3">
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb breadcrumb-custom">
-                    <li class="breadcrumb-item"><a href="{{ route('home') }}">Beranda</a></li>
-                    <li class="breadcrumb-item active">{{ $kategori->nama_kategori_produk }}</li>
+                    <li class="breadcrumb-item"><a href="{{ route('home') }}">{{ \App\Services\TranslateService::to('Beranda', app()->getLocale()) }}</a></li>
+                    <li class="breadcrumb-item active">{{ \App\Services\TranslateService::to($kategori->nama_kategori_produk, app()->getLocale()) }}</li>
                 </ol>
             </nav>
             {{-- <span class="section-eyebrow">Inovasi</span> --}}
-            <h1 class="section-title mt-1">{{ $kategori->nama_kategori_produk }}</h1>
-            <p class="section-subtitle">Informasi {{ strtolower($kategori->nama_kategori_produk) }} dari RTPU Politeknik Negeri Jakarta.</p>
+            <h1 class="section-title mt-1">{{ \App\Services\TranslateService::to($kategori->nama_kategori_produk, app()->getLocale()) }}</h1>
+            <p class="section-subtitle">{{ \App\Services\TranslateService::to('Informasi', app()->getLocale()) }} {{ strtolower(\App\Services\TranslateService::to($kategori->nama_kategori_produk, app()->getLocale())) }} {{ \App\Services\TranslateService::to('dari RTPU Politeknik Negeri Jakarta.', app()->getLocale()) }}</p>
         </div>
 
         {{-- Search Bar --}}
@@ -28,7 +28,7 @@
                         type="text"
                         name="search"
                         class="search-input"
-                        placeholder="Cari produk {{ strtolower($kategori->nama_kategori_produk) }}..."
+                        placeholder="{{ \App\Services\TranslateService::to('Cari produk', app()->getLocale()) }} {{ strtolower(\App\Services\TranslateService::to($kategori->nama_kategori_produk, app()->getLocale())) }}..."
                         value="{{ $search ?? '' }}"
                         autocomplete="off"
                     >
@@ -42,7 +42,7 @@
 
             @if($search)
                 <p class="search-result-info">
-                    Menampilkan hasil untuk <strong>"{{ $search }}"</strong>
+                    {{ \App\Services\TranslateService::to('Menampilkan hasil untuk', app()->getLocale()) }} <strong>"{{ $search }}"</strong>
                 </p>
             @endif
         </div>
@@ -52,7 +52,7 @@
             <div class="col-12 col-sm-6 col-lg-4">
                 <a href="{{ route('produk.show', [$kategori->slug, $item->slug]) }}" class="content-card h-100" style="text-decoration:none; color:inherit;">
                     <div class="content-card-thumb">
-                        <span class="card-chip">{{ $kategori->nama_kategori_produk }}</span>
+                        <span class="card-chip">{{ \App\Services\TranslateService::to($kategori->nama_kategori_produk, app()->getLocale()) }}</span>
                         @if($item->gambar)
                             <img src="{{ asset('storage/' . $item->gambar) }}" alt="{{ $item->nama }}">
                         @else
@@ -64,15 +64,15 @@
                     <div class="content-card-body">
                         <div class="date-badge mt-1 mb-2">
                             <i class="bi bi-calendar3"></i>
-                            {{ $item->created_at->locale('id')->isoFormat('D MMMM YYYY') }}
+                            {{ $item->created_at->locale(app()->getLocale())->isoFormat('D MMMM YYYY') }}
                             <span class="date-sep">·</span>
                             <i class="bi bi-clock"></i>
-                            {{ $item->created_at->format('H:i') }} WIB
+                            {{ $item->created_at->format('H:i') }} {{ \App\Services\TranslateService::timezoneLabel() }}
                         </div>
                         <h6 class="content-card-title">
-                            {{ Str::limit($item->nama, 70) }}
+                            {{ Str::limit(\App\Services\TranslateService::to($item->nama, app()->getLocale()), 70) }}
                         </h6>
-                        <p class="content-card-excerpt">{{ Str::limit(strip_tags($item->deskripsi), 100) }}</p>
+                        <p class="content-card-excerpt">{{ Str::limit(\App\Services\TranslateService::to(strip_tags($item->deskripsi), app()->getLocale()), 100) }}</p>
                     </div>
                 </a>
             </div>
@@ -80,7 +80,7 @@
             <div class="col-12">
                 <div class="empty-state">
                     <i class="bi bi-lightbulb"></i>
-                    <p>Belum ada {{ strtolower($kategori->nama_kategori_produk) }} yang tersedia.</p>
+                    <p>{{ \App\Services\TranslateService::to('Belum ada', app()->getLocale()) }} {{ strtolower(\App\Services\TranslateService::to($kategori->nama_kategori_produk, app()->getLocale())) }} {{ \App\Services\TranslateService::to('yang tersedia.', app()->getLocale()) }}</p>
                 </div>
             </div>
             @endforelse

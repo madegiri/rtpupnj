@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\KategoriLomba;
 use App\Models\Lomba;
+use App\Services\TranslateService;
 use Illuminate\Http\Request;
 
 class LombaController extends Controller
@@ -17,7 +18,18 @@ class LombaController extends Controller
         $jenis            = $request->get('jenis');
 
         $lombas = Lomba::with('kategoriLomba')
-            ->when($search, fn($q) => $q->where('nama_lomba', 'like', "%{$search}%"))
+            ->when($search, function ($q, $search) {
+                $q->where(function ($q2) use ($search) {
+                    $q2->where('nama_lomba', 'like', "%{$search}%");
+
+                    if (app()->getLocale() !== 'id') {
+                        $translated = TranslateService::toIndonesian($search, app()->getLocale());
+                        if ($translated && $translated !== $search) {
+                            $q2->orWhere('nama_lomba', 'like', "%{$translated}%");
+                        }
+                    }
+                });
+            })
             ->when($kategori, fn($q) => $q->where('kategori_lomba_id', $kategori))
             ->when($peserta, fn($q) => $q->whereJsonContains('kategori_peserta', $peserta))
             ->when($jenis, fn($q) => $q->where('jenis_pelaksanaan', $jenis))

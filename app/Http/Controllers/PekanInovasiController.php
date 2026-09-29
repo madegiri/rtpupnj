@@ -46,7 +46,16 @@ class PekanInovasiController extends Controller
 
         $produks = ProdukPekanInovasi::where('kategori_produk_pekan_inovasi_id', $kategori->id)
             ->when($search, function ($query, $search) {
-                $query->where('judul', 'like', "%{$search}%");
+                $query->where(function ($q) use ($search) {
+                    $q->where('judul', 'like', "%{$search}%");
+
+                    if (app()->getLocale() !== 'id') {
+                        $translated = \App\Services\TranslateService::toIndonesian($search, app()->getLocale());
+                        if ($translated && $translated !== $search) {
+                            $q->orWhere('judul', 'like', "%{$translated}%");
+                        }
+                    }
+                });
             })
             ->latest()
             ->paginate(6)

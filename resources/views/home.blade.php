@@ -17,17 +17,22 @@
     <div class="container hero-content" style="position:relative; z-index:1;">
         <div class="row align-items-center" style="min-height:82vh;">
             <div class="col-lg-6 col-md-8">
-                <div class="hero-eyebrow">Rekayasa Teknologi & Pusat Unggulan</div>
-                <h1>
-                    RTPU Politeknik<br>
-                    <span class="highlight">Negeri Jakarta</span>
-                </h1>
-                <p class="lead">
-                    Rekayasa Teknologi dan Pusat Unggulan (RTPU) Politeknik Negeri Jakarta berfokus pada penelitian terapan, pengembangan produk, dan transfer teknologi untuk mendukung industri serta peningkatan kompetensi mahasiswa dan staf. Kami bekerja sama dengan mitra industri untuk mengkomersialkan inovasi dan menyediakan pelatihan yang relevan dengan kebutuhan pasar.
-                </p>
-                <div class="d-flex flex-wrap gap-2">
+                <div class="hero-eyebrow">{{ \App\Services\TranslateService::to('Rekayasa Teknologi & Pusat Unggulan', app()->getLocale()) }}</div>
+                    @php
+                        $namaInstitusi = \App\Services\TranslateService::to('Politeknik Negeri Jakarta', app()->getLocale());
+                        $kataPertama = Str::before($namaInstitusi, ' ');
+                        $kataSisanya = Str::after($namaInstitusi, ' ');
+                    @endphp
+
+                    <h1>
+                        RTPU {{ $kataPertama }}<br>
+                        <span class="highlight">{{ $kataSisanya }}</span>
+                    </h1>
+                    <p class="lead">
+                        {{ \App\Services\TranslateService::to('Rekayasa Teknologi dan Pusat Unggulan (RTPU) Politeknik Negeri Jakarta berfokus pada penelitian terapan, pengembangan produk, dan transfer teknologi untuk mendukung industri serta peningkatan kompetensi mahasiswa dan staf. Kami bekerja sama dengan mitra industri untuk mengkomersialkan inovasi dan menyediakan pelatihan yang relevan dengan kebutuhan pasar.', app()->getLocale()) }}
+                    </p>
                     <a href="{{ route('tentang.index') }}" class="btn-hero-primary">
-                        <i class="bi bi-info-circle"></i> Tentang Kami
+                        <i class="bi bi-info-circle"></i> {{ \App\Services\TranslateService::to('Tentang Kami', app()->getLocale()) }}
                     </a>
                     {{-- <a href="{{ route('produk-unggulan.index') }}" class="btn-hero-secondary">
                         <i class="bi bi-grid"></i> Produk Kami
@@ -44,15 +49,15 @@
         <div class="stats-grid">
             <div class="stat-item">
                 <div class="stat-number">{{ $stats['unit_put'] }}</div>
-                <div class="stat-label">Unit PUT</div>
+                <div class="stat-label">{{ \App\Services\TranslateService::to('Unit PUT', app()->getLocale()) }}</div>
             </div>
             <div class="stat-item">
                 <div class="stat-number">{{ $stats['kategori_produk_put'] }}</div>
-                <div class="stat-label">Kategori Produk PUT</div>
+                <div class="stat-label">{{ \App\Services\TranslateService::to('Kategori Produk PUT', app()->getLocale()) }}</div>
             </div>
             <div class="stat-item">
                 <div class="stat-number">{{ $stats['produk_put'] }}</div>
-                <div class="stat-label">Produk PUT</div>
+                <div class="stat-label">{{ \App\Services\TranslateService::to('Produk PUT', app()->getLocale()) }}</div>
             </div>
             {{-- <div class="stat-item">
                 <div class="stat-number">{{ $stats['sertifikasi'] }}</div>
@@ -66,9 +71,9 @@
 <section class="home-section">
     <div class="container">
         <div class="section-head text-center">
-            <span class="section-eyebrow">Profil</span>
-            <h2 class="section-title">Video Profil RTPU PNJ</h2>
-            <p class="section-subtitle mx-auto">Kenali lebih dekat Rekayasa Teknologi dan Pusat Unggulan Politeknik Negeri Jakarta</p>
+            {{-- <span class="section-eyebrow">{{ \App\Services\TranslateService::to('Profil', app()->getLocale()) }}</span> --}}
+            <h2 class="section-title">{{ \App\Services\TranslateService::to('Video Profil RTPU PNJ', app()->getLocale()) }}</h2>
+            <p class="section-subtitle mx-auto">{{ \App\Services\TranslateService::to('Kenali lebih dekat Rekayasa Teknologi dan Pusat Unggulan Politeknik Negeri Jakarta', app()->getLocale()) }}</p>
         </div>
         <div class="row justify-content-center">
             <div class="col-lg-8">
@@ -235,7 +240,7 @@
         <div class="section-head-row">
             <div>
                 {{-- <span class="section-eyebrow">Pusat Unggulan</span> --}}
-                <h2 class="section-title">Pusat Unggulan</h2>
+                <h2 class="section-title">{{ \App\Services\TranslateService::to('Pusat Unggulan', app()->getLocale()) }}</h2>
             </div>
         </div>
         <div class="row g-4">
@@ -250,8 +255,8 @@
                         @endif
                     </div>
                     <div class="content-card-body">
-                        <h6 class="content-card-title">{{ $unit->nama_singkat_unit_put }}</h6>
-                        <p class="content-card-excerpt">{{ Str::limit(html_entity_decode(strip_tags($unit->deskripsi)), 110) }}</p>
+                        <h6 class="content-card-title">{{ \App\Services\TranslateService::to($unit->nama_singkat_unit_put, app()->getLocale()) }}</h6>
+                        <p class="content-card-excerpt">{{ Str::limit(\App\Services\TranslateService::to(html_entity_decode(strip_tags($unit->deskripsi)), app()->getLocale()), 110) }}</p>
                     </div>
                 </a>
             </div>
@@ -259,7 +264,7 @@
             <div class="col-12">
                 <div class="empty-state">
                     <i class="bi bi-buildings"></i>
-                    <p>Belum ada pusat unggulan.</p>
+                    <p>{{ \App\Services\TranslateService::to('Belum ada pusat unggulan.', app()->getLocale()) }}</p>
                 </div>
             </div>
             @endforelse
@@ -273,10 +278,10 @@
         <div class="section-head-row">
             <div>
                 {{-- <h2 class="section-title">{{ $data['kategori']->nama_kategori_konten }}</h2> --}}
-                <h2 class="section-title">{{ $kategori->nama_kategori_konten }}</h2>
+                <h2 class="section-title">{{ \App\Services\TranslateService::to($kategori->nama_kategori_konten, app()->getLocale()) }}</h2>
             </div>
             <a href="{{ route('konten.index', $slug) }}" class="btn-lihat-semua">
-                Lihat Semua <i class="bi bi-arrow-right"></i>
+                {{ \App\Services\TranslateService::to('Lihat Semua', app()->getLocale()) }} <i class="bi bi-arrow-right"></i>
             </a>
         </div>
         <div class="row g-4">
@@ -284,7 +289,7 @@
             <div class="col-12 col-sm-6 col-lg-4">
                 <a href="{{ route('konten.show', [$slug, $item->slug]) }}" class="content-card h-100" style="text-decoration:none; color:inherit;">
                     <div class="content-card-thumb">
-                        <span class="card-chip">{{ $kategori->nama_kategori_konten }}</span>
+                        <span class="card-chip">{{ \App\Services\TranslateService::to($kategori->nama_kategori_konten, app()->getLocale()) }}</span>
                         @if($item->thumbnail)
                             <img src="{{ asset('storage/' . $item->thumbnail) }}" alt="{{ $item->judul }}">
                         @else
@@ -294,13 +299,13 @@
                     <div class="content-card-body">
                         <div class="date-badge mt-1 mb-2">
                             <i class="bi bi-calendar3"></i>
-                            {{ $item->created_at->locale('id')->isoFormat('D MMMM YYYY') }}
+                            {{ $item->created_at->locale(app()->getLocale())->isoFormat('D MMMM YYYY') }}
                             <span class="date-sep">·</span>
                             <i class="bi bi-clock"></i>
-                            {{ $item->created_at->format('H:i') }} WIB
+                            {{ $item->created_at->format('H:i') }} {{ \App\Services\TranslateService::timezoneLabel() }}
                         </div>
-                        <h6 class="content-card-title">{{ Str::limit($item->judul, 65) }}</h6>
-                        <p class="content-card-excerpt">{{ Str::limit(html_entity_decode(strip_tags($item->isi)), 110) }}</p>
+                        <h6 class="content-card-title">{{ Str::limit(\App\Services\TranslateService::to($item->judul, app()->getLocale()), 65) }}</h6>
+                        <p class="content-card-excerpt">{{ Str::limit(\App\Services\TranslateService::to(html_entity_decode(strip_tags($item->isi)), app()->getLocale()), 110) }}</p>
                     </div>
                 </a>
             </div>
@@ -308,7 +313,7 @@
             <div class="col-12">
                 <div class="empty-state">
                     <i class="bi bi-newspaper"></i>
-                    <p>Belum ada {{ strtolower($kategori->nama_kategori_konten) }}.</p>
+                    <p>{{ \App\Services\TranslateService::to('Belum ada ' . strtolower(\App\Services\TranslateService::to($kategori->nama_kategori_konten, app()->getLocale())) . '.', app()->getLocale()) }}</p>
                 </div>
             </div>
             @endforelse
@@ -415,10 +420,10 @@
         <div class="section-head-row">
             <div>
                 {{-- <span class="section-eyebrow">Unggulan</span> --}}
-                <h2 class="section-title">{{ $kategori->nama_kategori_produk }}</h2>
+                <h2 class="section-title">{{ \App\Services\TranslateService::to($kategori->nama_kategori_produk, app()->getLocale()) }}</h2>
             </div>
             <a href="{{ route('produk.index', $slug) }}" class="btn-lihat-semua">
-                Lihat Semua <i class="bi bi-arrow-right"></i>
+                {{ \App\Services\TranslateService::to('Lihat Semua', app()->getLocale()) }} <i class="bi bi-arrow-right"></i>
             </a>
         </div>
         <div class="row g-4">
@@ -426,7 +431,7 @@
             <div class="col-12 col-sm-6 col-lg-4">
                 <a href="{{ route('produk.show', [$slug, $item->slug]) }}" class="content-card h-100" style="text-decoration:none; color:inherit;">
                     <div class="content-card-thumb">
-                        <span class="card-chip">{{ $kategori->nama_kategori_produk }}</span>
+                        <span class="card-chip">{{ \App\Services\TranslateService::to($kategori->nama_kategori_produk, app()->getLocale()) }}</span>
                         @if($item->gambar)
                             <img src="{{ asset('storage/' . $item->gambar) }}" alt="{{ $item->nama }}">
                         @else
@@ -436,20 +441,18 @@
                     <div class="content-card-body">
                         <div class="date-badge mt-1 mb-2">
                             <i class="bi bi-calendar3"></i>
-                            {{ $item->created_at->locale('id')->isoFormat('D MMMM YYYY') }}
+                            {{ $item->created_at->locale(app()->getLocale())->isoFormat('D MMMM YYYY') }}
                             <span class="date-sep">·</span>
                             <i class="bi bi-clock"></i>
-                            {{ $item->created_at->format('H:i') }} WIB
+                            {{ $item->created_at->format('H:i') }} {{ \App\Services\TranslateService::timezoneLabel() }}
                         </div>
-                        <h6 class="content-card-title">
-                            {{ Str::limit($item->nama, 50) }}
-                        </h6>
-                        <p class="content-card-excerpt">{{ Str::limit(html_entity_decode(strip_tags($item->deskripsi)), 80) }}</p>
+                       <h6 class="content-card-title">{{ Str::limit(\App\Services\TranslateService::to($item->nama, app()->getLocale()), 50) }}</h6>
+                        <p class="content-card-excerpt">{{ Str::limit(\App\Services\TranslateService::to(html_entity_decode(strip_tags($item->deskripsi)), app()->getLocale()), 80) }}</p>
                     </div>
                 </a>
             </div>
             @empty
-            <div class="col-12"><div class="empty-state"><i class="bi bi-star"></i><p>Belum ada {{ strtolower($kategori->nama_kategori_produk) }}.</p></div></div>
+            <div class="col-12"><div class="empty-state"><i class="bi bi-star"></i><p>{{ \App\Services\TranslateService::to('Belum ada ' . strtolower(\App\Services\TranslateService::to($kategori->nama_kategori_produk, app()->getLocale())) . '.', app()->getLocale()) }}</p></div></div>
             @endforelse
         </div>
     </div>
@@ -507,11 +510,11 @@
     <div class="container">
         <div class="cta-box">
             <div class="cta-content">
-                <h2 class="cta-title">Ada Pertanyaan atau Kerja Sama?</h2>
-                <p class="cta-desc">Kami siap membantu Anda. Hubungi tim RTPU PNJ untuk informasi lebih lanjut tentang produk, inovasi, dan peluang kerja sama.</p>
+                <h2 class="cta-title">{{ \App\Services\TranslateService::to('Ada Pertanyaan atau Kerja Sama?', app()->getLocale()) }}</h2>
+                <p class="cta-desc">{{ \App\Services\TranslateService::to('Kami siap membantu Anda. Hubungi tim RTPU PNJ untuk informasi lebih lanjut tentang produk, inovasi, dan peluang kerja sama.', app()->getLocale()) }}</p>
             </div>
             <a href="{{ route('hubungi-kami') }}" class="btn-cta-primary">
-                <i class="bi bi-envelope"></i> Hubungi Kami
+                <i class="bi bi-envelope"></i> {{ \App\Services\TranslateService::to('Hubungi Kami', app()->getLocale()) }}
             </a>
         </div>
     </div>

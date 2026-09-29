@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Hubungi Kami - RTPU PNJ')
+@section('title', \App\Services\TranslateService::to('Hubungi Kami', app()->getLocale()) . ' - RTPU PNJ')
 
 @section('content')
 <section class="py-5">
@@ -8,9 +8,9 @@
 
         {{-- Page Header --}}
         <div class="page-header text-center mb-5">
-            <span class="section-eyebrow">Kontak</span>
-            <h1 class="section-title mt-1">Hubungi Kami</h1>
-            <p class="section-subtitle mx-auto">Kami siap membantu Anda.</p>
+            {{-- <span class="section-eyebrow">Kontak</span> --}}
+            <h1 class="section-title mt-1">{{ \App\Services\TranslateService::to('Hubungi Kami', app()->getLocale()) }}</h1>
+            <p class="section-subtitle mx-auto">{{ \App\Services\TranslateService::to('Kami siap membantu Anda.', app()->getLocale()) }}</p>
         </div>
 
         {{-- Info Kontak --}}
@@ -20,7 +20,7 @@
                     <div class="contact-ic">
                         <i class="bi bi-geo-alt-fill"></i>
                     </div>
-                    <div class="contact-label">Alamat</div>
+                    <div class="contact-label">{{ \App\Services\TranslateService::to('Alamat', app()->getLocale()) }}</div>
                     <div class="contact-value">
                         Jl. Prof. Dr. G.A. Siwabessy,<br>
                         Kampus UI Depok, Jawa Barat 16425
@@ -33,7 +33,7 @@
                     <div class="contact-ic">
                         <i class="bi bi-telephone-fill"></i>
                     </div>
-                    <div class="contact-label">Telepon</div>
+                    <div class="contact-label">{{ \App\Services\TranslateService::to('Telepon', app()->getLocale()) }}</div>
                     <div class="contact-value">
                         <a href="#">021-7270036 ext 217</a>
                     </div>
@@ -45,7 +45,7 @@
                     <div class="contact-ic">
                         <i class="bi bi-envelope-fill"></i>
                     </div>
-                    <div class="contact-label">Email</div>
+                    <div class="contact-label">{{ \App\Services\TranslateService::to('Email', app()->getLocale()) }}</div>
                     <div class="contact-value">
                         <a href="mailto:rtpu@pnj.ac.id">rtpu@pnj.ac.id</a>
                     </div>
@@ -57,9 +57,9 @@
                     <div class="contact-ic">
                         <i class="bi bi-clock-fill"></i>
                     </div>
-                    <div class="contact-label">Jam Operasional</div>
+                    <div class="contact-label">{{ \App\Services\TranslateService::to('Jam Operasional', app()->getLocale()) }}</div>
                     <div class="contact-value">
-                        Senin – Jumat<br>
+                        {{ \App\Services\TranslateService::to('Senin', app()->getLocale()) }} – {{ \App\Services\TranslateService::to('Jumat', app()->getLocale()) }}<br>
                         07.30 – 16.00 WIB
                     </div>
                 </div>
@@ -69,8 +69,8 @@
         {{-- Google Maps --}}
         <div class="maps-section-header">
             <div>
-                <span class="section-eyebrow">Peta</span>
-                <h2 class="maps-title">Lokasi Kami</h2>
+                {{-- <span class="section-eyebrow">Peta</span> --}}
+                <h2 class="maps-title">{{ \App\Services\TranslateService::to('Lokasi Kami', app()->getLocale()) }}</h2>
                 {{-- <p class="maps-address">
                     <i class="bi bi-geo-alt-fill"></i>
                     Jl. Prof. Dr. G.A. Siwabessy, Kampus UI Depok, Jawa Barat 16425
@@ -78,7 +78,7 @@
             </div>
             <a href="https://maps.google.com/?q=Politeknik+Negeri+Jakarta,+Depok"
                target="_blank" class="btn-directions">
-                <i class="bi bi-map"></i> Buka di Google Maps
+                <i class="bi bi-map"></i> {{ \App\Services\TranslateService::to('Buka di Google Maps', app()->getLocale()) }}
             </a>
         </div>
         <div class="maps-wrapper">

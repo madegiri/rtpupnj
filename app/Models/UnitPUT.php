@@ -20,10 +20,18 @@ class UnitPUT extends Model
         'poster',
         'thumbnail',
         'deskripsi',
+        'visi_misi',
+        'dukungan_kebijakan',
+        'sdm',
+        'sarana_prasarana',
+        'roadmap',
+        'struktur_organisasi',
     ];
 
     protected $casts = [
         'poster' => 'array',
+        'roadmap'  => 'array',
+        'struktur_organisasi' => 'array',
     ];
 
     public function setNamaSingkatUnitPutAttribute($value)

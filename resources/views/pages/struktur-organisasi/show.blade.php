@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', $strukturorgs->nama . ' - Pimpinan RTPU PNJ')
+@section('title', $strukturorgs->nama . ' - ' . \App\Services\TranslateService::to('Pimpinan RTPU PNJ', app()->getLocale()))
 
 @section('content')
 <section class="so-page">
@@ -9,9 +9,9 @@
         {{-- Breadcrumb --}}
         <nav aria-label="breadcrumb" class="so-breadcrumb">
             <ol class="breadcrumb breadcrumb-custom">
-                <li class="breadcrumb-item"><a href="{{ route('home') }}">Beranda</a></li>
-                <li class="breadcrumb-item"><a href="{{ route('tentang.index') }}">Tentang</a></li>
-                <li class="breadcrumb-item"><a href="{{ route('struktur-organisasi.index') }}">Struktur Organisasi</a></li>
+                <li class="breadcrumb-item"><a href="{{ route('home') }}">{{ \App\Services\TranslateService::to('Beranda', app()->getLocale()) }}</a></li>
+                <li class="breadcrumb-item"><a href="{{ route('tentang.index') }}">{{ \App\Services\TranslateService::to('Tentang', app()->getLocale()) }}</a></li>
+                <li class="breadcrumb-item"><a href="{{ route('struktur-organisasi.index') }}">{{ \App\Services\TranslateService::to('Struktur Organisasi', app()->getLocale()) }}</a></li>
                 <li class="breadcrumb-item active">{{ $strukturorgs->nama }}</li>
             </ol>
         </nav>
@@ -29,11 +29,11 @@
             </div>
 
             <div class="so-hero-body">
-                <span class="so-jabatan-chip">{{ $strukturorgs->jabatan }}</span>
+                <span class="so-jabatan-chip">{{ \App\Services\TranslateService::to($strukturorgs->jabatan, app()->getLocale()) }}</span>
                 <h1 class="so-name">{{ $strukturorgs->nama }}</h1>
                 <p class="so-institusi">
                     <i class="bi bi-building"></i>
-                    Politeknik Negeri Jakarta
+                    {{ \App\Services\TranslateService::to('Politeknik Negeri Jakarta', app()->getLocale()) }}
                 </p>
 
                 <div class="so-divider"></div>
@@ -48,12 +48,12 @@
                     <span class="date-sep">·</span>
                     <span class="date-badge">
                         <i class="bi bi-calendar3"></i>
-                        {{ $strukturorgs->created_at->locale('id')->isoFormat('D MMMM YYYY') }}
+                        {{ $strukturorgs->created_at->locale(app()->getLocale())->isoFormat('D MMMM YYYY') }}
                     </span>
                     <span class="date-sep">·</span>
                     <span class="date-badge">
                         <i class="bi bi-clock"></i>
-                        {{ $strukturorgs->created_at->format('H:i') }} WIB
+                        {{ $strukturorgs->created_at->format('H:i') }} {{ \App\Services\TranslateService::timezoneLabel() }}
                     </span>
                 </div>
                 @endif
@@ -63,9 +63,9 @@
         {{-- Deskripsi --}}
         @if($strukturorgs->deskripsi)
         <div class="so-body">
-            <p class="so-body-label"> <i class="bi bi-person-badge"></i> Profil</p>
+            <p class="so-body-label"> <i class="bi bi-person-badge"></i> {{ \App\Services\TranslateService::to('Profil', app()->getLocale()) }}</p>
             <div class="article-body">
-                {!! $strukturorgs->deskripsi !!}
+                {!! \App\Services\TranslateService::to($strukturorgs->deskripsi, app()->getLocale()) !!}
             </div>
         </div>
         @endif
@@ -74,8 +74,8 @@
         @if($related->count())
         <div class="related-section">
             <div class="related-header">
-                <span class="section-eyebrow">Tim RTPU</span>
-                <h2 class="section-title mt-1">Tim RTPU Lainnya</h2>
+                <span class="section-eyebrow">{{ \App\Services\TranslateService::to('Tim RTPU', app()->getLocale()) }}</span>
+                <h2 class="section-title mt-1">{{ \App\Services\TranslateService::to('Tim RTPU Lainnya', app()->getLocale()) }}</h2>
             </div>
             <div class="row g-4">
                 @foreach($related as $item)
@@ -91,7 +91,7 @@
                             @endif
                         </div>
                         <div class="person-body">
-                            <span class="person-jabatan">{{ $item->jabatan }}</span>
+                            <span class="person-jabatan">{{ \App\Services\TranslateService::to($item->jabatan, app()->getLocale()) }}</span>
                             <h6 class="person-name">{{ $item->nama }}</h6>
                             {{-- @if($item->deskripsi)
                             <p class="person-desc">{{ Str::limit(html_entity_decode(strip_tags($item->deskripsi)), 100) }}</p>
@@ -103,7 +103,7 @@
             </div>
             <div class="text-center mt-4">
                 <a href="{{ route('struktur-organisasi.index') }}" class="btn-lihat-semua">
-                    Lihat Semua Struktur Organisasi <i class="bi bi-arrow-right"></i>
+                    {{ \App\Services\TranslateService::to('Lihat Semua Struktur Organisasi', app()->getLocale()) }} <i class="bi bi-arrow-right"></i>
                 </a>
             </div>
         </div>

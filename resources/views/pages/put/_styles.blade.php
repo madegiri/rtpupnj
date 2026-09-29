@@ -57,7 +57,7 @@
 .produk-desc-title i { color: #00998a; }
 
 /* ─── Article body ─── */
-.article-body { font-size: 1rem; line-height: 1.9; color: #374151; text-align: justify; }
+.article-body { font-size: 1rem; line-height: 1.9; color: #374151; text-align: justify; word-break: break-word; overflow-wrap: break-word;}
 .article-body p { margin-bottom: 1.25rem; }
 .article-body p:last-child { margin-bottom: 0; }
 .article-body h2,.article-body h3,.article-body h4 {
@@ -71,6 +71,111 @@
     border-left: 3px solid #00998a; margin: 1.5rem 0;
     padding: 0.75rem 1.25rem; background: #f0fdfb;
     border-radius: 0 8px 8px 0; color: #4b5563; font-style: italic;
+}
+
+.nav-pills-custom {
+    display: flex;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    scrollbar-width: none;
+    gap: 0.6rem;
+    padding-bottom: 0.6rem;
+    margin-bottom: 1rem;
+}
+.nav-pills-custom::-webkit-scrollbar {
+    display: none;
+}
+.nav-pills-custom::-webkit-scrollbar-thumb {
+    background: #d1d5db;
+    border-radius: 10px;
+}
+.nav-pills-custom .nav-link {
+    border-radius: 999px;
+    padding: 0.5rem 1.25rem;
+    color: #333;
+    font-weight: 500;
+    background: transparent;
+    border: 1.5px solid #111827;
+    white-space: nowrap;
+    transition: background 0.2s, color 0.2s, border-color 0.2s;
+}
+.nav-pills-custom .nav-link.active {
+    background-color: #00998a;
+    border-color: #00998a;
+    color: #fff;
+}
+
+.slider-card-person {
+    width: 200px;
+    aspect-ratio: auto;
+    cursor: default;
+    display: flex;
+    flex-direction: column;
+    background: #ffffff;
+    border: 1px solid #e5e7eb;
+}
+
+.slider-card-person .person-photo {
+    width: 100%;
+    aspect-ratio: 3 / 4;
+    overflow: hidden;
+    flex-shrink: 0;
+}
+
+.slider-card-person .person-photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: top;
+    display: block;
+}
+
+.slider-card-person .person-photo-placeholder {
+    width: 100%;
+    height: 100%;
+    background: #f3f4f6;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #d1d5db;
+    font-size: 3rem;
+}
+
+.slider-card-person .person-body {
+    padding: 1rem 0.9rem 1.25rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    flex: 1;
+}
+
+.slider-card-person .person-jabatan {
+    display: inline-block;
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: #00998a;
+    background: #e6f7f5;
+    border: 1px solid rgba(0,153,138,0.15);
+    padding: 0.16rem 0.65rem;
+    border-radius: 50px;
+    margin-bottom: 0.6rem;
+}
+
+.slider-card-person .person-name {
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: #111827;
+    line-height: 1.4;
+    letter-spacing: -0.01em;
+    margin: 0;
+}
+
+@media (max-width: 768px) {
+    .slider-card-person { width: 160px; }
 }
 
 /* ─── Kategori section ─── */

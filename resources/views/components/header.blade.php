@@ -201,7 +201,7 @@
                         <li>
                             <a class="dropdown-item-custom {{ request()->is('put/' . $unit->slug . '*') ? 'active' : '' }}"
                             href="{{ route('put.index', $unit->slug) }}">
-                                {{ \App\Services\TranslateService::to($unit->nama_singkat_unit_put, app()->getLocale()) }}
+                                {{ $unit->nama_singkat_unit_put }}
                             </a>
                         </li>
                         @endforeach

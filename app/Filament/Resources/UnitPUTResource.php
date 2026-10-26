@@ -7,6 +7,8 @@ use App\Filament\Resources\UnitPUTResource\RelationManagers;
 use App\Models\UnitPUT;
 use Filament\Forms;
 use Filament\Forms\Components\FileUpload;
+use Filament\Forms\Components\Group;
+use Filament\Forms\Components\Hidden;
 use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Components\Section;
@@ -118,25 +120,12 @@ class UnitPUTResource extends Resource
                             
                             Tabs\Tab::make('Dukungan Kebijakan')
                                 ->schema([
-                                    RichEditor::make('dukungan_kebijakan')
-                                        ->label('Dukungan Aturan / Kebijakan')
-                                        ->columnSpanFull()
-                                        ->toolbarButtons([
-                                            'attachFiles',
-                                            'blockquote',
-                                            'bold',
-                                            'bulletList',
-                                            'codeBlock',
-                                            'h2',
-                                            'h3',
-                                            'italic',
-                                            'link',
-                                            'orderedList',
-                                            'redo',
-                                            'strike',
-                                            'underline',
-                                            'undo',
-                                        ]),
+                                    FileUpload::make('dukungan_kebijakan')
+                                        ->label('Dukungan Aturan / Kebijakan (PDF)')
+                                        ->acceptedFileTypes(['application/pdf'])
+                                        ->maxSize(1024) 
+                                        ->directory('put-profil/dukungan-kebijakan')
+                                        ->columnSpanFull(),
                                 ]),
 
                             Tabs\Tab::make('Sumber Daya Manusia (SDM)')
@@ -164,48 +153,26 @@ class UnitPUTResource extends Resource
 
                             Tabs\Tab::make('Sarana & Prasarana')
                                 ->schema([
-                                    RichEditor::make('sarana_prasarana')
+                                    Repeater::make('sarana_prasarana')
                                         ->label('Sarana & Prasarana')
-                                        ->columnSpanFull()
-                                        ->toolbarButtons([
-                                            'attachFiles',
-                                            'blockquote',
-                                            'bold',
-                                            'bulletList',
-                                            'codeBlock',
-                                            'h2',
-                                            'h3',
-                                            'italic',
-                                            'link',
-                                            'orderedList',
-                                            'redo',
-                                            'strike',
-                                            'underline',
-                                            'undo',
-                                        ]),
-                                ]),
-                            
-                            Tabs\Tab::make('Struktur Organisasi')
-                                ->schema([
-                                    Repeater::make('struktur_organisasi')
-                                        ->label('Struktur Organisasi')
                                         ->schema([
+                                            TextInput::make('nama')
+                                                ->label('Nama Sarana & Prasarana')
+                                                ->required()
+                                                ->columnSpanFull(),
+
                                             FileUpload::make('foto')
                                                 ->label('Foto')
-                                                ->directory('struktur-organisasi-put/foto')
+                                                ->directory('put-profil/sarana-prasarana')
                                                 ->image()
+                                                ->multiple()
+                                                ->reorderable()
                                                 ->maxSize(512)
                                                 ->imageEditor()
                                                 ->columnSpanFull(),
-
-                                            TextInput::make('nama')
-                                                ->label('Nama'),
-
-                                            TextInput::make('jabatan')
-                                                ->label('Jabatan'),
                                         ])
                                         ->defaultItems(1)
-                                        ->addActionLabel('Tambah Anggota')
+                                        ->addActionLabel('Tambah Sarana & Prasarana')
                                         ->reorderable()
                                         ->columns(2)
                                         ->columnSpanFull(),
@@ -213,25 +180,221 @@ class UnitPUTResource extends Resource
                             
                             Tabs\Tab::make('Roadmap')
                                 ->schema([
-                                    Repeater::make('roadmap')
-                                        ->label('Roadmap')
-                                        ->schema([
-                                            TextInput::make('tahun')
-                                                ->label('Tahun'),
-
-                                            TextInput::make('tahap')
-                                                ->label('Tahap')
-                                                ->helperText('mis. Tahap 1, Tahap 2'),
-
-                                            RichEditor::make('deskripsi_tahapan')
-                                                ->label('Deskripsi Tahapan')
-                                                ->columnSpanFull(),
-                                        ])
-                                        ->defaultItems(1)
-                                        ->addActionLabel('Tambah Tahapan')
-                                        ->reorderable()
-                                        ->columns(2)
+                                    FileUpload::make('roadmap')
+                                        ->label('Roadmap (Gambar)')
+                                        ->image()
+                                        ->maxSize(512)
+                                        ->directory('put-profil/roadmap')
                                         ->columnSpanFull(),
+                                ]),
+
+                            Tabs\Tab::make('Struktur Organisasi')
+                                ->schema([
+                                    FileUpload::make('struktur_organisasi')
+                                        ->label('Struktur Organisasi (Gambar)')
+                                        ->image()
+                                        ->maxSize(512)
+                                        ->directory('struktur-organisasi-put/foto')
+                                        ->columnSpanFull(),
+                                ]),
+                            
+                            Tabs\Tab::make('Kegiatan')
+                                ->schema([
+                                    Tabs::make('Kegiatan')
+                                        ->columnSpanFull()
+                                        ->tabs([
+                                            Tabs\Tab::make('Penelitian')
+                                                ->schema([
+                                                    Group::make()
+                                                        ->statePath('penelitian')
+                                                        ->columnSpanFull()
+                                                        ->schema([
+                                                            FileUpload::make('roadmap_gambar')
+                                                                ->label('Roadmap Penelitian (Gambar)')
+                                                                ->image()   
+                                                                ->maxSize(512)
+                                                                ->directory('put-profil/penelitian/roadmap')
+                                                                ->columnSpanFull(),
+
+                                                            Repeater::make('publikasi')
+                                                                ->label('Publikasi')
+                                                                ->schema([
+                                                                    FileUpload::make('foto')
+                                                                        ->label('Foto')
+                                                                        ->directory('put-profil/penelitian/publikasi')
+                                                                        ->image()
+                                                                        ->maxSize(512)
+                                                                        ->imageEditor()
+                                                                        ->columnSpanFull(),
+
+                                                                    TextInput::make('nama')
+                                                                        ->label('Nama')
+                                                                        ->columnSpanFull(),
+
+                                                                    TextInput::make('link_sinta')
+                                                                        ->label('Link SINTA')
+                                                                        ->url(),
+
+                                                                    TextInput::make('link_google_scholar')
+                                                                        ->label('Link Google Scholar')
+                                                                        ->url(),
+
+                                                                    TextInput::make('link_orcid')
+                                                                        ->label('Link ORCID')
+                                                                        ->url(),
+                                                                ])
+                                                                ->defaultItems(1)
+                                                                ->addActionLabel('Tambah Publikasi')
+                                                                ->reorderable()
+                                                                ->columns(2)
+                                                                ->columnSpanFull(),
+                                                        ]),
+                                                ]),
+
+                                            Tabs\Tab::make('Pengabdian Masyarakat')
+                                                ->schema([
+                                                    Repeater::make('pengabdian_masyarakat')
+                                                        ->label('Pengabdian Masyarakat')
+                                                        ->schema([
+                                                            Hidden::make('created_at'),
+                                                            Hidden::make('user_id'),
+
+                                                            FileUpload::make('foto')
+                                                                ->label('Foto Kegiatan')
+                                                                ->directory('put-profil/pengabdian-masyarakat')
+                                                                ->image()
+                                                                ->maxSize(512)
+                                                                ->imageEditor()
+                                                                ->columnSpanFull(),
+
+                                                            TextInput::make('judul')
+                                                                ->label('Judul Kegiatan')
+                                                                ->required()
+                                                                ->distinct()
+                                                                ->columnSpanFull(),
+
+                                                            RichEditor::make('isi')
+                                                                ->label('Isi Kegiatan')
+                                                                ->columnSpanFull()
+                                                                ->toolbarButtons([
+                                                                    'attachFiles',
+                                                                    'blockquote',
+                                                                    'bold',
+                                                                    'bulletList',
+                                                                    'codeBlock',
+                                                                    'h2',
+                                                                    'h3',
+                                                                    'italic',
+                                                                    'link',
+                                                                    'orderedList',
+                                                                    'redo',
+                                                                    'strike',
+                                                                    'underline',
+                                                                    'undo',
+                                                                ]),
+                                                        ])
+                                                        ->defaultItems(1)
+                                                        ->addActionLabel('Tambah Kegiatan')
+                                                        ->reorderable()
+                                                        ->columns(2)
+                                                        ->columnSpanFull(),
+                                                ]),
+
+                                            Tabs\Tab::make('Lecturer Series')
+                                                ->schema([
+                                                    RichEditor::make('lecturer_series')
+                                                        ->label('Lecturer Series')
+                                                        ->columnSpanFull()
+                                                        ->toolbarButtons([
+                                                            'attachFiles',
+                                                            'blockquote',
+                                                            'bold',
+                                                            'bulletList',
+                                                            'codeBlock',
+                                                            'h2',
+                                                            'h3',
+                                                            'italic',
+                                                            'link',
+                                                            'orderedList',
+                                                            'redo',
+                                                            'strike',
+                                                            'underline',
+                                                            'undo',
+                                                        ]),
+                                                ]),
+
+                                            Tabs\Tab::make('Magang Riset')
+                                                ->schema([
+                                                    RichEditor::make('magang_riset')
+                                                        ->label('Magang Riset')
+                                                        ->columnSpanFull()
+                                                        ->toolbarButtons([
+                                                            'attachFiles',
+                                                            'blockquote',
+                                                            'bold',
+                                                            'bulletList',
+                                                            'codeBlock',
+                                                            'h2',
+                                                            'h3',
+                                                            'italic',
+                                                            'link',
+                                                            'orderedList',
+                                                            'redo',
+                                                            'strike',
+                                                            'underline',
+                                                            'undo',
+                                                        ]),
+                                                ]),
+
+                                            Tabs\Tab::make('Kegiatan Lainnya')
+                                                ->schema([
+                                                    Repeater::make('kegiatan_lainnya')
+                                                        ->label('Kegiatan Lainnya')
+                                                        ->schema([
+                                                            Hidden::make('created_at'),
+                                                            Hidden::make('user_id'),
+                                                            
+                                                            FileUpload::make('foto')
+                                                                ->label('Foto Kegiatan')
+                                                                ->directory('put-profil/kegiatan-lainnya')
+                                                                ->image()
+                                                                ->maxSize(512)
+                                                                ->imageEditor()
+                                                                ->columnSpanFull(),
+
+                                                            TextInput::make('judul')
+                                                                ->label('Judul Kegiatan')
+                                                                ->required()
+                                                                ->distinct()
+                                                                ->columnSpanFull(),
+
+                                                            RichEditor::make('isi')
+                                                                ->label('Isi Kegiatan')
+                                                                ->columnSpanFull()
+                                                                ->toolbarButtons([
+                                                                    'attachFiles',
+                                                                    'blockquote',
+                                                                    'bold',
+                                                                    'bulletList',
+                                                                    'codeBlock',
+                                                                    'h2',
+                                                                    'h3',
+                                                                    'italic',
+                                                                    'link',
+                                                                    'orderedList',
+                                                                    'redo',
+                                                                    'strike',
+                                                                    'underline',
+                                                                    'undo',
+                                                                ]),
+                                                        ])
+                                                        ->defaultItems(1)
+                                                        ->addActionLabel('Tambah Kegiatan')
+                                                        ->reorderable()
+                                                        ->columns(2)
+                                                        ->columnSpanFull(),
+                                                ]),
+                                        ]),
                                 ]),
                     ]),
             ]);

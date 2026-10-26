@@ -161,6 +161,10 @@ Route::middleware([LogVisits::class])->group(function () {
     // });
 
     Route::prefix('put')->name('put.')->group(function () {
+        Route::get('/{unit_slug}/kegiatan/{jenis}/{slug}', [PUTController::class, 'kegiatan'])
+            ->where('jenis', 'pengabdian-masyarakat|kegiatan-lainnya')
+            ->name('kegiatan');
+            
         Route::get('/{unit_slug}', [PUTController::class, 'index'])->name('index');
         Route::get('/{unit_slug}/{kategori_slug}', [PUTController::class, 'kategori'])->name('kategori');
         Route::get('/{unit_slug}/{kategori_slug}/{sub_kategori_slug}', [PUTController::class, 'subKategori'])->name('sub_kategori');

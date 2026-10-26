@@ -84,6 +84,29 @@
                     7. {{ \App\Services\TranslateService::to('Struktur Organisasi', app()->getLocale()) }}
                 </button>
             </li>
+            <li class="nav-item dropdown" role="presentation">
+                <button class="nav-link dropdown-toggle" type="button"
+                        data-bs-toggle="dropdown" aria-expanded="false">
+                    8. {{ \App\Services\TranslateService::to('Kegiatan', app()->getLocale()) }}
+                </button>
+                <ul class="dropdown-menu">
+                    @foreach([
+                        ['penelitian', 'Penelitian'],
+                        ['pengabdian', 'Pengabdian Masyarakat'],
+                        ['lecturer', 'Lecturer Series'],
+                        ['magang', 'Magang Riset'],
+                        ['lainnya', 'Kegiatan Lainnya'],
+                    ] as [$key, $label])
+                    <li>
+                        <button class="dropdown-item" type="button" role="tab"
+                                data-bs-toggle="pill" data-bs-target="#{{ $key }}-pane"
+                                aria-controls="{{ $key }}-pane" aria-selected="false">
+                            {{ \App\Services\TranslateService::to($label, app()->getLocale()) }}
+                        </button>
+                    </li>
+                    @endforeach
+                </ul>
+            </li>
         </ul>
 
         <div class="tab-content mb-5" id="unitPutTabContent">
@@ -124,19 +147,40 @@
 
             {{-- Pane: Dukungan Kebijakan --}}
             <div class="tab-pane fade" id="kebijakan-pane" role="tabpanel" aria-labelledby="kebijakan-tab" tabindex="0">
-                <div class="produk-desc-box">
-                    <h5 class="produk-desc-title">
-                        <i class="bi bi-file-earmark-text"></i>
-                        {{ \App\Services\TranslateService::to('Dukungan Aturan / Kebijakan', app()->getLocale()) }}
-                    </h5>
-                    @if($unitPut->dukungan_kebijakan)
-                    <div class="article-body">
-                        {!! \App\Services\TranslateService::to($unitPut->dukungan_kebijakan, app()->getLocale()) !!}
+                <h5 class="produk-desc-title mb-3">
+                    <i class="bi bi-file-earmark-text"></i>
+                    {{ \App\Services\TranslateService::to('Dukungan Aturan / Kebijakan', app()->getLocale()) }}
+                </h5>
+                @if($unitPut->dukungan_kebijakan)
+                @php $pdfUrl = asset('storage/' . $unitPut->dukungan_kebijakan); @endphp
+                <div class="pdfjs-viewer" id="pdfViewer" data-url="{{ $pdfUrl }}">
+                    <div class="pdfjs-toolbar">
+                        <div class="pdfjs-group">
+                            <button type="button" id="pdfPrev" title="Halaman sebelumnya"><i class="bi bi-chevron-up"></i></button>
+                            <button type="button" id="pdfNext" title="Halaman berikutnya"><i class="bi bi-chevron-down"></i></button>
+                            <span class="pdfjs-pageinfo">
+                                <input type="number" id="pdfPageInput" min="1" value="1" aria-label="Nomor halaman">
+                                / <span id="pdfPageCount">–</span>
+                            </span>
+                        </div>
+                        <div class="pdfjs-group">
+                            <button type="button" id="pdfZoomOut" title="Perkecil"><i class="bi bi-zoom-out"></i></button>
+                            <span class="pdfjs-zoomlabel" id="pdfZoomLabel">100%</span>
+                            <button type="button" id="pdfZoomIn" title="Perbesar"><i class="bi bi-zoom-in"></i></button>
+                            <button type="button" id="pdfFit" title="Sesuaikan lebar"><i class="bi bi-arrows-expand-vertical" style="transform:rotate(90deg)"></i></button>
+                            <a href="{{ $pdfUrl }}" download title="Unduh PDF" class="pdfjs-btn-link"><i class="bi bi-download"></i></a>
+                        </div>
                     </div>
-                    @else
-                    <p class="text-muted mb-0">{{ \App\Services\TranslateService::to('Dukungan aturan/kebijakan belum tersedia.', app()->getLocale()) }}</p>
-                    @endif
+                    <div class="pdfjs-scroll" id="pdfScroll">
+                        <div class="pdfjs-loading" id="pdfLoading">{{ \App\Services\TranslateService::to('Memuat dokumen…', app()->getLocale()) }}</div>
+                    </div>
                 </div>
+                @else
+                <div class="empty-state">
+                    <i class="bi bi-file-earmark-text"></i>
+                    <p>{{ \App\Services\TranslateService::to('Dukungan aturan/kebijakan belum tersedia.', app()->getLocale()) }}</p>
+                </div>
+                @endif
             </div>
 
             {{-- Pane: SDM --}}
@@ -158,19 +202,53 @@
 
             {{-- Pane: Sarana & Prasarana --}}
             <div class="tab-pane fade" id="sarpras-pane" role="tabpanel" aria-labelledby="sarpras-tab" tabindex="0">
-                <div class="produk-desc-box">
-                    <h5 class="produk-desc-title">
-                        <i class="bi bi-building-gear"></i>
-                        {{ \App\Services\TranslateService::to('Sarana & Prasarana', app()->getLocale()) }}
-                    </h5>
-                    @if($unitPut->sarana_prasarana)
-                    <div class="article-body">
-                        {!! \App\Services\TranslateService::to($unitPut->sarana_prasarana, app()->getLocale()) !!}
+                <h5 class="produk-desc-title mb-4">
+                    <i class="bi bi-building-gear"></i>
+                    {{ \App\Services\TranslateService::to('Sarana & Prasarana', app()->getLocale()) }}
+                </h5>
+                @if(!empty($unitPut->sarana_prasarana))
+                @foreach($unitPut->sarana_prasarana as $sarpras)
+                    @php
+                        $fotos   = array_values(array_filter((array) ($sarpras['foto'] ?? [])));
+                        $trackId = 'sarprasTrack-' . $loop->index;
+                    @endphp
+                    @if(!empty($fotos))
+                    <div class="sarpras-group">
+                        @if(!empty($sarpras['nama']))
+                        <h6 class="sarpras-group-title">
+                            {{ \App\Services\TranslateService::to($sarpras['nama'], app()->getLocale()) }}
+                        </h6>
+                        @endif
+
+                        <div class="slider-wrap">
+                            <button class="slider-nav slider-nav-prev" type="button" onclick="slideGallery('{{ $trackId }}', -1)">
+                                <i class="bi bi-chevron-left"></i>
+                            </button>
+
+                            <div class="slider-track" id="{{ $trackId }}">
+                                @foreach($fotos as $foto)
+                                <div class="slider-card" onclick="openLightbox('{{ asset('storage/' . $foto) }}')">
+                                    <img src="{{ asset('storage/' . $foto) }}" alt="{{ $sarpras['nama'] ?? '' }}" loading="lazy">
+                                    <div class="slider-card-overlay">
+                                        <i class="bi bi-zoom-in"></i>
+                                    </div>
+                                </div>
+                                @endforeach
+                            </div>
+
+                            <button class="slider-nav slider-nav-next" type="button" onclick="slideGallery('{{ $trackId }}', 1)">
+                                <i class="bi bi-chevron-right"></i>
+                            </button>
+                        </div>
                     </div>
-                    @else
-                    <p class="text-muted mb-0">{{ \App\Services\TranslateService::to('Data sarana & prasarana belum tersedia.', app()->getLocale()) }}</p>
                     @endif
+                @endforeach
+                @else
+                <div class="empty-state">
+                    <i class="bi bi-building-gear"></i>
+                    <p>{{ \App\Services\TranslateService::to('Data sarana & prasarana belum tersedia.', app()->getLocale()) }}</p>
                 </div>
+                @endif
             </div>
 
             {{-- Pane: Roadmap --}}
@@ -179,21 +257,10 @@
                     <i class="bi bi-signpost-split"></i>
                     {{ \App\Services\TranslateService::to('Roadmap', app()->getLocale()) }}
                 </h5>
-                @if(!empty($unitPut->roadmap))
-                <div class="roadmap-list">
-                    @foreach($unitPut->roadmap as $item)
-                    <div class="roadmap-item d-flex mb-4">
-                        <div class="roadmap-year me-3">
-                            <span class="badge">{{ $item['tahun'] }}</span>
-                        </div>
-                        <div class="roadmap-body">
-                            <h6 class="mb-1">{{ \App\Services\TranslateService::to($item['tahap'], app()->getLocale()) }}</h6>
-                            <div class="article-body">
-                                {!! \App\Services\TranslateService::to($item['deskripsi_tahapan'], app()->getLocale()) !!}
-                            </div>
-                        </div>
-                    </div>
-                    @endforeach
+                @if($unitPut->roadmap)
+                <div class="article-hero-img" style="cursor:zoom-in"
+                     onclick="openLightbox('{{ asset('storage/' . $unitPut->roadmap) }}')">
+                    <img src="{{ asset('storage/' . $unitPut->roadmap) }}" alt="Roadmap {{ $unitPut->nama_singkat_unit_put }}">
                 </div>
                 @else
                 <div class="empty-state">
@@ -209,33 +276,10 @@
                     <i class="bi bi-diagram-3"></i>
                     {{ \App\Services\TranslateService::to('Struktur Organisasi', app()->getLocale()) }}
                 </h5>
-                @if(!empty($unitPut->struktur_organisasi))
-                <div class="slider-wrap">
-                    <button class="slider-nav slider-nav-prev" onclick="slideGallery('strukturUnitPut', -1)">
-                        <i class="bi bi-chevron-left"></i>
-                    </button>
-                    <div class="slider-track" id="strukturUnitPut">
-                        @foreach($unitPut->struktur_organisasi as $anggota)
-                        <div class="slider-card slider-card-person">
-                            <div class="person-photo">
-                                @if(!empty($anggota['foto']))
-                                <img src="{{ asset('storage/' . $anggota['foto']) }}" alt="{{ $anggota['nama'] }}">
-                                @else
-                                <div class="person-photo-placeholder">
-                                    <i class="bi bi-person"></i>
-                                </div>
-                                @endif
-                            </div>
-                            <div class="person-body">
-                                <span class="person-jabatan">{{ \App\Services\TranslateService::to($anggota['jabatan'], app()->getLocale()) }}</span>
-                                <h6 class="person-name">{{ $anggota['nama'] }}</h6>
-                            </div>
-                        </div>
-                        @endforeach
-                    </div>
-                    <button class="slider-nav slider-nav-next" onclick="slideGallery('strukturUnitPut', 1)">
-                        <i class="bi bi-chevron-right"></i>
-                    </button>
+                @if($unitPut->struktur_organisasi)
+                <div class="article-hero-img" style="cursor:zoom-in"
+                     onclick="openLightbox('{{ asset('storage/' . $unitPut->struktur_organisasi) }}')">
+                    <img src="{{ asset('storage/' . $unitPut->struktur_organisasi) }}" alt="Struktur Organisasi {{ $unitPut->nama_singkat_unit_put }}">
                 </div>
                 @else
                 <div class="empty-state">
@@ -243,6 +287,147 @@
                     <p>{{ \App\Services\TranslateService::to('Struktur organisasi belum tersedia.', app()->getLocale()) }}</p>
                 </div>
                 @endif
+            </div>
+
+            {{-- BARU: Pane Penelitian --}}
+            <div class="tab-pane fade" id="penelitian-pane" role="tabpanel" tabindex="0">
+                @php
+                    $penelitian = $unitPut->penelitian ?? [];
+                    $roadmapImg = $penelitian['roadmap_gambar'] ?? null;
+                    $publikasi  = $penelitian['publikasi'] ?? [];
+
+                    // Sesuaikan path logo dengan file di folder public/
+                    $linkLogos = [
+                        'link_sinta'          => ['img' => 'logo-publikasi/sinta.jpg',          'label' => 'SINTA'],
+                        'link_google_scholar' => ['img' => 'logo-publikasi/google-scholar.webp', 'label' => 'Google Scholar'],
+                        'link_orcid'          => ['img' => 'logo-publikasi/orcid.webp',          'label' => 'ORCID'],
+                    ];
+                @endphp
+
+                <h5 class="produk-desc-title mb-3">
+                    <i class="bi bi-search"></i>
+                    {{ \App\Services\TranslateService::to('Roadmap Penelitian', app()->getLocale()) }}
+                </h5>
+                @if($roadmapImg)
+                    <div class="article-hero-img" style="cursor:zoom-in"
+                         onclick="openLightbox('{{ asset('storage/' . $roadmapImg) }}')">
+                        <img src="{{ asset('storage/' . $roadmapImg) }}" alt="Roadmap Penelitian {{ $unitPut->nama_singkat_unit_put }}">
+                    </div>
+                @else
+                    <div class="empty-state">
+                        <i class="bi bi-signpost-split"></i>
+                        <p>{{ \App\Services\TranslateService::to('Roadmap penelitian belum tersedia.', app()->getLocale()) }}</p>
+                    </div>
+                @endif
+
+                <h5 class="produk-desc-title mt-4 mb-3">
+                    <i class="bi bi-journal-richtext"></i>
+                    {{ \App\Services\TranslateService::to('Publikasi', app()->getLocale()) }}
+                </h5>
+                @if(!empty($publikasi))
+                    <div class="slider-wrap">
+                        <button class="slider-nav slider-nav-prev" type="button" onclick="slideGallery('pubTrack', -1)">
+                            <i class="bi bi-chevron-left"></i>
+                        </button>
+
+                        <div class="slider-track slider-track-pub" id="pubTrack">
+                            @foreach($publikasi as $pub)
+                            <div class="pub-slide">
+                                <div class="pub-card">
+                                    <div class="pub-card-photo">
+                                        @if(!empty($pub['foto']))
+                                            <img src="{{ asset('storage/' . $pub['foto']) }}" alt="{{ $pub['nama'] ?? '' }}" loading="lazy">
+                                        @else
+                                            <div class="person-photo-placeholder"><i class="bi bi-person"></i></div>
+                                        @endif
+                                    </div>
+                                    <div class="pub-card-body">
+                                        <h6 class="pub-card-name">{{ $pub['nama'] ?? '' }}</h6>
+                                        <div class="pub-card-links">
+                                            @foreach($linkLogos as $field => $logo)
+                                                @if(!empty($pub[$field]))
+                                                <a href="{{ $pub[$field] }}" target="_blank" rel="noopener noreferrer" title="{{ $logo['label'] }}">
+                                                    <img src="{{ asset($logo['img']) }}" alt="{{ $logo['label'] }}">
+                                                </a>
+                                                @endif
+                                            @endforeach
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            @endforeach
+                        </div>
+
+                        <button class="slider-nav slider-nav-next" type="button" onclick="slideGallery('pubTrack', 1)">
+                            <i class="bi bi-chevron-right"></i>
+                        </button>
+                    </div>
+                @else
+                    <div class="empty-state">
+                        <i class="bi bi-journal-richtext"></i>
+                        <p>{{ \App\Services\TranslateService::to('Publikasi belum tersedia.', app()->getLocale()) }}</p>
+                    </div>
+                @endif
+            </div>
+
+            {{-- BARU: Pane Pengabdian Masyarakat --}}
+            <div class="tab-pane fade" id="pengabdian-pane" role="tabpanel" tabindex="0">
+                <h5 class="produk-desc-title mb-4">
+                    <i class="bi bi-heart-pulse"></i>
+                    {{ \App\Services\TranslateService::to('Pengabdian Masyarakat', app()->getLocale()) }}
+                </h5>
+                @include('pages.put._kegiatan-list', [
+                    'items' => $unitPut->pengabdian_masyarakat,
+                    'jenis' => 'pengabdian-masyarakat',
+                    'empty' => 'Data pengabdian masyarakat belum tersedia.',
+                ])
+            </div>
+
+            {{-- BARU: Pane Lecturer Series --}}
+            <div class="tab-pane fade" id="lecturer-pane" role="tabpanel" tabindex="0">
+                <div class="produk-desc-box">
+                    <h5 class="produk-desc-title">
+                        <i class="bi bi-mortarboard"></i>
+                        {{ \App\Services\TranslateService::to('Lecturer Series', app()->getLocale()) }}
+                    </h5>
+                    @if($unitPut->lecturer_series)
+                    <div class="article-body">
+                        {!! \App\Services\TranslateService::to($unitPut->lecturer_series, app()->getLocale()) !!}
+                    </div>
+                    @else
+                    <p class="text-muted mb-0">{{ \App\Services\TranslateService::to('Data lecturer series belum tersedia.', app()->getLocale()) }}</p>
+                    @endif
+                </div>
+            </div>
+
+            {{-- BARU: Pane Magang Riset --}}
+            <div class="tab-pane fade" id="magang-pane" role="tabpanel" tabindex="0">
+                <div class="produk-desc-box">
+                    <h5 class="produk-desc-title">
+                        <i class="bi bi-briefcase"></i>
+                        {{ \App\Services\TranslateService::to('Topik Penelitian yang Sedang Berjalan di Kampus', app()->getLocale()) }}
+                    </h5>
+                    @if($unitPut->magang_riset)
+                    <div class="article-body">
+                        {!! \App\Services\TranslateService::to($unitPut->magang_riset, app()->getLocale()) !!}
+                    </div>
+                    @else
+                    <p class="text-muted mb-0">{{ \App\Services\TranslateService::to('Data magang riset belum tersedia.', app()->getLocale()) }}</p>
+                    @endif
+                </div>
+            </div>
+
+            {{-- BARU: Pane Kegiatan Lainnya --}}
+            <div class="tab-pane fade" id="lainnya-pane" role="tabpanel" tabindex="0">
+                <h5 class="produk-desc-title mb-4">
+                    <i class="bi bi-calendar-event"></i>
+                    {{ \App\Services\TranslateService::to('Kegiatan Lainnya', app()->getLocale()) }}
+                </h5>
+                @include('pages.put._kegiatan-list', [
+                    'items' => $unitPut->kegiatan_lainnya,
+                    'jenis' => 'kegiatan-lainnya',
+                    'empty' => 'Data kegiatan lainnya belum tersedia.',
+                ])
             </div>
 
         </div>
@@ -466,10 +651,82 @@
     .slider-card-portrait { width: 170px; }
 }
 
-.roadmap-item .roadmap-year .badge {
-    font-size: 0.8rem;
-    padding: 0.5rem 0.85rem;
-    background-color: #00998a;
+.pdfjs-viewer {
+    border: 1px solid #dee2e6;
+    border-radius: 12px;
+    overflow: hidden;
+    background: #fff;
+    display: flex;
+    flex-direction: column;
+    height: 80vh;
+    min-height: 500px;
+}
+.pdfjs-toolbar {
+    display: flex;
+    flex-wrap: nowrap;              
+    align-items: center;
+    justify-content: space-between;
+    gap: .75rem;
+    padding: .5rem .75rem;
+    background: #f8f9fa;
+    border-bottom: 1px solid #dee2e6;
+    overflow-x: auto;               
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+.pdfjs-toolbar::-webkit-scrollbar { display: none; }
+.pdfjs-group {
+    display: flex;
+    align-items: center;
+    gap: .35rem;
+    flex: 0 0 auto;                 
+    white-space: nowrap;
+}
+.pdfjs-toolbar button,
+.pdfjs-btn-link,
+.pdfjs-pageinfo,
+.pdfjs-zoomlabel {
+    flex: 0 0 auto;
+}
+.pdfjs-toolbar button,
+.pdfjs-btn-link {
+    width: 34px; height: 34px;
+    border: 1px solid #dee2e6;
+    background: #fff;
+    border-radius: 8px;
+    display: inline-flex; align-items: center; justify-content: center;
+    color: #333; cursor: pointer; text-decoration: none;
+}
+.pdfjs-toolbar button:hover,
+.pdfjs-btn-link:hover { background: #eef1f4; }
+.pdfjs-pageinfo { font-size: .9rem; display: inline-flex; align-items: center; gap: .35rem; margin-left: .35rem; }
+.pdfjs-pageinfo input {
+    width: 56px; text-align: center;
+    border: 1px solid #dee2e6; border-radius: 6px; padding: .2rem;
+}
+.pdfjs-zoomlabel { min-width: 48px; text-align: center; font-size: .9rem; }
+.pdfjs-scroll {
+    position: relative;           
+    flex: 1;
+    overflow: auto;
+    background: #525659;
+    padding: 12px 0;
+}
+.pdfjs-page {
+    margin: 0 auto 12px;
+    background: #fff;
+    box-shadow: 0 2px 8px rgba(0,0,0,.35);
+}
+.pdfjs-page canvas { display: block; }
+.pdfjs-loading { color: #fff; text-align: center; padding: 2rem; }
+@media (max-width: 576px) {
+    .pdfjs-viewer { height: 70vh; }
+    .pdfjs-toolbar { justify-content: flex-start; }
+    .pdfjs-group + .pdfjs-group {
+        padding-left: .75rem;
+        border-left: 1px solid #dee2e6;
+    }
 }
 </style>
 
@@ -485,13 +742,14 @@ function closeLightbox() {
     document.getElementById('lightboxOverlay').classList.remove('active');
     document.body.style.overflow = '';
 }
+
 document.addEventListener('keydown', e => {
     if (e.key === 'Escape') closeLightbox();
 });
 
 function slideGallery(id, direction) {
     const track = document.getElementById(id);
-    const cardWidth = track.querySelector('.slider-card')?.offsetWidth || 320;
+    const cardWidth = track.firstElementChild?.offsetWidth || 320;
     const gap = 16;
     track.scrollBy({ left: direction * (cardWidth + gap) * 2, behavior: 'smooth' });
 }
@@ -521,17 +779,182 @@ function initSliderNav(trackId) {
     }
 
     updateNavState();
+    track._updateNav = updateNavState;
     track.addEventListener('scroll', updateNavState);
     window.addEventListener('resize', updateNavState);
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-    initSliderNav('posterUnitPut');
-    initSliderNav('strukturUnitPut');
+    document.querySelectorAll('.slider-track[id]').forEach(t => initSliderNav(t.id));
+
+    if (window.bootstrap) {
+        document.querySelectorAll('#unitPutTab .dropdown-toggle').forEach(el => {
+            bootstrap.Dropdown.getOrCreateInstance(el, {
+                popperConfig: (def) => ({ ...def, strategy: 'fixed' })
+            });
+        });
+    }
 });
 
-document.getElementById('struktur-tab')?.addEventListener('shown.bs.tab', () => {
-    initSliderNav('strukturUnitPut');
+document.addEventListener('shown.bs.tab', (e) => {
+    const parent = e.target.closest('.dropdown');
+    document.querySelectorAll('#unitPutTab .dropdown-toggle').forEach(tg => {
+        tg.classList.toggle('active', !!parent && parent === tg.closest('.dropdown'));
+    });
+
+    document.querySelectorAll('.slider-track').forEach(t => t._updateNav && t._updateNav());
 });
 </script>
+
+@if($unitPut->dukungan_kebijakan)
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<script>
+(function () {
+    const viewer = document.getElementById('pdfViewer');
+    if (!viewer || !window.pdfjsLib) return;
+
+    pdfjsLib.GlobalWorkerOptions.workerSrc =
+        'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+
+    const url       = viewer.dataset.url;
+    const scroller  = document.getElementById('pdfScroll');
+    const pageInput = document.getElementById('pdfPageInput');
+    const pageCount = document.getElementById('pdfPageCount');
+    const zoomLabel = document.getElementById('pdfZoomLabel');
+
+    let doc = null, base = null, scale = 1, fitMode = true;
+    let current = 1, pages = [], observer = null, jobCounter = 0;
+
+    const fitScale = () => Math.max(0.3, (scroller.clientWidth - 24) / base.width);
+
+    async function init() {
+        try {
+            doc  = await pdfjsLib.getDocument(url).promise;
+            base = (await doc.getPage(1)).getViewport({ scale: 1 });
+            pageCount.textContent = doc.numPages;
+            pageInput.max = doc.numPages;
+            scale = fitScale();
+            build(1);
+        } catch (err) {
+            console.error(err);
+            scroller.innerHTML =
+                '<div class="pdfjs-loading">Gagal memuat dokumen. ' +
+                '<a href="' + url + '" target="_blank" rel="noopener" style="color:#fff;text-decoration:underline">Buka PDF langsung</a></div>';
+        }
+    }
+
+    function build(goTo) {
+        if (observer) observer.disconnect();
+        scroller.innerHTML = '';
+        pages = [];
+
+        observer = new IntersectionObserver((entries) => {
+            entries.forEach(en => en.isIntersecting ? renderPage(en.target) : freePage(en.target));
+        }, { root: scroller, rootMargin: '600px 0px' });
+
+        const frag = document.createDocumentFragment();
+        for (let i = 1; i <= doc.numPages; i++) {
+            const el = document.createElement('div');
+            el.className = 'pdfjs-page';
+            el.dataset.page = i;
+            el.style.width  = Math.floor(base.width * scale) + 'px';
+            el.style.height = Math.floor(base.height * scale) + 'px';
+            pages.push(el);
+            frag.appendChild(el);
+        }
+        scroller.appendChild(frag);
+        pages.forEach(el => observer.observe(el));
+
+        zoomLabel.textContent = Math.round(scale * 100) + '%';
+        goToPage(goTo || 1);
+    }
+
+    async function renderPage(el) {
+        if (el._job) return;
+        const job = el._job = ++jobCounter;
+        try {
+            const page = await doc.getPage(parseInt(el.dataset.page, 10));
+            const dpr  = Math.min(window.devicePixelRatio || 1, 2);
+            const vp   = page.getViewport({ scale: scale * dpr });
+
+            const canvas = document.createElement('canvas');
+            canvas.width  = vp.width;
+            canvas.height = vp.height;
+            canvas.style.width  = (vp.width / dpr) + 'px';
+            canvas.style.height = (vp.height / dpr) + 'px';
+
+            await page.render({ canvasContext: canvas.getContext('2d'), viewport: vp }).promise;
+
+            if (el._job !== job) return;          
+            el.style.width  = canvas.style.width; 
+            el.style.height = canvas.style.height;
+            el.replaceChildren(canvas);
+        } catch (e) {
+            if (e && e.name !== 'RenderingCancelledException') console.error(e);
+            if (el._job === job) el._job = 0;
+        }
+    }
+
+    function freePage(el) {
+        if (!el._job) return;
+        el._job = 0;
+        el.replaceChildren(); 
+    }
+
+    function goToPage(n) {
+        n = Math.min(Math.max(1, n), doc.numPages);
+        current = n;
+        pageInput.value = n;
+        scroller.scrollTop = pages[n - 1].offsetTop - 8;
+    }
+
+    
+    let ticking = false;
+    scroller.addEventListener('scroll', () => {
+        if (ticking) return;
+        ticking = true;
+        requestAnimationFrame(() => {
+            ticking = false;
+            const ref = scroller.scrollTop + scroller.clientHeight / 3;
+            let n = 1;
+            for (let i = 0; i < pages.length; i++) {
+                if (pages[i].offsetTop <= ref) n = i + 1; else break;
+            }
+            current = n;
+            if (document.activeElement !== pageInput) pageInput.value = n;
+        });
+    });
+
+    function zoomBy(factor) {
+        fitMode = false;
+        scale = Math.min(4, Math.max(0.4, scale * factor));
+        build(current);
+    }
+
+    document.getElementById('pdfPrev').onclick    = () => goToPage(current - 1);
+    document.getElementById('pdfNext').onclick    = () => goToPage(current + 1);
+    document.getElementById('pdfZoomIn').onclick  = () => zoomBy(1.2);
+    document.getElementById('pdfZoomOut').onclick = () => zoomBy(1 / 1.2);
+    document.getElementById('pdfFit').onclick     = () => { fitMode = true; scale = fitScale(); build(current); };
+    pageInput.addEventListener('change', () => goToPage(parseInt(pageInput.value, 10) || 1));
+    pageInput.addEventListener('keydown', e => { if (e.key === 'Enter') pageInput.blur(); });
+
+    let resizeTimer;
+    window.addEventListener('resize', () => {
+        clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(() => {
+            if (doc && fitMode && scroller.clientWidth > 0) { scale = fitScale(); build(current); }
+        }, 200);
+    });
+
+    const pane = document.getElementById('kebijakan-pane');
+    const tabBtn = document.getElementById('kebijakan-tab');
+    if (pane && pane.classList.contains('active')) {
+        init();
+    } else if (tabBtn) {
+        tabBtn.addEventListener('shown.bs.tab', init, { once: true });
+    }
+})();
+</script>
+@endif
 @endsection

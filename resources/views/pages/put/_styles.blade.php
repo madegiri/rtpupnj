@@ -43,7 +43,7 @@
     margin-bottom: 2rem; box-shadow: 0 4px 24px rgba(0,0,0,0.08);
 }
 .article-hero-img img {
-    width: 100%; max-height: 400px; object-fit: cover; display: block;
+    width: 100%; max-height: auto; object-fit: cover; display: block;
 }
 
 /* ─── Desc box ─── */
@@ -73,6 +73,7 @@
     border-radius: 0 8px 8px 0; color: #4b5563; font-style: italic;
 }
 
+/* ─── Nav pills ─── */
 .nav-pills-custom {
     display: flex;
     flex-wrap: nowrap;
@@ -106,24 +107,47 @@
     color: #fff;
 }
 
-.slider-card-person {
-    width: 200px;
-    aspect-ratio: auto;
-    cursor: default;
+/* ─── BARU: Dropdown di pill ─── */
+.nav-pills-custom .dropdown-toggle::after { margin-left: 0.5rem; }
+.nav-pills-custom .dropdown-menu {
+    border-radius: 12px; border: 1px solid #e5e7eb; padding: 0.4rem;
+}
+.nav-pills-custom .dropdown-item {
+    border-radius: 8px; font-size: 0.9rem; padding: 0.5rem 0.9rem;
+}
+.nav-pills-custom .dropdown-item.active,
+.nav-pills-custom .dropdown-item:active { background: #00998a; color: #fff; }
+
+/* ─── Publikasi (card horizontal) ─── */
+.pub-card {
     display: flex;
-    flex-direction: column;
-    background: #ffffff;
+    align-items: center;
+    gap: 1rem;
+    height: 100%;
+    padding: 1rem 1.15rem;
+    background: #fff;
     border: 1px solid #e5e7eb;
+    border-radius: 18px;
+    transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
+}
+.pub-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+    border-color: transparent;
 }
 
-.slider-card-person .person-photo {
-    width: 100%;
-    aspect-ratio: 3 / 4;
+/* Foto bulat dengan ring tipis */
+.pub-card-photo {
+    flex: 0 0 76px;
+    width: 76px;
+    height: 76px;
+    border-radius: 50%;
     overflow: hidden;
-    flex-shrink: 0;
+    background: #f3f4f6;
+    border: 3px solid #fff;
+    box-shadow: 0 0 0 2px #cdeeea; /* ring tosca muda */
 }
-
-.slider-card-person .person-photo img {
+.pub-card-photo img {
     width: 100%;
     height: 100%;
     object-fit: cover;
@@ -131,52 +155,112 @@
     display: block;
 }
 
-.slider-card-person .person-photo-placeholder {
-    width: 100%;
-    height: 100%;
-    background: #f3f4f6;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: #d1d5db;
-    font-size: 3rem;
-}
-
-.slider-card-person .person-body {
-    padding: 1rem 0.9rem 1.25rem;
+/* Nama + logo di sebelah kanan */
+.pub-card-body {
+    flex: 1;
+    min-width: 0;
     display: flex;
     flex-direction: column;
-    align-items: center;
-    text-align: center;
-    flex: 1;
+    align-items: flex-start;
+    text-align: left;
+    gap: 0.6rem;
 }
-
-.slider-card-person .person-jabatan {
-    display: inline-block;
-    font-size: 0.65rem;
-    font-weight: 700;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-    color: #00998a;
-    background: #e6f7f5;
-    border: 1px solid rgba(0,153,138,0.15);
-    padding: 0.16rem 0.65rem;
-    border-radius: 50px;
-    margin-bottom: 0.6rem;
-}
-
-.slider-card-person .person-name {
-    font-size: 0.9rem;
+.pub-card-name {
+    font-size: 0.95rem;
     font-weight: 700;
     color: #111827;
-    line-height: 1.4;
-    letter-spacing: -0.01em;
+    line-height: 1.35;
     margin: 0;
 }
 
-@media (max-width: 768px) {
-    .slider-card-person { width: 160px; }
+/* Logo bulat kecil */
+.pub-card-links {
+    display: flex;
+    gap: 0.5rem;
+    margin-top: 0;
 }
+.pub-card-links a {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: #f9fafb;
+    border: 1px solid #e5e7eb;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+.pub-card-links a:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+}
+.pub-card-links a img {
+    width: 20px;
+    height: 20px;
+    object-fit: contain;
+    display: block;
+}
+
+/* ─── Publikasi: carousel ─── */
+.slider-track-pub {
+    /* ruang atas/bawah supaya efek hover & shadow card tidak terpotong */
+    padding: 0.6rem 0.25rem 1.1rem;
+}
+.pub-slide {
+    flex: 0 0 auto;
+    width: 320px;
+    scroll-snap-align: start;
+    display: flex;
+}
+.pub-slide .pub-card {
+    flex: 1;
+}
+
+@media (max-width: 768px) {
+    .pub-slide { width: 280px; }
+}
+
+/* ─── Kegiatan: carousel ─── */
+.slider-track-kegiatan {
+    /* ruang supaya efek hover (naik 5px) & shadow card tidak terpotong */
+    padding: 0.75rem 0.25rem 1.5rem;
+}
+.kegiatan-slide {
+    flex: 0 0 auto;
+    width: 320px;
+    scroll-snap-align: start;
+    display: flex;          /* supaya tinggi semua card sama */
+}
+.kegiatan-slide .content-card {
+    flex: 1;
+    min-width: 0;
+}
+
+@media (max-width: 768px) {
+    .kegiatan-slide { width: 280px; }
+}
+
+/* Placeholder foto (dulu bagian dari .slider-card-person, sekarang berdiri sendiri) */
+.person-photo-placeholder {
+    width: 100%; height: 100%; background: #f3f4f6;
+    display: flex; align-items: center; justify-content: center;
+    color: #d1d5db; font-size: 2rem;   /* sebelumnya 3rem */
+}
+
+/* ─── Sarana & Prasarana ─── */
+.sarpras-group { margin-bottom: 2rem; }
+.sarpras-group:last-child { margin-bottom: 0; }
+.sarpras-group-title {
+    font-size: 1rem; font-weight: 700; color: #111827; margin-bottom: 0.9rem;
+    padding-left: 0.75rem; border-left: 3px solid #00998a;
+}
+.sarpras-photo {
+    aspect-ratio: 4 / 3; border-radius: 12px; overflow: hidden;
+    background: #f3f4f6; border: 1px solid #e5e7eb; cursor: zoom-in;
+    transition: transform 0.22s ease, box-shadow 0.22s ease;
+}
+.sarpras-photo:hover { transform: translateY(-4px); box-shadow: 0 8px 24px rgba(0,0,0,0.12); }
+.sarpras-photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
 
 /* ─── Kategori section ─── */
 .kategori-section { margin-bottom: 1rem; }

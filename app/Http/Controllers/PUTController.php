@@ -10,6 +10,11 @@ use Illuminate\Http\Request;
 
 class PUTController extends Controller
 {
+    private const KEGIATAN = [
+        'pengabdian-masyarakat' => ['field' => 'pengabdian_masyarakat', 'label' => 'Pengabdian Masyarakat'],
+        'kegiatan-lainnya'      => ['field' => 'kegiatan_lainnya',      'label' => 'Kegiatan Lainnya'],
+    ];
+
     // ===================== INDEX - Profil PUT (list kategori) =====================
     public function index(string $unit_slug)
     {
@@ -114,5 +119,24 @@ class PUTController extends Controller
             ->get();
 
         return view('pages.put.show', compact('unitPut', 'kategori', 'subKategori', 'produk', 'related'));
+    }
+
+    // ===================== BARU: DETAIL KEGIATAN (Pengabdian Masyarakat / Kegiatan Lainnya) =====================
+    public function kegiatan(string $unit_slug, string $jenis, string $slug)
+    {
+        $config = self::KEGIATAN[$jenis] ?? abort(404);
+
+        $unitPut = UnitPUT::where('slug', $unit_slug)->firstOrFail();
+
+        $items = UnitPUT::urutTerbaru($unitPut->{$config['field']});
+
+        $kegiatan = $items->firstWhere('slug', $slug);
+        abort_if(! $kegiatan, 404);
+
+        $related = $items->where('slug', '!=', $slug)->take(3);
+        $label   = $config['label'];
+        $pembuat = $unitPut->namaPembuat($items->all());
+
+        return view('pages.put.kegiatan_show', compact('unitPut', 'jenis', 'label', 'kegiatan', 'related', 'pembuat'));
     }
 }

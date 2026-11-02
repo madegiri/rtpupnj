@@ -54,18 +54,18 @@ class UnitPUTResource extends Resource
                                     ->label('Nama Lengkap Unit PUT')
                                     ->required()
                                     ->maxLength(255),
-                                
+
                                 FileUpload::make('thumbnail')
                                     ->label('Logo Unit PUT')
                                     ->image()
-                                    ->maxSize(512) 
+                                    ->maxSize(512)
                                     ->required()
                                     ->directory('put-profil/thumbnail'),
 
                                 FileUpload::make('poster')
                                     ->label('Poster Produk PUT')
                                     ->image()
-                                    ->maxSize(512) 
+                                    ->maxSize(512)
                                     ->nullable()
                                     ->multiple()
                                     ->directory('put-profil/poster'),
@@ -94,7 +94,7 @@ class UnitPUTResource extends Resource
                                             'undo',
                                         ]),
                                 ]),
-                            
+
                             Tabs\Tab::make('Visi & Misi')
                                 ->schema([
                                     RichEditor::make('visi_misi')
@@ -117,14 +117,29 @@ class UnitPUTResource extends Resource
                                             'undo',
                                         ]),
                                 ]),
-                            
+
                             Tabs\Tab::make('Dukungan Kebijakan')
                                 ->schema([
-                                    FileUpload::make('dukungan_kebijakan')
-                                        ->label('Dukungan Aturan / Kebijakan (PDF)')
-                                        ->acceptedFileTypes(['application/pdf'])
-                                        ->maxSize(1024) 
-                                        ->directory('put-profil/dukungan-kebijakan')
+                                    Repeater::make('dukungan_kebijakan')
+                                        ->label('Dukungan Aturan / Kebijakan')
+                                        ->schema([
+                                            TextInput::make('nama')
+                                                ->label('Nama Dokumen')
+                                                ->required()
+                                                ->columnSpanFull(),
+
+                                            FileUpload::make('file')
+                                                ->label('File (PDF)')
+                                                ->acceptedFileTypes(['application/pdf'])
+                                                ->maxSize(1024)
+                                                ->directory('put-profil/dukungan-kebijakan')
+                                                ->required()
+                                                ->columnSpanFull(),
+                                        ])
+                                        ->defaultItems(1)
+                                        ->addActionLabel('Tambah Dokumen')
+                                        ->reorderable()
+                                        ->columns(2)
                                         ->columnSpanFull(),
                                 ]),
 
@@ -177,7 +192,7 @@ class UnitPUTResource extends Resource
                                         ->columns(2)
                                         ->columnSpanFull(),
                                 ]),
-                            
+
                             Tabs\Tab::make('Roadmap')
                                 ->schema([
                                     FileUpload::make('roadmap')
@@ -197,7 +212,7 @@ class UnitPUTResource extends Resource
                                         ->directory('struktur-organisasi-put/foto')
                                         ->columnSpanFull(),
                                 ]),
-                            
+
                             Tabs\Tab::make('Kegiatan')
                                 ->schema([
                                     Tabs::make('Kegiatan')
@@ -211,7 +226,7 @@ class UnitPUTResource extends Resource
                                                         ->schema([
                                                             FileUpload::make('roadmap_gambar')
                                                                 ->label('Roadmap Penelitian (Gambar)')
-                                                                ->image()   
+                                                                ->image()
                                                                 ->maxSize(512)
                                                                 ->directory('put-profil/penelitian/roadmap')
                                                                 ->columnSpanFull(),
@@ -353,7 +368,7 @@ class UnitPUTResource extends Resource
                                                         ->schema([
                                                             Hidden::make('created_at'),
                                                             Hidden::make('user_id'),
-                                                            
+
                                                             FileUpload::make('foto')
                                                                 ->label('Foto Kegiatan')
                                                                 ->directory('put-profil/kegiatan-lainnya')
@@ -415,10 +430,10 @@ class UnitPUTResource extends Resource
                 TextColumn::make('nama_lengkap_unit_put')
                     ->label('Nama Lengkap Unit PUT')
                     ->searchable(),
-                
+
                 TextColumn::make('kategori_produk_count')
                     ->label('Jumlah Kategori Produk'),
-                
+
                 TextColumn::make('created_at')->label('Tanggal Dibuat')->formatStateUsing(fn ($state) => \Carbon\Carbon::parse($state)->timezone('Asia/Jakarta')->locale('id')->translatedFormat('d F Y, H:i') . ' WIB'),
             ])
             ->filters([

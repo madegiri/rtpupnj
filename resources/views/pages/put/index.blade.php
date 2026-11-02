@@ -3,6 +3,18 @@
 @section('title', \App\Services\TranslateService::to($unitPut->nama_lengkap_unit_put, app()->getLocale()) . ' - RTPU PNJ')
 
 @section('content')
+@php
+    $dokumenKebijakan = collect($unitPut->dukungan_kebijakan ?? [])
+        ->filter(fn ($d) => !empty($d['file']))
+        ->values()
+        ->map(function ($d, $i) {
+            $d['nama_tampil'] = \App\Services\TranslateService::to(
+                $d['nama'] ?? ('Dokumen ' . ($i + 1)),
+                app()->getLocale()
+            );
+            return $d;
+        });
+@endphp
 <section class="py-5">
     <div class="container">
 
@@ -34,80 +46,88 @@
         @endif
 
         {{-- Tab Pills (di bawah thumbnail/poster) --}}
-        <ul class="nav nav-pills nav-pills-custom mb-4" id="unitPutTab" role="tablist">
-            <li class="nav-item" role="presentation">
-                <button class="nav-link active" id="profil-tab" data-bs-toggle="pill"
-                        data-bs-target="#profil-pane" type="button" role="tab"
-                        aria-controls="profil-pane" aria-selected="true">
-                    1. {{ \App\Services\TranslateService::to('Profil', app()->getLocale()) }}
-                </button>
-            </li>
-            <li class="nav-item" role="presentation">
-                <button class="nav-link" id="visimisi-tab" data-bs-toggle="pill"
-                        data-bs-target="#visimisi-pane" type="button" role="tab"
-                        aria-controls="visimisi-pane" aria-selected="false">
-                    2. {{ \App\Services\TranslateService::to('Visi & Misi', app()->getLocale()) }}
-                </button>
-            </li>
-            <li class="nav-item" role="presentation">
-                <button class="nav-link" id="kebijakan-tab" data-bs-toggle="pill"
-                        data-bs-target="#kebijakan-pane" type="button" role="tab"
-                        aria-controls="kebijakan-pane" aria-selected="false">
-                    3. {{ \App\Services\TranslateService::to('Dukungan Kebijakan', app()->getLocale()) }}
-                </button>
-            </li>
-            <li class="nav-item" role="presentation">
-                <button class="nav-link" id="sdm-tab" data-bs-toggle="pill"
-                        data-bs-target="#sdm-pane" type="button" role="tab"
-                        aria-controls="sdm-pane" aria-selected="false">
-                    4. {{ \App\Services\TranslateService::to('Sumber Daya Manusia', app()->getLocale()) }}
-                </button>
-            </li>
-            <li class="nav-item" role="presentation">
-                <button class="nav-link" id="sarpras-tab" data-bs-toggle="pill"
-                        data-bs-target="#sarpras-pane" type="button" role="tab"
-                        aria-controls="sarpras-pane" aria-selected="false">
-                    5. {{ \App\Services\TranslateService::to('Sarana & Prasarana', app()->getLocale()) }}
-                </button>
-            </li>
-            <li class="nav-item" role="presentation">
-                <button class="nav-link" id="roadmap-tab" data-bs-toggle="pill"
-                        data-bs-target="#roadmap-pane" type="button" role="tab"
-                        aria-controls="roadmap-pane" aria-selected="false">
-                    6. {{ \App\Services\TranslateService::to('Roadmap', app()->getLocale()) }}
-                </button>
-            </li>
-            <li class="nav-item" role="presentation">
-                <button class="nav-link" id="struktur-tab" data-bs-toggle="pill"
-                        data-bs-target="#struktur-pane" type="button" role="tab"
-                        aria-controls="struktur-pane" aria-selected="false">
-                    7. {{ \App\Services\TranslateService::to('Struktur Organisasi', app()->getLocale()) }}
-                </button>
-            </li>
-            <li class="nav-item dropdown" role="presentation">
-                <button class="nav-link dropdown-toggle" type="button"
-                        data-bs-toggle="dropdown" aria-expanded="false">
-                    8. {{ \App\Services\TranslateService::to('Kegiatan', app()->getLocale()) }}
-                </button>
-                <ul class="dropdown-menu">
-                    @foreach([
-                        ['penelitian', 'Penelitian'],
-                        ['pengabdian', 'Pengabdian Masyarakat'],
-                        ['lecturer', 'Lecturer Series'],
-                        ['magang', 'Magang Riset'],
-                        ['lainnya', 'Kegiatan Lainnya'],
-                    ] as [$key, $label])
-                    <li>
-                        <button class="dropdown-item" type="button" role="tab"
-                                data-bs-toggle="pill" data-bs-target="#{{ $key }}-pane"
-                                aria-controls="{{ $key }}-pane" aria-selected="false">
-                            {{ \App\Services\TranslateService::to($label, app()->getLocale()) }}
-                        </button>
-                    </li>
-                    @endforeach
-                </ul>
-            </li>
-        </ul>
+        <div class="slider-wrap mb-4">
+            <button class="slider-nav slider-nav-prev" type="button" onclick="slideGallery('unitPutTab', -1)">
+                <i class="bi bi-chevron-left"></i>
+            </button>
+            <ul class="nav nav-pills nav-pills-custom slider-track mb-0" id="unitPutTab" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link active" id="profil-tab" data-bs-toggle="pill"
+                            data-bs-target="#profil-pane" type="button" role="tab"
+                            aria-controls="profil-pane" aria-selected="true">
+                        1. {{ \App\Services\TranslateService::to('Profil', app()->getLocale()) }}
+                    </button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="visimisi-tab" data-bs-toggle="pill"
+                            data-bs-target="#visimisi-pane" type="button" role="tab"
+                            aria-controls="visimisi-pane" aria-selected="false">
+                        2. {{ \App\Services\TranslateService::to('Visi & Misi', app()->getLocale()) }}
+                    </button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="kebijakan-tab" data-bs-toggle="pill"
+                            data-bs-target="#kebijakan-pane" type="button" role="tab"
+                            aria-controls="kebijakan-pane" aria-selected="false">
+                        3. {{ \App\Services\TranslateService::to('Dukungan Kebijakan', app()->getLocale()) }}
+                    </button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="sdm-tab" data-bs-toggle="pill"
+                            data-bs-target="#sdm-pane" type="button" role="tab"
+                            aria-controls="sdm-pane" aria-selected="false">
+                        4. {{ \App\Services\TranslateService::to('Sumber Daya Manusia', app()->getLocale()) }}
+                    </button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="sarpras-tab" data-bs-toggle="pill"
+                            data-bs-target="#sarpras-pane" type="button" role="tab"
+                            aria-controls="sarpras-pane" aria-selected="false">
+                        5. {{ \App\Services\TranslateService::to('Sarana & Prasarana', app()->getLocale()) }}
+                    </button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="roadmap-tab" data-bs-toggle="pill"
+                            data-bs-target="#roadmap-pane" type="button" role="tab"
+                            aria-controls="roadmap-pane" aria-selected="false">
+                        6. {{ \App\Services\TranslateService::to('Roadmap', app()->getLocale()) }}
+                    </button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="struktur-tab" data-bs-toggle="pill"
+                            data-bs-target="#struktur-pane" type="button" role="tab"
+                            aria-controls="struktur-pane" aria-selected="false">
+                        7. {{ \App\Services\TranslateService::to('Struktur Organisasi', app()->getLocale()) }}
+                    </button>
+                </li>
+                <li class="nav-item dropdown" role="presentation">
+                    <button class="nav-link dropdown-toggle" type="button"
+                            data-bs-toggle="dropdown" aria-expanded="false">
+                        8. {{ \App\Services\TranslateService::to('Kegiatan', app()->getLocale()) }}
+                    </button>
+                    <ul class="dropdown-menu">
+                        @foreach([
+                            ['penelitian', 'Penelitian'],
+                            ['pengabdian', 'Pengabdian Masyarakat'],
+                            ['lecturer', 'Lecturer Series'],
+                            ['magang', 'Magang Riset'],
+                            ['lainnya', 'Kegiatan Lainnya'],
+                        ] as [$key, $label])
+                        <li>
+                            <button class="dropdown-item" type="button" role="tab"
+                                    data-bs-toggle="pill" data-bs-target="#{{ $key }}-pane"
+                                    aria-controls="{{ $key }}-pane" aria-selected="false">
+                                {{ \App\Services\TranslateService::to($label, app()->getLocale()) }}
+                            </button>
+                        </li>
+                        @endforeach
+                    </ul>
+                </li>
+            </ul>
+            <button class="slider-nav slider-nav-next" type="button" onclick="slideGallery('unitPutTab', 1)">
+                <i class="bi bi-chevron-right"></i>
+            </button>
+        </div>
 
         <div class="tab-content mb-5" id="unitPutTabContent">
 
@@ -151,30 +171,63 @@
                     <i class="bi bi-file-earmark-text"></i>
                     {{ \App\Services\TranslateService::to('Dukungan Aturan / Kebijakan', app()->getLocale()) }}
                 </h5>
-                @if($unitPut->dukungan_kebijakan)
-                @php $pdfUrl = asset('storage/' . $unitPut->dukungan_kebijakan); @endphp
-                <div class="pdfjs-viewer" id="pdfViewer" data-url="{{ $pdfUrl }}">
-                    <div class="pdfjs-toolbar">
-                        <div class="pdfjs-group">
-                            <button type="button" id="pdfPrev" title="Halaman sebelumnya"><i class="bi bi-chevron-up"></i></button>
-                            <button type="button" id="pdfNext" title="Halaman berikutnya"><i class="bi bi-chevron-down"></i></button>
-                            <span class="pdfjs-pageinfo">
-                                <input type="number" id="pdfPageInput" min="1" value="1" aria-label="Nomor halaman">
-                                / <span id="pdfPageCount">–</span>
-                            </span>
+
+                @if($dokumenKebijakan->isNotEmpty())
+                    @php $pdfUrl = asset('storage/' . $dokumenKebijakan[0]['file']); @endphp
+
+                    {{-- Slider pilihan dokumen (hanya jika > 1) --}}
+                    @if($dokumenKebijakan->count() > 1)
+                    <div class="slider-wrap mb-3">
+                        <button class="slider-nav slider-nav-prev" type="button" onclick="slideGallery('docTrack', -1)">
+                            <i class="bi bi-chevron-left"></i>
+                        </button>
+
+                        <div class="slider-track slider-track-doc" id="docTrack">
+                            @foreach($dokumenKebijakan as $i => $dok)
+                            <button type="button" class="doc-card {{ $loop->first ? 'active' : '' }}"
+                                    data-url="{{ asset('storage/' . $dok['file']) }}"
+                                    data-nama="{{ $dok['nama_tampil'] }}">
+                                <span class="doc-card-icon"><i class="bi bi-file-earmark-pdf"></i></span>
+                                <span class="doc-card-name">{{ $dok['nama_tampil'] }}</span>
+                            </button>
+                            @endforeach
                         </div>
-                        <div class="pdfjs-group">
-                            <button type="button" id="pdfZoomOut" title="Perkecil"><i class="bi bi-zoom-out"></i></button>
-                            <span class="pdfjs-zoomlabel" id="pdfZoomLabel">100%</span>
-                            <button type="button" id="pdfZoomIn" title="Perbesar"><i class="bi bi-zoom-in"></i></button>
-                            <button type="button" id="pdfFit" title="Sesuaikan lebar"><i class="bi bi-arrows-expand-vertical" style="transform:rotate(90deg)"></i></button>
-                            <a href="{{ $pdfUrl }}" download title="Unduh PDF" class="pdfjs-btn-link"><i class="bi bi-download"></i></a>
+
+                        <button class="slider-nav slider-nav-next" type="button" onclick="slideGallery('docTrack', 1)">
+                            <i class="bi bi-chevron-right"></i>
+                        </button>
+                    </div>
+                    @endif
+
+                    {{-- Nama dokumen aktif --}}
+                    <div class="doc-active-title">
+                        <i class="bi bi-file-earmark-pdf"></i>
+                        <span id="docActiveName">{{ $dokumenKebijakan[0]['nama_tampil'] }}</span>
+                    </div>
+
+                    {{-- Viewer tunggal --}}
+                    <div class="pdfjs-viewer" id="pdfViewer" data-url="{{ $pdfUrl }}">
+                        <div class="pdfjs-toolbar">
+                            <div class="pdfjs-group">
+                                <button type="button" id="pdfPrev" title="Halaman sebelumnya"><i class="bi bi-chevron-up"></i></button>
+                                <button type="button" id="pdfNext" title="Halaman berikutnya"><i class="bi bi-chevron-down"></i></button>
+                                <span class="pdfjs-pageinfo">
+                                    <input type="number" id="pdfPageInput" min="1" value="1" aria-label="Nomor halaman">
+                                    / <span id="pdfPageCount">–</span>
+                                </span>
+                            </div>
+                            <div class="pdfjs-group">
+                                <button type="button" id="pdfZoomOut" title="Perkecil"><i class="bi bi-zoom-out"></i></button>
+                                <span class="pdfjs-zoomlabel" id="pdfZoomLabel">100%</span>
+                                <button type="button" id="pdfZoomIn" title="Perbesar"><i class="bi bi-zoom-in"></i></button>
+                                <button type="button" id="pdfFit" title="Sesuaikan lebar"><i class="bi bi-arrows-expand-vertical" style="transform:rotate(90deg)"></i></button>
+                                <a href="{{ $pdfUrl }}" id="pdfDownload" download title="Unduh PDF" class="pdfjs-btn-link"><i class="bi bi-download"></i></a>
+                            </div>
+                        </div>
+                        <div class="pdfjs-scroll" id="pdfScroll">
+                            <div class="pdfjs-loading" id="pdfLoading">{{ \App\Services\TranslateService::to('Memuat dokumen…', app()->getLocale()) }}</div>
                         </div>
                     </div>
-                    <div class="pdfjs-scroll" id="pdfScroll">
-                        <div class="pdfjs-loading" id="pdfLoading">{{ \App\Services\TranslateService::to('Memuat dokumen…', app()->getLocale()) }}</div>
-                    </div>
-                </div>
                 @else
                 <div class="empty-state">
                     <i class="bi bi-file-earmark-text"></i>
@@ -663,14 +716,14 @@
 }
 .pdfjs-toolbar {
     display: flex;
-    flex-wrap: nowrap;              
+    flex-wrap: nowrap;
     align-items: center;
     justify-content: space-between;
     gap: .75rem;
     padding: .5rem .75rem;
     background: #f8f9fa;
     border-bottom: 1px solid #dee2e6;
-    overflow-x: auto;               
+    overflow-x: auto;
     -webkit-overflow-scrolling: touch;
     scrollbar-width: none;
     -ms-overflow-style: none;
@@ -680,7 +733,7 @@
     display: flex;
     align-items: center;
     gap: .35rem;
-    flex: 0 0 auto;                 
+    flex: 0 0 auto;
     white-space: nowrap;
 }
 .pdfjs-toolbar button,
@@ -707,7 +760,7 @@
 }
 .pdfjs-zoomlabel { min-width: 48px; text-align: center; font-size: .9rem; }
 .pdfjs-scroll {
-    position: relative;           
+    position: relative;
     flex: 1;
     overflow: auto;
     background: #525659;
@@ -728,6 +781,66 @@
         border-left: 1px solid #dee2e6;
     }
 }
+
+.slider-wrap > .nav-pills-custom {
+    flex: 1;
+    min-width: 0;
+    margin-bottom: 0;
+}
+
+.slider-track-doc { padding: 0.25rem 0.25rem 0.5rem; }
+
+.doc-card {
+    flex: 0 0 auto;
+    width: 260px;
+    scroll-snap-align: start;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.75rem 1rem;
+    background: #fff;
+    border: 1.5px solid #e5e7eb;
+    border-radius: 14px;
+    text-align: left;
+    cursor: pointer;
+    transition: border-color 0.2s, box-shadow 0.2s, background 0.2s, transform 0.2s;
+}
+.doc-card:hover { transform: translateY(-2px); box-shadow: 0 6px 18px rgba(0,0,0,0.08); }
+.doc-card.active { border-color: #00998a; background: #e6f7f5; }
+
+.doc-card-icon {
+    flex: 0 0 40px;
+    width: 40px; height: 40px;
+    border-radius: 10px;
+    background: #f3f4f6;
+    color: #00998a;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.25rem;
+}
+.doc-card.active .doc-card-icon { background: #00998a; color: #fff; }
+
+.doc-card-name {
+    font-size: 0.875rem; font-weight: 600; color: #111827; line-height: 1.35;
+    display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;
+}
+
+@media (max-width: 768px) {
+    .doc-card { width: 220px; }
+}
+
+.doc-active-title {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: #111827;
+    line-height: 1.4;
+    margin-bottom: 0.75rem;
+    padding-left: 0.75rem;
+    border-left: 3px solid #00998a;
+}
+.doc-active-title i { color: #00998a; font-size: 1.1rem; }
 </style>
 
 @include('pages.put._styles')
@@ -803,10 +916,20 @@ document.addEventListener('shown.bs.tab', (e) => {
     });
 
     document.querySelectorAll('.slider-track').forEach(t => t._updateNav && t._updateNav());
+
+    // Auto-scroll pill aktif ke tengah
+    const pills = document.getElementById('unitPutTab');
+    const item  = e.target.closest('#unitPutTab .nav-item');
+    if (pills && item) {
+        pills.scrollTo({
+            left: item.offsetLeft - (pills.clientWidth - item.offsetWidth) / 2,
+            behavior: 'smooth'
+        });
+    }
 });
 </script>
 
-@if($unitPut->dukungan_kebijakan)
+@if($dokumenKebijakan->isNotEmpty())
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
 <script>
 (function () {
@@ -827,15 +950,33 @@ document.addEventListener('shown.bs.tab', (e) => {
 
     const fitScale = () => Math.max(0.3, (scroller.clientWidth - 24) / base.width);
 
-    async function init() {
+    let docToken = 0;
+
+    async function loadDoc(url) {
+        const token = ++docToken;
+        scroller.innerHTML = '<div class="pdfjs-loading">Memuat dokumen…</div>';
+        pageCount.textContent = '–';
+        pageInput.value = 1;
+
+        const dl = document.getElementById('pdfDownload');
+        if (dl) dl.href = url;
+
         try {
-            doc  = await pdfjsLib.getDocument(url).promise;
-            base = (await doc.getPage(1)).getViewport({ scale: 1 });
+            const newDoc  = await pdfjsLib.getDocument(url).promise;
+            const newBase = (await newDoc.getPage(1)).getViewport({ scale: 1 });
+
+            if (token !== docToken) { newDoc.destroy(); return; } // klik lain sudah masuk
+            if (doc) doc.destroy();
+
+            doc = newDoc;
+            base = newBase;
+            fitMode = true;
             pageCount.textContent = doc.numPages;
             pageInput.max = doc.numPages;
             scale = fitScale();
             build(1);
         } catch (err) {
+            if (token !== docToken) return;
             console.error(err);
             scroller.innerHTML =
                 '<div class="pdfjs-loading">Gagal memuat dokumen. ' +
@@ -885,8 +1026,8 @@ document.addEventListener('shown.bs.tab', (e) => {
 
             await page.render({ canvasContext: canvas.getContext('2d'), viewport: vp }).promise;
 
-            if (el._job !== job) return;          
-            el.style.width  = canvas.style.width; 
+            if (el._job !== job) return;
+            el.style.width  = canvas.style.width;
             el.style.height = canvas.style.height;
             el.replaceChildren(canvas);
         } catch (e) {
@@ -898,7 +1039,7 @@ document.addEventListener('shown.bs.tab', (e) => {
     function freePage(el) {
         if (!el._job) return;
         el._job = 0;
-        el.replaceChildren(); 
+        el.replaceChildren();
     }
 
     function goToPage(n) {
@@ -908,7 +1049,7 @@ document.addEventListener('shown.bs.tab', (e) => {
         scroller.scrollTop = pages[n - 1].offsetTop - 8;
     }
 
-    
+
     let ticking = false;
     scroller.addEventListener('scroll', () => {
         if (ticking) return;
@@ -947,12 +1088,25 @@ document.addEventListener('shown.bs.tab', (e) => {
         }, 200);
     });
 
-    const pane = document.getElementById('kebijakan-pane');
+    const docNameEl = document.getElementById('docActiveName');
+
+    document.querySelectorAll('.doc-card').forEach(card => {
+        card.addEventListener('click', () => {
+            document.querySelectorAll('.doc-card').forEach(c => c.classList.toggle('active', c === card));
+            if (docNameEl) docNameEl.textContent = card.dataset.nama;
+            loadDoc(card.dataset.url);
+        });
+    });
+
+    // Muat dokumen pertama saat tab dibuka (lazy)
+    const pane   = document.getElementById('kebijakan-pane');
     const tabBtn = document.getElementById('kebijakan-tab');
+    const start  = () => loadDoc(url);
+
     if (pane && pane.classList.contains('active')) {
-        init();
+        start();
     } else if (tabBtn) {
-        tabBtn.addEventListener('shown.bs.tab', init, { once: true });
+        tabBtn.addEventListener('shown.bs.tab', start, { once: true });
     }
 })();
 </script>

@@ -35,6 +35,7 @@ class UnitPUT extends Model
 
     protected $casts = [
         'poster' => 'array',
+        'dukungan_kebijakan' => 'array',
         'sarana_prasarana' => 'array',
         'penelitian' => 'array',
         'pengabdian_masyarakat' => 'array',
@@ -68,7 +69,7 @@ class UnitPUT extends Model
         foreach ($items as $item) {
             $item['slug'] = Str::slug($item['judul'] ?? '');
             $item['created_at'] = $item['created_at'] ?? now()->toDateTimeString();
-            $item['user_id'] = $item['user_id'] ?? auth()->id(); 
+            $item['user_id'] = $item['user_id'] ?? auth()->id();
             unset($item['user_name']);
             $result[] = $item;
         }
